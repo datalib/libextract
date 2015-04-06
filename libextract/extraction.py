@@ -1,20 +1,15 @@
 """eatiht algo"""
 
 import collections
-
 import re
-
-import chardet
-
-
 
 try:
     from cStringIO import StringIO as BytesIO
 except ImportError:
     from io import BytesIO
 
+from chardet import detect
 from lxml import html
-
 from lxml.html.clean import clean_html
 
 
@@ -27,10 +22,11 @@ FILTER_NORM_TEXT_XPATH = './/*[not(self::script or self::style or \
                   self::figure or self::span or self::time)]/\
                   text()[normalize-space()]'
 
+
 def _etree_from_string(string):
     """Detect encoding and parse string into lxml's element tree"""
 
-    encoding = chardet.detect(string)['encoding']
+    encoding = detect(string)['encoding']
 
     parsed_html = html.parse(BytesIO(string),
                              html.HTMLParser(encoding=encoding,
