@@ -1,1 +1,1 @@
-from libextract import extract
+from libextract.extraction import extract

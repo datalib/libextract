@@ -6,10 +6,6 @@ import re
 
 import chardet
 
-import urllib2
-
-import cookielib
-
 
 
 try:
@@ -42,28 +38,6 @@ def _etree_from_string(string):
 
     return parsed_html
 
-
-def _etree_from_url(url):
-    """Given URL, construct and return an element tree.
-    """
-    handler = (urllib2.HTTPSHandler
-               if url.lower().startswith('https')
-               else urllib2.HTTPHandler)
-
-    cookiejar = cookielib.CookieJar()
-
-    opener = urllib2.build_opener(handler)
-
-    opener.add_handler(urllib2.HTTPCookieProcessor(cookiejar))
-
-    resp = opener.open(url)
-
-    try:
-        content = resp.read()
-    finally:
-        resp.close()
-
-    return _etree_from_string(content)
 
 def _get_path_textlen_pairs(etree, xpath_to_text=TEXT_XPATH):
     """
@@ -127,10 +101,10 @@ def _get_content_etree(etree):
     return content_etree[0]
 
 
-def extract(url):
+def extract(document):
     """Eatiht algo."""
 
-    etree = _etree_from_url(url)
+    etree = _etree_from_string(document)
 
     content_etree = _get_content_etree(etree)
 
