@@ -5,59 +5,34 @@ except ImportError:
 
 from chardet import detect
 from lxml.html import parse, HTMLParser
-from libextract.abstract import Finder
+from libextract.coretools import highest_scoring
 
 
-class HTMLFinder(Finder):
-    nodes_with_text = '//*[not(self::script or self::style)]/\
-                       text()[normalize-space()]/..'
-    text_in_node = './/text()[normalize-space()]'
+NODES_WITH_TEXT = '//*[not(self::script or self::style)]/text()/..'
+TEXT_IN_NODE = './/text()[normalize-space()]'
 
-    filter_text = './/*[not(self::script or self::style or \
-            self::figure or self::span or self::time)]/\
-            text()[normalize-space()]'
+FILTER_TEXT = './/*[not(self::script or self::style or \
+        self::figure or self::span or self::time)]/\
+        text()[normalize-space()]'
 
-    def __init__(self, document):
-        self.document = document
-        self.etree = parse(
-            BytesIO(document),
-            HTMLParser(encoding=detect(document)['encoding'],
-                       remove_blank_text=True),
-            )
 
-    def xpath_finder(self):
-        """
-        Returns a function which returns the XPath
-        query to a node when called with a node.
-        """
-        try:
-            return self.etree.getroot().getroottree().getpath
-        except AttributeError:
-            return self.etree.getroottree().getpath
+def node_text_length(node):
+    return len(''.join(node.xpath(TEXT_IN_NODE)))
 
-    def get_pairs(self):
-        """
-        Returns an iterable of parent-node to
-        length of text in child node tuples.
-        """
-        xpath_to = self.xpath_finder()
-        for node in self.etree.xpath(self.nodes_with_text):
-            yield (
-                    xpath_to(node).rsplit('/', 1)[0],
-                    len(self.get_text(node)),
-                )
 
-    def get_text(self, node):
-        """
-        Get the text contained in a given node.
-        """
-        return ''.join(node.xpath(self.text_in_node))
+def get_etree(document):
+    return parse(BytesIO(document),
+                 HTMLParser(encoding=detect(document)['encoding'],
+                            remove_blank_text=True))
 
-    def get_final_text(self, selector):
-        """
-        Given a selector, selects the node and then
-        returns the normalised text contained within
-        that node.
-        """
-        return ' '.join(self.etree.xpath(selector)[0]
-                                  .xpath(self.filter_text))
+
+def get_pairs(etree):
+    for node in etree.xpath(NODES_WITH_TEXT):
+        yield node.getparent(), node_text_length(node)
+
+
+def get_final_text(node):
+    return ' '.join(node.xpath(FILTER_TEXT))
+
+
+STRATEGY = (get_etree, get_pairs, highest_scoring, get_final_text)
