@@ -1,5 +1,5 @@
-from libextract.html import STRATEGY
-from libextract.coretools import pipeline
+from .html import STRATEGY
+from .coretools import pipeline
 
 
 def extract(document):

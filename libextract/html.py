@@ -5,10 +5,11 @@ except ImportError:
 
 from chardet import detect
 from lxml.html import parse, HTMLParser
-from libextract.coretools import highest_scoring, histogram
+from .coretools import highest_scoring, histogram
 
 
 NODES_WITH_TEXT = '//*[not(self::script or self::style)]/text()/..'
+
 TEXT_IN_NODE = './/text()[normalize-space()]'
 
 FILTER_TEXT = './/*[not(self::script or self::style or \

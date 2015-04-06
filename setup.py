@@ -5,8 +5,8 @@ def readme():
         return f.read()
 
 setup(name='libextract',
-      version='0.0.104',
-      description='tiny \'autocomplete\' tool using a "hidden markov model"',
+      version='0.0.0',
+      description='A ridiculously simple HT/XML article-text extractor.',
       keywords='extract extraction main article text html data-extraction data\
                 content-extraction content unsupervised classification',
       author='Rodrigo Palacios, ',
