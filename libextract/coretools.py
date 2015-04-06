@@ -12,12 +12,3 @@ def pipeline(data, functions):
     for item in functions:
         data = item(data)
     return data
-
-
-def memoized(prod):
-    cache = {}
-    def func(arg):
-        if arg not in cache:
-            cache[arg] = prod(arg)
-        return cache[arg]
-    return func
