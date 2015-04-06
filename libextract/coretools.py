@@ -1,11 +1,15 @@
 from collections import Counter
 
 
-def highest_scoring(iterable):
+def histogram(iterable):
     hist = Counter()
     for key, score in iterable:
         hist[key] += score
-    return hist.most_common(1)[0][0]
+    return hist
+
+
+def highest_scoring(histogram):
+    return histogram.most_common(1)[0]
 
 
 def pipeline(data, functions):

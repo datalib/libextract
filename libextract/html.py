@@ -5,7 +5,7 @@ except ImportError:
 
 from chardet import detect
 from lxml.html import parse, HTMLParser
-from libextract.coretools import highest_scoring
+from libextract.coretools import highest_scoring, histogram
 
 
 NODES_WITH_TEXT = '//*[not(self::script or self::style)]/text()/..'
@@ -43,12 +43,15 @@ def get_pairs(etree):
         yield node.getparent(), node_text_length(node)
 
 
-def get_final_text(node):
+def get_final_text(pair):
     """
     Gets the text contained within the children node
-    of a given *node*, joined by a space.
+    of a given node and text length *pair*, joined by
+    a space.
     """
+    node, _ = pair
     return ' '.join(node.xpath(FILTER_TEXT))
 
 
-STRATEGY = (get_etree, get_pairs, highest_scoring, get_final_text)
+STRATEGY = (get_etree, get_pairs, histogram,
+            highest_scoring, get_final_text)
