@@ -13,10 +13,10 @@ from lxml import html
 from lxml.html.clean import clean_html
 
 
-TEXT_XPATH = '//*[not(self::script or self::style)]/\
+NODES_WITH_TEXT = '//*[not(self::script or self::style)]/\
                     text()[normalize-space()]/..'
 
-NORM_TEXT_XPATH = './/text()[normalize-space()]'
+TEXT_IN_NODE = './/text()[normalize-space()]'
 
 FILTER_NORM_TEXT_XPATH = './/*[not(self::script or self::style or \
                   self::figure or self::span or self::time)]/\
@@ -35,7 +35,7 @@ def _etree_from_string(string):
     return parsed_html
 
 
-def _get_path_textlen_pairs(etree, xpath_to_text=TEXT_XPATH):
+def _get_path_textlen_pairs(etree, xpath_to_text=NODES_WITH_TEXT):
     """
     Given a url and xpath, this function will download, parse, then
     iterate though queried text-nodes. From the resulting text-nodes,
@@ -55,7 +55,7 @@ def _get_path_textlen_pairs(etree, xpath_to_text=TEXT_XPATH):
 
     for node in nodes_with_text:
         #for wikipedia pages ("[12]")
-        text = ''.join(node.xpath(NORM_TEXT_XPATH))
+        text = ''.join(node.xpath(TEXT_IN_NODE))
 
         #get path of parent node by rsplit'ing
         #the rsplit'ing logic was moved from get_xpath_frequencydistribution
