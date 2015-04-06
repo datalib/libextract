@@ -53,7 +53,4 @@ def get_final_text(node):
     return ' '.join(node.xpath(FILTER_TEXT))
 
 
-STRATEGY = [get_etree,
-            get_pairs,
-            highest_scoring,
-            get_final_text]
+STRATEGY = (get_etree, get_pairs, highest_scoring, get_final_text)
