@@ -43,8 +43,8 @@ For extracting the article's HT/XML subtree:
 
     from requests import get
     from libextract import extract
-    from libextract.html import NODE_STRATEGY
+    from libextract.strategies import ARTICLE_TEXT
 
 
     r = get('http://en.wikipedia.org/wiki/Classifier_(linguistics)')
-    node = extract(r.content, strategy=NODE_STRATEGY)
+    node = extract(r.content, strategy=ARTICLE_TEXT)
