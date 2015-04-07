@@ -18,13 +18,13 @@ def node_text_length(node):
     return (words * 2) - 1
 
 
-def get_etree(fileobj):
+def get_etree(fileobj, encoding='utf-8'):
     """
     Get an ElementTree instance from a given file object
     *fileobj*. The encoding is assumed to be utf8.
     """
     return parse(fileobj,
-                 HTMLParser(encoding='utf-8',
+                 HTMLParser(encoding=encoding,
                             remove_blank_text=True))
 
 

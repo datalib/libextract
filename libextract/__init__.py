@@ -3,12 +3,22 @@ try:
 except ImportError:
     from io import BytesIO
 
-from .html import STRATEGY
+from functools import partial
+from chardet import detect
+from .html import STRATEGY, get_etree
 from .coretools import pipeline
 
 
 __all__ = ('extract',)
 
 
+def get_stream(document):
+    t = BytesIO(document)
+    return t, detect(document)['encoding']
+
+
 def extract(document):
-    return pipeline(document, (BytesIO,) + STRATEGY)
+    enc_etree = partial(get_etree,
+                        encoding=detect(document)['encoding'])
+    return pipeline(BytesIO(document),
+                    (enc_etree,) + STRATEGY[1:])
