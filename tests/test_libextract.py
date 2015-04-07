@@ -1,9 +1,9 @@
 import os
 from unittest import TestCase
+from tests import asset_path
 from libextract import extract
 
-TESTS_DIR = os.path.dirname(__file__)
-FOOS_FILENAME = os.path.join(TESTS_DIR, 'assets/full_of_foos.html')
+FOOS_FILENAME = asset_path('full_of_foos.html')
 
 
 class TestLibExtract(TestCase):
