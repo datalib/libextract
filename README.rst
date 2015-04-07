@@ -5,8 +5,6 @@ libextract
 documents using a statistical, functionally pure approach. It
 originated from the eatiht_ repository.
 
-.. _eatiht: https://github.com/rodricios/eatiht
-
 From a very high level persepective, the algorithm can be
 reduced to around 4 steps:
 
@@ -16,15 +14,14 @@ reduced to around 4 steps:
 - The text in the highest scoring one is joined in a string
   and returned as the result of the extraction.
 
+At the lowest level, **libextract** is just a pipelining
+library. It provides composable, small functions that can
+be piped together to process the HT/XML document.
+
 .. _eatihit: http://rodricios.github.io/eatiht/
 
 Usage
 -----
-
-Article Text extraction
-~~~~~~~~~~~~~~~~~~~~~~~
-
-For extracting just the raw text:
 
 .. code-block:: python
 
@@ -34,17 +31,5 @@ For extracting just the raw text:
     r = get('http://en.wikipedia.org/wiki/Classifier_(linguistics)')
     text = extract(r.content)
 
-Article Node extraction
-~~~~~~~~~~~~~~~~~~~~~~~
-
-For extracting the article's HT/XML subtree:
-
-.. code-block:: python
-
-    from requests import get
-    from libextract import extract
-    from libextract.strategies import ARTICLE_TEXT
-
-
-    r = get('http://en.wikipedia.org/wiki/Classifier_(linguistics)')
-    node = extract(r.content, strategy=ARTICLE_TEXT)
+    # To get the HT/XML node:
+    node = extract(r.content, strategy=ARTICLE_NODE)
