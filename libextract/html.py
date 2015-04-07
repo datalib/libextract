@@ -45,8 +45,3 @@ def get_final_text(pair):
     """
     node, _ = pair
     return ' '.join(node.xpath(FILTER_TEXT))
-
-#TODO: consider moving this to strategies.py
-TEXT_STRATEGY = (get_etree, get_pairs, histogram, argmax, get_final_text)
-
-NODE_STRATEGY = (get_etree, get_pairs, histogram, argmax)

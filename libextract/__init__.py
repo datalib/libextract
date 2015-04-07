@@ -5,9 +5,9 @@ except ImportError:
 
 from functools import partial
 from chardet import detect
-from .html import TEXT_STRATEGY, get_etree
+from .html import get_etree
 from .coretools import pipeline
-
+from .strategies import ARTICLE_TEXT
 
 __all__ = ('extract',)
 
@@ -17,7 +17,7 @@ def get_stream(document):
     return t, detect(document)['encoding']
 
 
-def extract(document, strategy=TEXT_STRATEGY):
+def extract(document, strategy=ARTICLE_TEXT):
     enc_etree = partial(get_etree,
                         encoding=detect(document)['encoding'])
 
