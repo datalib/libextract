@@ -27,6 +27,7 @@ Usage
 
     from requests import get
     from libextract import extract
+    from libextract.stratgies import ARTICLE_NODE
 
     r = get('http://en.wikipedia.org/wiki/Classifier_(linguistics)')
     text = extract(r.content)
