@@ -2,7 +2,8 @@ from lxml.html import parse, HTMLParser
 from .coretools import argmax, histogram
 
 
-NODES_WITH_TEXT = '//*[not(self::script or self::style)]/text()/..'
+NODES_WITH_TEXT = '//*[not(self::script or self::style)]/\
+                     text()[normalize-space()]/..'
 
 FILTER_TEXT = './/*[not(self::script or self::style or \
         self::figure or self::span or self::time)]/\
