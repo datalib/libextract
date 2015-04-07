@@ -22,7 +22,7 @@ Usage
 -----
 
 Article Text extraction
-^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~
 
 For extracting just the raw text:
 
@@ -35,6 +35,7 @@ For extracting just the raw text:
     text = extract(r.content)
 
 Article Node extraction
+~~~~~~~~~~~~~~~~~~~~~~~
 
 For extracting the article's HT/XML subtree:
 
