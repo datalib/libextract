@@ -8,7 +8,7 @@ def histogram(iterable):
     return hist
 
 
-def highest_scoring(histogram):
+def argmax(histogram):
     return histogram.most_common(1)[0]
 
 

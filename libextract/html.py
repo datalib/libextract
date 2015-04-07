@@ -5,7 +5,7 @@ except ImportError:
 
 from chardet import detect
 from lxml.html import parse, HTMLParser
-from .coretools import highest_scoring, histogram
+from .coretools import argmax, histogram
 
 
 NODES_WITH_TEXT = '//*[not(self::script or self::style)]/text()/..'
@@ -54,5 +54,4 @@ def get_final_text(pair):
     return ' '.join(node.xpath(FILTER_TEXT))
 
 
-STRATEGY = (get_etree, get_pairs, histogram,
-            highest_scoring, get_final_text)
+STRATEGY = (get_etree, get_pairs, histogram, argmax, get_final_text)
