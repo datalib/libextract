@@ -14,8 +14,8 @@ def node_text_length(node):
     Returns the length of the text contained within
     a given *node*.
     """
-    words = len(node.text_content().split())
-    return (words * 2) - 1
+    words = node.text_content().split()
+    return sum(len(k) for k in words) + len(words) - 1
 
 
 def get_etree(fileobj, encoding='utf-8'):
