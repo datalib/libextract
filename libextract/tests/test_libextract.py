@@ -1,16 +1,10 @@
 import os
 from unittest import TestCase
+from libextract import extract
 
-from .. import extract
+TESTS_DIR = os.path.dirname(__file__)
 
-THIS_FILE = os.path.dirname(__file__)
-
-FOOS_FILENAME = os.path.join(THIS_FILE, 'assets/full_of_foos.html')
-
-# Testdata file declarations
-RE_SPLIT_VARIOUS_ENDINGS_FILENAME = os.path.join(THIS_FILE,'assets/regex_various_endings.html')
-
-RE_SPLIT_DOT_ENDINGS_FILENAME = os.path.join(THIS_FILE,'assets/regex_dot_endings.html')
+FOOS_FILENAME = os.path.join(TESTS_DIR, 'assets/full_of_foos.html')
 
 
 class TestLibExtract(TestCase):
@@ -23,14 +17,9 @@ class TestLibExtract(TestCase):
 
     def test_is_str(self):
         content = extract(self.text)
-
-        print(content)
-
         self.assertTrue(isinstance(content, str))
 
     def test_str_is_foos(self, ):
         content = extract(self.text)
-
         foos = "foo. foo. foo. foo. foo. foo. foo. foo. foo."
-
         self.assertEqual(content, foos)
