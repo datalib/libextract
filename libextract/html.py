@@ -1,9 +1,3 @@
-try:
-    from cStringIO import StringIO as BytesIO
-except ImportError:
-    from io import BytesIO
-
-from chardet import detect
 from lxml.html import parse, HTMLParser
 from .coretools import argmax, histogram
 
@@ -20,16 +14,17 @@ def node_text_length(node):
     Returns the length of the text contained within
     a given *node*.
     """
-    return len(' '.join(node.text_content().split()))
+    words = len(node.text_content().split())
+    return (words * 2) - 1
 
 
-def get_etree(document):
+def get_etree(fileobj):
     """
-    Get an ElementTree instance from a given XML/HTML
-    *document*. The encoding is automatically detected.
+    Get an ElementTree instance from a given file object
+    *fileobj*. The encoding is assumed to be utf8.
     """
-    return parse(BytesIO(document),
-                 HTMLParser(encoding=detect(document)['encoding'],
+    return parse(fileobj,
+                 HTMLParser(encoding='utf-8',
                             remove_blank_text=True))
 
 
