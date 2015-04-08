@@ -3,7 +3,7 @@ libextract
 
 **libextract** is a library for extracting text out of HT/XML
 documents using a statistical, functionally pure approach. It
-originated from the eatiht_ repository.
+originated from the eatihit_ repository.
 
 From a very high level persepective, the algorithm can be
 reduced to around 4 steps:
