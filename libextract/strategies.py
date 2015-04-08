@@ -1,4 +1,4 @@
-#TODO: circular dependencies?
+# TODO: circular dependencies?
 from .coretools import histogram, argmax
 from .html import get_etree, get_pairs, get_final_text
 
@@ -9,6 +9,6 @@ ARTICLE_TEXT = _BASE + (get_final_text,)
 ARTICLE_NODE = _BASE + (lambda (n, _): n,)
 
 
-#shortcuts
+# shortcuts
 AT = ARTICLE_TEXT
 AN = ARTICLE_NODE
