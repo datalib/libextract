@@ -10,6 +10,17 @@ FILTER_TEXT = './/*[not(self::script or self::style or \
         text()[normalize-space()]'
 
 
+def _get_xpath_finder(etree):
+    """Returns the lxml._ElementTree internal function
+    that takes in an lxml.html.HtmlElement and returns
+    its xpath"""
+    try:
+        xpath_finder = etree.getroot().getroottree().getpath
+    except(AttributeError):
+        xpath_finder = etree.getroottree().getpath
+
+
+
 def node_text_length(node):
     """
     Returns the length of the text contained within
@@ -27,7 +38,8 @@ def get_etree(fileobj, encoding='utf-8'):
                  HTMLParser(encoding=encoding,
                             remove_blank_text=True))
 
-
+#TODO: the name "get_pairs" and the internal logic
+#(particularly node_text_length) do not resonate well
 def get_pairs(etree):
     """
     Given an *etree*, returns an iterable of parent
