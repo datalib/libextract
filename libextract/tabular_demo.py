@@ -55,7 +55,7 @@ def run():
     li_frequency = {k:v['li'] for k,v in path_children.iteritems() if v.has_key('li')}
 
     #find average <li> child occurrence
-    mean,stddev = meanstdv(li_frequency.values())
+    mean,stddev = meanstd(li_frequency.values())
 
     #high pass filter pruning out parent nodes whose li child count don't
     #meet the mean + 2*stddev threshold (or should it be like 2.3 stddev's
@@ -70,7 +70,7 @@ def run():
     div_frequency = {k:v['div'] for k,v in path_children.iteritems() if v.has_key('div')}
 
     #find average <div> child occurrence
-    mean,stddev = meanstdv(div_frequency.values())
+    mean,stddev = meanstd(div_frequency.values())
 
     #high pass filter pruning out parent nodes whose div child count don't
     #meet the mean + 2*stddev threshold (or should it be like 2.3 stddev's

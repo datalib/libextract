@@ -1,5 +1,9 @@
+
+#TODO: Consolidate get_pairs functions
+#TODO: Converge on get_*, filter_*
+#TODO: Better yet, decide on "meta/pipelining language"
 from lxml.html import parse, HTMLParser
-from .coretools import argmax, histogram
+from .coretools import Counter
 
 
 NODES_WITH_TEXT = '//*[not(self::script or self::style)]/\
@@ -9,6 +13,7 @@ FILTER_TEXT = './/*[not(self::script or self::style or \
         self::figure or self::span or self::time)]/\
         text()[normalize-space()]'
 
+SELECT_ALL = '//*'
 
 def _get_xpath_finder(etree):
     """Returns the lxml._ElementTree internal function
@@ -19,6 +24,34 @@ def _get_xpath_finder(etree):
     except(AttributeError):
         xpath_finder = etree.getroottree().getpath
 
+
+def node_children_counter(node):
+    """
+    Returns the a collections.Counter object measuring the
+    frequenies of the children nodes (by tag name) contained
+    within a given *node*.
+    """
+    return Counter([child.tag for child in node.xpath('./*')
+                    if node.xpath('./*')])
+
+
+def get_node_children_pairs(etree):
+    """
+    Given an *etree*, returns an iterable of parent
+    to child node frequencies (collections.Counter) length pairs.
+    """
+    for node in etree.xpath(".//*"):
+        nc_counter = node_children_counter(node)
+        if nc_counter:
+            yield node, nc_counter
+
+
+def filter_node_children_pairs(pairs, top_n_children=1):
+    """
+
+    """
+    for (first, second) in pairs:
+        yield first, second.most_common(top_n_children)
 
 
 def node_text_length(node):
@@ -37,6 +70,7 @@ def get_etree(fileobj, encoding='utf-8'):
     return parse(fileobj,
                  HTMLParser(encoding=encoding,
                             remove_blank_text=True))
+
 
 #TODO: the name "get_pairs" and the internal logic
 #(particularly node_text_length) do not resonate well
