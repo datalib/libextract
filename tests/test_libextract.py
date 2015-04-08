@@ -2,7 +2,6 @@ import os
 from unittest import TestCase
 from tests import asset_path
 from libextract import extract
-from libextract.html import get_etree
 
 
 FOOS_FILENAME = asset_path('full_of_foos.html')
