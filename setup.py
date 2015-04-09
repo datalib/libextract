@@ -20,8 +20,8 @@ setup(
     ],
     keywords='extract extraction main article text html data-extraction data\
               content-extraction content unsupervised classification',
-    author='Rodrigo Palacios, ',
-    author_email='rodrigopala91@gmail.com, ',
+    author='Rodrigo Palacios, Eeo Jun',
+    author_email='rodrigopala91@gmail.com, packwolf58@gmail.com',
     scripts=[],
     package_data={},
     test_suite='nose.collector',
