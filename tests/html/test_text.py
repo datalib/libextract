@@ -1,6 +1,6 @@
 from unittest import TestCase
 from tests.html.test_commons import TestGetEtree
-from libextract.html.text import get_node_length_pairs, node_text_length
+from libextract.html.article import get_node_length_pairs, node_text_length
 
 
 class TestNodeTextLength(TestGetEtree):

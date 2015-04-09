@@ -1,4 +1,4 @@
-from libextract.html import get_etree
+from libextract.html import parse_html
 from libextract.coretools import histogram, argmax
 
 
@@ -27,7 +27,7 @@ def get_node_length_pairs(etree):
         yield node.getparent(), node_text_length(node)
 
 
-def get_final_text(pair):
+def get_text(pair):
     """
     Gets the text contained within the children node
     of a given node and text length *pair*, joined by
@@ -37,4 +37,4 @@ def get_final_text(pair):
     return ' '.join(node.xpath(FILTER_TEXT))
 
 
-STRATEGY = (get_etree, get_node_length_pairs, histogram, argmax)
+STRATEGY = (parse_html, get_node_length_pairs, histogram, argmax)

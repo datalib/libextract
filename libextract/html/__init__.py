@@ -1,7 +1,7 @@
 from lxml.html import parse, HTMLParser
 
 
-def get_etree(fileobj, encoding='utf-8'):
+def parse_html(fileobj, encoding='utf-8'):
     """
     Get an ElementTree instance from a given file object
     *fileobj*. The encoding is assumed to be utf8.

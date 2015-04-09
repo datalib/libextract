@@ -1,6 +1,6 @@
 from heapq import nlargest
 from libextract.coretools import Counter
-from libextract.html import get_etree
+from libextract.html import parse_html
 
 
 SELECT_ALL = '//*'
@@ -23,7 +23,7 @@ def children_counter(node):
 def get_node_counter_pairs(etree):
     """
     Given an *etree*, returns an iterable of parent
-    to child node frequencies (collections.Counter) length pairs.
+    to child node frequencies (collections.Counter) pairs.
     """
     for node in etree.xpath(SELECT_ALL):
         if len(node):
@@ -43,7 +43,25 @@ def sort_best_pairs(pairs, limit=5):
         )
 
 
-STRATEGY = (get_etree,
+def filter_tags(pairs):
+    """
+    Given iterable of (HtmlElement, (html-tag-as-string, frequency)),
+    "tagify" (clean up) the parent HtmlElement by filtering
+    out child html-nodes whose tag names != html-tag-as-string
+    """
+    for (node, [(tag, _)]) in pairs:
+        for child in node.xpath('./*[not(self::'+tag+')]'):
+            node.remove(child)
+        yield node
+
+
+#TODO:Pretty print
+def tabularize(nodes):
+    """pretty print"""
+    pass
+
+
+STRATEGY = (parse_html,
             get_node_counter_pairs,
             node_counter_argmax,
             sort_best_pairs)
