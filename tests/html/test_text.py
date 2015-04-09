@@ -1,5 +1,5 @@
 from unittest import TestCase
-from tests.html.test_commons import TestGetEtree
+from tests.html import TestGetEtree
 from libextract.html.text import get_node_length_pairs, node_text_length
 
 
@@ -11,7 +11,7 @@ class TestNodeTextLength(TestGetEtree):
         assert res
 
 
-class TestGetPairs(TestGetEtree):
+class TestGetNodeLengthPairs(TestGetEtree):
     def runTest(self):
         u = list(get_node_length_pairs(self.etree))
         assert len(u) == 10
