@@ -1,3 +1,7 @@
+from libextract.html import get_etree
+from libextract.coretools import histogram, argmax
+
+
 NODES_WITH_TEXT = '//*[not(self::script or self::style)]/\
                      text()[normalize-space()]/..'
 
@@ -33,3 +37,6 @@ def get_final_text(pair):
     """
     node, _ = pair
     return ' '.join(node.xpath(FILTER_TEXT))
+
+
+STRATEGY = (get_etree, get_pairs, histogram, argmax)

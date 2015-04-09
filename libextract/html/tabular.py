@@ -1,4 +1,6 @@
-from .coretools import Counter
+from heapq import nlargest
+from libextract.coretools import Counter
+from libextract.html import get_etree
 
 
 SELECT_ALL = '//*'
@@ -7,15 +9,6 @@ SELECT_ALL = '//*'
 #TODO: Consolidate get_pairs functions
 #TODO: Converge on get_*, filter_*
 #TODO: Better yet, decide on "meta/pipelining language"
-
-def _get_xpath_finder(etree):
-    """Returns the lxml._ElementTree internal function
-    that takes in an lxml.html.HtmlElement and returns
-    its xpath"""
-    try:
-        xpath_finder = etree.getroot().getroottree().getpath
-    except(AttributeError):
-        xpath_finder = etree.getroottree().getpath
 
 
 def node_children_counter(node):
@@ -27,7 +20,7 @@ def node_children_counter(node):
     return Counter([child.tag for child in node])
 
 
-def get_node_children_pairs(etree):
+def get_node_counter_pairs(etree):
     """
     Given an *etree*, returns an iterable of parent
     to child node frequencies (collections.Counter) length pairs.
@@ -38,6 +31,20 @@ def get_node_children_pairs(etree):
             yield node, nc_counter
 
 
-def filter_node_children_pairs(pairs, top=1):
+def best_node_counter_pairs(pairs, top=1):
     for (node, children) in pairs:
-        yield first, children.most_common(top)
+        yield node, children.most_common(top)
+
+
+def sort_best_pairs(pairs, limit=5):
+    return nlargest(
+        limit,
+        pairs,
+        key=lambda (node, children): sum(k[1] for k in children),
+        )
+
+
+STRATEGY = (get_etree,
+            get_node_counter_pairs,
+            best_node_counter_pairs,
+            sort_best_pairs)
