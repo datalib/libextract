@@ -36,17 +36,15 @@ class TestSortBestPairs(TestGetNodeCounterPairs):
                                             limit=1)
 
     def runTest(self):
-        u = self.sorted_pairs
-        assert u == [
+        assert self.sorted_pairs == [
             (self.article, [('div', 9)])
             ]
 
 
 class TestFilterTags(TestSortBestPairs):
     def runTest(self):
-
         u = list(filter_tags(self.sorted_pairs))
-        print(u)
-        assert u == [
-            self.article
-            ]
+        assert u == [self.article]
+
+        for child in self.article:
+            assert child.tag == 'div'

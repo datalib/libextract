@@ -49,16 +49,12 @@ def filter_tags(pairs):
     "tagify" (clean up) the parent HtmlElement by filtering
     out child html-nodes whose tag names != html-tag-as-string
     """
-    for (node, [(tag, _)]) in pairs:
-        for child in node.xpath('./*[not(self::'+tag+')]'):
-            node.remove(child)
+    for node, hits in pairs:
+        tag, _ = hits[0]
+        for child in list(node):
+            if child.tag != tag:
+                node.remove(child)
         yield node
-
-
-#TODO:Pretty print
-def tabularize(nodes):
-    """pretty print"""
-    pass
 
 
 STRATEGY = (parse_html,
