@@ -7,3 +7,5 @@ python:
 install: pip install .
 script: python setup.py test
 sudo: false
+notifications:
+    email: false
