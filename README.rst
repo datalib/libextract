@@ -27,7 +27,7 @@ Usage
 
     from requests import get
     from libextract import extract
-    from libextract.stratgies import ARTICLE_NODE
+    from libextract.strategies import ARTICLE_NODE
 
     r = get('http://en.wikipedia.org/wiki/Classifier_(linguistics)')
     text = extract(r.content)
@@ -37,14 +37,6 @@ Usage
 
     # Tabular data extraction
 
-    from libextract.html import get_etree, get_node_children_pairs
-
-    tabular_strat = (get_etree, get_node_children_pairs, filter_node_children_pairs)
-
+    from libextract.strategies import TABULAR
     reddit = get("http://reddit.com")
-
-    tabs = list(extract(reddit.content, tabular_strat))
-
-    # Sort the node, children list so that tabular html structures
-    # sink to the top.
-    sorted(tabs, key=lambda (node, top_child): top_child[0][1], reverse=True)
+    tabs = extract(reddit.content, strategy=TABULAR))
