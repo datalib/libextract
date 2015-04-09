@@ -1,6 +1,9 @@
 libextract
 ==========
 
+.. image:: https://travis-ci.org/libextract/libextract.svg?branch=master
+    :target: https://travis-ci.org/libextract/libextract
+
 **libextract** is a library for extracting text out of HT/XML
 documents using a statistical, functionally pure approach. It
 originated from the eatihit_ repository.
