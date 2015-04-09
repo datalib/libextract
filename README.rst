@@ -41,7 +41,7 @@ Usage
     # Tabular data extraction
     from libextract.strategies import TABULAR
     reddit = get("http://reddit.com")
-    tabs = extract(reddit.content, strategy=TABULAR))
+    tabs = list(extract(reddit.content, strategy=TABULAR))
 
     # To view extracted tabular html
     from lxml.html import open_in_browser
