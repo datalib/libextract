@@ -11,10 +11,13 @@ def node_json(node, depth=0):
     return json
 
 
-def tabular_json(node_counter_pairs):
+def tabular_json(node_counter_pairs, **opts):
     rv = []
     for node, counter in node_counter_pairs:
         json = node_json(node)
-        json['contains'] = {e.tag: count for e, count in counter}
+        hits = json['contains'] = {}
+        for elem, count in counter:
+            hits[elem.tag] = child = node_json(elem, **opts)
+            child['count'] = count
         rv.append(json)
     return rv
