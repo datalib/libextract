@@ -1,7 +1,7 @@
 from tests.html import TestParseHtml
 from libextract.html.tabular import children_counter, \
         get_node_counter_pairs, node_counter_argmax, \
-        sort_best_pairs
+        sort_best_pairs, filter_tags
 
 
 class TestChildrenCounter(TestParseHtml):
@@ -29,9 +29,22 @@ class TestGetNodeCounterPairs(TestParseHtml):
 
 
 class TestSortBestPairs(TestGetNodeCounterPairs):
+    def setUp(self):
+        TestGetNodeCounterPairs.setUp(self)
+        self.article = self.etree.xpath('//body/article')[0]
+        self.sorted_pairs = sort_best_pairs(node_counter_argmax(self.pairs),
+                                            limit=1)
+
     def runTest(self):
-        article = self.etree.xpath('//body/article')[0]
-        u = sort_best_pairs(node_counter_argmax(self.pairs), limit=1)
+        u = self.sorted_pairs
         assert u == [
-            (article, [('div', 9)])
+            (self.article, [('div', 9)])
             ]
+
+#
+#class TestFilterTags(TestSortBestPairs):
+#    def runTest(self):
+#        u = filter_tags(self.sorted_pairs)
+#        assert u == [
+#            (article, [('div', 9)])
+#            ]
