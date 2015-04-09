@@ -1,6 +1,7 @@
 # TODO: circular dependencies?
 from .coretools import histogram, argmax
-from .html import get_etree, get_pairs, get_final_text
+from .html import get_etree
+from .html.text import get_pairs, get_final_text
 
 
 _BASE = (get_etree, get_pairs, histogram, argmax)
