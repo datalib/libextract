@@ -64,4 +64,5 @@ def tabularize(nodes):
 STRATEGY = (parse_html,
             get_node_counter_pairs,
             node_counter_argmax,
-            sort_best_pairs)
+            sort_best_pairs,
+            filter_tags)

@@ -41,10 +41,12 @@ class TestSortBestPairs(TestGetNodeCounterPairs):
             (self.article, [('div', 9)])
             ]
 
-#
-#class TestFilterTags(TestSortBestPairs):
-#    def runTest(self):
-#        u = filter_tags(self.sorted_pairs)
-#        assert u == [
-#            (article, [('div', 9)])
-#            ]
+
+class TestFilterTags(TestSortBestPairs):
+    def runTest(self):
+
+        u = list(filter_tags(self.sorted_pairs))
+        print(u)
+        assert u == [
+            self.article
+            ]

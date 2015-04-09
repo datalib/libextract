@@ -36,7 +36,10 @@ Usage
     node = extract(r.content, strategy=ARTICLE_NODE)
 
     # Tabular data extraction
-
     from libextract.strategies import TABULAR
     reddit = get("http://reddit.com")
     tabs = extract(reddit.content, strategy=TABULAR))
+
+    # To view extracted tabular html
+    from lxml.html import open_in_browser
+    open_in_browser(tabs[0])
