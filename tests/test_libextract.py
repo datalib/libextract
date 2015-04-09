@@ -9,7 +9,7 @@ FOOS_FILENAME = asset_path('full_of_foos.html')
 
 class TestLibExtract(TestCase):
     def setUp(self):
-        with open(FOOS_FILENAME, 'r') as fp:
+        with open(FOOS_FILENAME, 'rb') as fp:
             self.content = extract(fp.read())
 
     def test_is_str(self):

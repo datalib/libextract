@@ -39,7 +39,7 @@ def sort_best_pairs(pairs, limit=5):
     return nlargest(
         limit,
         pairs,
-        key=lambda (node, children): sum(k[1] for k in children),
+        key=lambda pair: sum(k[1] for k in pair[1]),
         )
 
 

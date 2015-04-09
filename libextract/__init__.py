@@ -5,9 +5,9 @@ except ImportError:
 
 from functools import partial
 from chardet import detect
-from .html import parse_html
-from .coretools import pipeline
-from .strategies import ARTICLE_TEXT
+from libextract.html import parse_html
+from libextract.coretools import pipeline
+from libextract.strategies import ARTICLE_TEXT
 
 
 __all__ = ('extract',)
