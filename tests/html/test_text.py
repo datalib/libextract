@@ -11,7 +11,7 @@ class TestNodeTextLength(TestGetEtree):
         assert res
 
 
-class TestGetPairs(TestGetEtree):
+class TestGetNodeLengthPairs(TestGetEtree):
     def runTest(self):
         u = list(get_node_length_pairs(self.etree))
         assert len(u) == 10
