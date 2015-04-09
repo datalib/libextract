@@ -1,9 +1,9 @@
 from unittest import TestCase
-from tests.html.test_commons import TestGetEtree
+from tests.html import TestParseHtml
 from libextract.html.article import get_node_length_pairs, node_text_length
 
 
-class TestNodeTextLength(TestGetEtree):
+class TestNodeTextLength(TestParseHtml):
     def runTest(self):
         res = self.etree.xpath('//body/article/div')
         for node in res:
@@ -11,7 +11,7 @@ class TestNodeTextLength(TestGetEtree):
         assert res
 
 
-class TestGetNodeLengthPairs(TestGetEtree):
+class TestGetNodeLengthPairs(TestParseHtml):
     def runTest(self):
         u = list(get_node_length_pairs(self.etree))
         assert len(u) == 10

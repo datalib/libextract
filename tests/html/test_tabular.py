@@ -1,10 +1,10 @@
-from tests.html import TestGetEtree
+from tests.html import TestParseHtml
 from libextract.html.tabular import children_counter, \
         get_node_counter_pairs, node_counter_argmax, \
         sort_best_pairs
 
 
-class TestChildrenCounter(TestGetEtree):
+class TestChildrenCounter(TestParseHtml):
     def runTest(self):
         article = self.etree.xpath('//body/article')[0]
         counter = children_counter(article)
@@ -13,9 +13,9 @@ class TestChildrenCounter(TestGetEtree):
         assert counter['div'] == 9
 
 
-class TestGetNodeCounterPairs(TestGetEtree):
+class TestGetNodeCounterPairs(TestParseHtml):
     def setUp(self):
-        TestGetEtree.setUp(self)
+        TestParseHtml.setUp(self)
         self.pairs = get_node_counter_pairs(self.etree)
 
     def runTest(self):

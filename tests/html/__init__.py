@@ -6,7 +6,7 @@ from libextract.html import parse_html
 FOO_ASSET = asset_path('full_of_foos.html')
 
 
-class TestGetEtree(TestCase):
+class TestParseHtml(TestCase):
     def setUp(self):
         with open(FOO_ASSET, 'rb') as fp:
             self.etree = parse_html(fp)
