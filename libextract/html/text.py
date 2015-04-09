@@ -18,9 +18,7 @@ def node_text_length(node):
     return len(' '.join(node.text_content().split()))
 
 
-#TODO: the name "get_pairs" and the internal logic
-#(particularly node_text_length) do not resonate well
-def get_pairs(etree):
+def get_node_length_pairs(etree):
     """
     Given an *etree*, returns an iterable of parent
     to node text length pairs.
@@ -39,4 +37,4 @@ def get_final_text(pair):
     return ' '.join(node.xpath(FILTER_TEXT))
 
 
-STRATEGY = (get_etree, get_pairs, histogram, argmax)
+STRATEGY = (get_etree, get_node_length_pairs, histogram, argmax)

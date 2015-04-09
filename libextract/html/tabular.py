@@ -11,7 +11,7 @@ SELECT_ALL = '//*'
 #TODO: Better yet, decide on "meta/pipelining language"
 
 
-def node_children_counter(node):
+def children_counter(node):
     """
     Returns the a collections.Counter object measuring the
     frequenies of the children nodes (by tag name) contained
@@ -26,13 +26,12 @@ def get_node_counter_pairs(etree):
     to child node frequencies (collections.Counter) length pairs.
     """
     for node in etree.xpath(SELECT_ALL):
-        nc_counter = node_children_counter(node)
-        if nc_counter:
-            yield node, nc_counter
+        if len(node):
+            yield node, children_counter(node)
 
 
-def best_node_counter_pairs(pairs, top=1):
-    for (node, children) in pairs:
+def node_counter_argmax(pairs, top=1):
+    for node, children in pairs:
         yield node, children.most_common(top)
 
 
@@ -46,5 +45,5 @@ def sort_best_pairs(pairs, limit=5):
 
 STRATEGY = (get_etree,
             get_node_counter_pairs,
-            best_node_counter_pairs,
+            node_counter_argmax,
             sort_best_pairs)

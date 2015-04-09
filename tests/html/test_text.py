@@ -1,6 +1,6 @@
 from unittest import TestCase
 from tests.html.test_commons import TestGetEtree
-from libextract.html.text import get_pairs, node_text_length
+from libextract.html.text import get_node_length_pairs, node_text_length
 
 
 class TestNodeTextLength(TestGetEtree):
@@ -13,7 +13,7 @@ class TestNodeTextLength(TestGetEtree):
 
 class TestGetPairs(TestGetEtree):
     def runTest(self):
-        u = list(get_pairs(self.etree))
+        u = list(get_node_length_pairs(self.etree))
         assert len(u) == 10
 
         for node, score in u:
