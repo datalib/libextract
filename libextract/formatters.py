@@ -1,3 +1,6 @@
+UNLIMITED = float('NaN')
+
+
 def node_json(node, depth=0):
     json = {
         'xpath': node.getroottree().getpath(node),
