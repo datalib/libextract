@@ -15,7 +15,8 @@ def node_text_length(node):
     Returns the length of the text contained within
     a given *node*.
     """
-    return len(' '.join(node.text_content().split()))
+    text = node.text
+    return len(' '.join(text.split())) if text else 0
 
 
 def get_node_length_pairs(etree):
