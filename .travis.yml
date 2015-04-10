@@ -6,7 +6,6 @@ python:
     - "3.3"
     - "3.4"
     - "nightly"
-    - "pypy3"
 install: pip install .
 script: python setup.py test
 sudo: false
