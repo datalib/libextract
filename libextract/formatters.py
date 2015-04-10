@@ -2,7 +2,7 @@ UNLIMITED = float('NaN')
 
 
 def node_json(node, depth=0):
-    json = {
+    return {
         'xpath': node.getroottree().getpath(node),
         'class': node.get('class', '').split(),
         'text': node.text,
@@ -12,4 +12,3 @@ def node_json(node, depth=0):
             [node_json(n, depth-1) for n in node] if depth else None
         ),
     }
-    return json
