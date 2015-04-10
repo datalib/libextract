@@ -35,7 +35,7 @@ class TestSortBestPairs(TestGetNodeCounterPairs):
         TestGetNodeCounterPairs.setUp(self)
         self.article = self.etree.xpath('//body/article')[0]
         self.sorted_pairs = sort_best_pairs(node_counter_argmax(self.pairs),
-                                            limit=1)
+                                            top=1)
 
     def runTest(self):
         assert self.sorted_pairs == [
