@@ -1,20 +1,10 @@
-import os
-from unittest import TestCase
-from tests import asset_path
+from pytest import fixture
 from libextract import extract
 
 
-FOOS_FILENAME = asset_path('full_of_foos.html')
+def test_extract(foo_file):
+    content = extract(foo_file.read())
+    foos = "foo. foo. foo. foo. foo. foo. foo. foo. foo."
 
-
-class TestLibExtract(TestCase):
-    def setUp(self):
-        with open(FOOS_FILENAME, 'rb') as fp:
-            self.content = extract(fp.read())
-
-    def test_is_str(self):
-        assert isinstance(self.content, str)
-
-    def test_str_is_foos(self):
-        foos = "foo. foo. foo. foo. foo. foo. foo. foo. foo."
-        assert self.content == foos
+    assert isinstance(content, str)
+    assert content == foos
