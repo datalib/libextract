@@ -63,7 +63,7 @@ def sort_best_pairs(pairs, top=5, sortfunc=select_score):
     Given an iterable of (node, (tag, frequency)) *pairs*,
     obtain the *top* best pairs according to *sortfunc*.
     """
-    return nlargest(limit, pairs, key=sortfunc)
+    return nlargest(top, pairs, key=sortfunc)
 
 
 def filter_tags(pairs):
