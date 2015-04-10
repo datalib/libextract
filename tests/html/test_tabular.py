@@ -1,62 +1,61 @@
-from unittest import TestCase
+from pytest import fixture
 from lxml import etree
-from tests.html import TestParseHtml
 from libextract.html.tabular import children_counter, \
         get_node_counter_pairs, node_counter_argmax, \
         sort_best_pairs, weighted_score, filter_tags
 
 
-class TestChildrenCounter(TestParseHtml):
-    def runTest(self):
-        article = self.etree.xpath('//body/article')[0]
-        counter = children_counter(article)
-
-        assert len(counter) == 1
-        assert counter['div'] == 9
+@fixture
+def pairs(etree):
+    return get_node_counter_pairs(etree)
 
 
-class TestGetNodeCounterPairs(TestParseHtml):
-    def setUp(self):
-        TestParseHtml.setUp(self)
-        self.pairs = get_node_counter_pairs(self.etree)
-
-    def runTest(self):
-        u = {elem.tag: counter for elem, counter in self.pairs}
-        u.pop('head')
-        assert u == {
-            'article': {'div': 9},
-            'body': {'article': 1, 'footer': 1},
-            'html': {'body': 1, 'head': 1},
-            }
+@fixture
+def article(etree):
+    return etree.xpath('//body/article')[0]
 
 
-class TestSortBestPairs(TestGetNodeCounterPairs):
-    def setUp(self):
-        TestGetNodeCounterPairs.setUp(self)
-        self.article = self.etree.xpath('//body/article')[0]
-        self.sorted_pairs = sort_best_pairs(node_counter_argmax(self.pairs),
-                                            top=1)
-
-    def runTest(self):
-        assert self.sorted_pairs == [
-            (self.article, ('div', 9))
-            ]
+@fixture
+def sorted_pairs(pairs):
+    return sort_best_pairs(node_counter_argmax(pairs),
+                           top=1)
 
 
-class TestWeightedScore(TestCase):
-    def setUp(self):
-        self.elem = etree.fromstring('<table></table>')
+def test_children_counter(etree):
+    article = etree.xpath('//body/article')[0]
+    counter = children_counter(article)
 
-    def runTest(self):
-        assert weighted_score((self.elem, ('a', 10)), k=10) == 100
-        assert weighted_score((self.elem, ('a', 1)),
-                              favours={'article'}) == 1
+    assert len(counter) == 1
+    assert counter['div'] == 9
 
 
-class TestFilterTags(TestSortBestPairs):
-    def runTest(self):
-        u = list(filter_tags(self.sorted_pairs))
-        assert u == [self.article]
+def test_get_node_counter_pairs(pairs):
+    u = {elem.tag: counter for elem, counter in pairs}
+    u.pop('head')
+    assert u == {
+        'article': {'div': 9},
+        'body': {'article': 1, 'footer': 1},
+        'html': {'body': 1, 'head': 1},
+        }
 
-        for child in self.article:
-            assert child.tag == 'div'
+
+def test_sort_best_pairs(sorted_pairs, article):
+    assert sorted_pairs == [
+        (article, ('div', 9))
+        ]
+
+
+def test_weighted_score():
+    elem = etree.fromstring('<table></table>')
+
+    assert weighted_score((elem, ('a', 10)), k=10) == 100
+    assert weighted_score((elem, ('a', 1)),
+                          favours={'article'}) == 1
+
+
+def test_filter_tags(sorted_pairs, article):
+    u = list(filter_tags(sorted_pairs))
+    assert u == [article]
+
+    for child in article:
+        assert child.tag == 'div'
