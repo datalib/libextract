@@ -2,10 +2,7 @@ from operator import itemgetter
 from heapq import nlargest
 from libextract.coretools import Counter
 from libextract.html import parse_html
-
-
-SELECT_ALL = '//*'
-
+from libextract.html._xpaths import SELECT_ALL
 
 #TODO: Consolidate get_pairs functions
 #TODO: Converge on get_*, filter_*
