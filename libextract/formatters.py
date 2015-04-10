@@ -19,6 +19,10 @@ get_node_class = partial(split_node_attr, attr='class')
 
 def node_json(node, depth=0):
     """
+    Given a *node*, serialize it and recursively
+    serialize it's children to a given *depth*.
+    Note that if the *depth* runs out (goes to 0),
+    the children key will be ``None``.
     """
     return {
         'xpath': node.getroottree().getpath(node),
