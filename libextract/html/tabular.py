@@ -41,13 +41,11 @@ def select_score(pair):
     return score
 
 
-def weighted_score(favours={'table'}, k=1.5):
-    def give_score(pair):
-        parent, (_, score) = pair
-        if parent.tag in favours:
-            return k * score
-        return score
-    return give_score
+def weighted_score(pair, favours={'table'}, k=1.5):
+    parent, (_, score) = pair
+    if parent.tag in favours:
+        return k * score
+    return score
 
 
 def sort_best_pairs(pairs, limit=5, sortfunc=select_score):

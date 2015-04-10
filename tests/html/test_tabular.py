@@ -48,11 +48,9 @@ class TestWeightedScore(TestCase):
         self.elem = etree.fromstring('<table></table>')
 
     def runTest(self):
-        func = weighted_score(k=10)
-        assert func((self.elem, ('a', 10))) == 100
-
-        func = weighted_score(favours={'article'})
-        assert func((self.elem, ('a', 1))) == 1
+        assert weighted_score((self.elem, ('a', 10)), k=10) == 100
+        assert weighted_score((self.elem, ('a', 1)),
+                              favours={'article'}) == 1
 
 
 class TestFilterTags(TestSortBestPairs):
