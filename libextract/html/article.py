@@ -1,14 +1,7 @@
 from operator import itemgetter
 from libextract.html import parse_html
 from libextract.coretools import histogram, argmax
-
-
-NODES_WITH_TEXT = '//*[not(self::script or self::style)]/\
-                     text()[normalize-space()]/..'
-
-FILTER_TEXT = './/*[not(self::script or self::style or \
-        self::figure or self::span or self::time)]/\
-        text()[normalize-space()]'
+from libextract.html._xpaths import NODES_WITH_TEXT, FILTER_TEXT
 
 
 def node_text_length(node):
