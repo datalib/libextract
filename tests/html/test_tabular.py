@@ -1,7 +1,9 @@
+from unittest import TestCase
+from lxml import etree
 from tests.html import TestParseHtml
 from libextract.html.tabular import children_counter, \
         get_node_counter_pairs, node_counter_argmax, \
-        sort_best_pairs, filter_tags
+        sort_best_pairs, weighted_score, filter_tags
 
 
 class TestChildrenCounter(TestParseHtml):
@@ -39,6 +41,16 @@ class TestSortBestPairs(TestGetNodeCounterPairs):
         assert self.sorted_pairs == [
             (self.article, ('div', 9))
             ]
+
+
+class TestWeightedScore(TestCase):
+    def setUp(self):
+        self.elem = etree.fromstring('<table></table>')
+
+    def runTest(self):
+        assert weighted_score((self.elem, ('a', 10)), k=10) == 100
+        assert weighted_score((self.elem, ('a', 1)),
+                              favours={'article'}) == 1
 
 
 class TestFilterTags(TestSortBestPairs):
