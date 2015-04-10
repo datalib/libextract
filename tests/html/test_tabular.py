@@ -37,7 +37,7 @@ class TestSortBestPairs(TestGetNodeCounterPairs):
 
     def runTest(self):
         assert self.sorted_pairs == [
-            (self.article, [('div', 9)])
+            (self.article, ('div', 9))
             ]
 
 

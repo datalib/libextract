@@ -40,8 +40,8 @@ Usage
 
     # Tabular data extraction
     from libextract.strategies import TABULAR
-    reddit = get("http://reddit.com")
-    tabs = list(extract(reddit.content, strategy=TABULAR))
+    height_data = get("http://en.wikipedia.org/wiki/Human_height")
+    tabs = list(extract(height_data.content, strategy=TABULAR))
 
     # To view extracted tabular html
     from lxml.html import open_in_browser

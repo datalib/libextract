@@ -1,3 +1,4 @@
+from operator import itemgetter
 from heapq import nlargest
 from libextract.coretools import Counter
 from libextract.html import parse_html
@@ -27,16 +28,16 @@ def get_node_counter_pairs(etree):
             yield node, children_counter(node)
 
 
-def node_counter_argmax(pairs, top=1):
+def node_counter_argmax(pairs):
     for node, children in pairs:
-        yield node, children.most_common(top)
+        yield node, children.most_common(1)[0]
 
 
 def sort_best_pairs(pairs, limit=5):
     return nlargest(
         limit,
         pairs,
-        key=lambda pair: sum(k[1] for k in pair[1]),
+        key=lambda pair: pair[1][1],
         )
 
 
@@ -46,8 +47,7 @@ def filter_tags(pairs):
     "tagify" (clean up) the parent HtmlElement by filtering
     out child html-nodes whose tag names != html-tag-as-string
     """
-    for node, hits in pairs:
-        tag, _ = hits[0]
+    for node, (tag, _) in pairs:
         for child in list(node):
             if child.tag != tag:
                 node.remove(child)
