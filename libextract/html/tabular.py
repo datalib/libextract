@@ -4,9 +4,9 @@ from libextract.coretools import Counter
 from libextract.html import parse_html
 from libextract.html._xpaths import SELECT_ALL
 
-#TODO: Consolidate get_pairs functions
-#TODO: Converge on get_*, filter_*
-#TODO: Better yet, decide on "meta/pipelining language"
+# TODO: Consolidate get_pairs functions
+# TODO: Converge on get_*, filter_*
+# TODO: Better yet, decide on "meta/pipelining language"
 
 
 def children_counter(node):
