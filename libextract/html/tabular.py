@@ -36,12 +36,22 @@ def node_counter_argmax(pairs):
         yield node, children.most_common(1)[0]
 
 
-def sort_best_pairs(pairs, limit=5):
-    return nlargest(
-        limit,
-        pairs,
-        key=lambda pair: pair[1][1],
-        )
+def select_score(pair):
+    _, (_, score) = pair
+    return score
+
+
+def weighted_score(favours={'table'}, k=1.5):
+    def give_score(pair):
+        parent, (_, score) = pair
+        if parent.tag in favours:
+            return k * score
+        return score
+    return give_score
+
+
+def sort_best_pairs(pairs, limit=5, sortfunc=select_score):
+    return nlargest(limit, pairs, key=sortfunc)
 
 
 def filter_tags(pairs):
