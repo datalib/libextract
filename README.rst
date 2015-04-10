@@ -1,48 +1,87 @@
-libextract
-==========
+Libextract: elegant text extraction
+===================================
 
 .. image:: https://travis-ci.org/libextract/libextract.svg?branch=master
     :target: https://travis-ci.org/libextract/libextract
 
-**libextract** is a library for extracting text out of HT/XML
-documents using a statistical, functionally pure approach. It
-originated from the eatihit_ repository.
+::
 
-From a very high level persepective, the algorithm can be
-reduced to around 4 steps:
+      _ _ _               _                  _
+     | (_) |             | |                | |
+     | |_| |__   _____  _| |_ _ __ __ _  ___| |_
+     | | | '_ \ / _ \ \/ / __| '__/ _` |/ __| __|
+     | | | |_) |  __/>  <| |_| | | (_| | (__| |_
+     |_|_|_.__/ \___/_/\_\\__|_|  \__,_|\___|\__|
 
-- Find the text nodes in the page.
-- Make a histogram of the their parents and text length.
-- The highest scoring parent node is selected.
-- The text in the highest scoring one is joined in a string
-  and returned as the result of the extraction.
 
-At the lowest level, **libextract** is just a pipelining
-library. It provides composable, small functions that can
-be piped together to process the HT/XML document.
+Libextract is a statistical extraction library that works
+on HTML and XML documents, written in Python and originating
+from eatihit_. The philosophy and aim is to provide declaratively
+composed, simple and pipelined functions for users to describe
+their extraction algorithms.
 
-.. _eatihit: http://rodricios.github.io/eatiht/
+Overview
+--------
+
+`libextract.extract(doc)`
+    Extracts text (by default) from a given HT/XML string *doc*.
+    What is extracted and how it is extracted can be configured
+    using the *strategy* parameter, which accepts an iterable
+    of functions to be piped to one another (the result of the
+    previous is the argument of the next).
 
 Usage
 -----
+
+Extracting the text from a wikipedia page.
 
 .. code-block:: python
 
     from requests import get
     from libextract import extract
-    from libextract.strategies import ARTICLE_NODE
 
     r = get('http://en.wikipedia.org/wiki/Classifier_(linguistics)')
     text = extract(r.content)
 
-    # To get the HT/XML node:
+Getting the node that (most likely) contains the text nodes that
+contain the text of the article:
+
+.. code-block:: python
+
+    from libextract.strategies import ARTICLE_NODE
+
     node = extract(r.content, strategy=ARTICLE_NODE)
 
-    # Tabular data extraction
+To serialize the node into JSON format:
+
+.. code-block:: python
+
+    >>> from libextract.formatters import node_json
+    >>> node_json(node, depth=1)
+    {'children': [...],
+     'class': ['mw-content-ltr'],
+     'id': ['mw-content-text'],
+     'tag': 'div',
+     'text': None,
+     'xpath': '/html/body/div[3]/div[3]/div[4]'}
+
+Using tabular extraction to get the nodes containing tabular data
+present in the HT/XML document:
+
+.. code-block:: python
+
     from libextract.strategies import TABULAR
+
     height_data = get("http://en.wikipedia.org/wiki/Human_height")
     tabs = list(extract(height_data.content, strategy=TABULAR))
 
-    # To view extracted tabular html
+Viewing the table in your browser:
+
+.. code-block:: python
+
     from lxml.html import open_in_browser
     open_in_browser(tabs[0])
+
+
+.. _eatihit: http://rodricios.github.io/eatiht/
+.. _requests: https://github.com/kennethreitz/requests
