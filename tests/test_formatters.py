@@ -1,10 +1,7 @@
+from copy import deepcopy
 from unittest import TestCase
 from lxml import etree
-from tests import asset_path
-from libextract.formatters import node_json, tabular_json
-
-
-FOOS_FILENAME = asset_path('full_of_foos.html')
+from libextract.formatters import node_json
 
 
 class TestNodeJson(TestCase):
@@ -12,28 +9,29 @@ class TestNodeJson(TestCase):
         self.etree = etree.fromstring(
             '<html class="this those" id="that"><p>Hello World</p></html>'
             )
+        self.expected_json = {
+            'children': None,
+            'xpath': '/html',
+            'class': ['this', 'those'],
+            'text': None,
+            'tag': 'html',
+            'id': ['that'],
+        }
 
     def test_simple(self):
-        assert node_json(self.etree) == {
-            'xpath': '/html',
-            'class': ['this', 'those'],
-            'text': None,
-            'tag': 'html',
-            'id': ['that'],
-        }
+        assert node_json(self.etree) == self.expected_json
 
     def test_depth(self):
-        assert node_json(self.etree, depth=1) == {
-            'xpath': '/html',
-            'text': None,
-            'class': ['this', 'those'],
-            'id': ['that'],
-            'tag': 'html',
-            'children': [{
-                'xpath': '/html/p',
-                'text': 'Hello World',
-                'class': [],
-                'id': [],
-                'tag': 'p',
-            }]
-        }
+        self.expected_json['children'] = [{
+            'children': None,
+            'xpath': '/html/p',
+            'text': 'Hello World',
+            'class': [],
+            'id': [],
+            'tag': 'p',
+        }]
+        expected = deepcopy(self.expected_json)
+        expected['children'][0]['children'] = []
+
+        assert node_json(self.etree, depth=1) == self.expected_json
+        assert node_json(self.etree, depth=2) == expected
