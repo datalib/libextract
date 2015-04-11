@@ -4,6 +4,7 @@ from libextract.coretools import histogram, argmax
 from libextract.html._xpaths import NODES_WITH_TEXT, FILTER_TEXT
 from libextract.quantifiers import text_length
 
+
 def get_node_length_pairs(etree):
     """
     Given an *etree*, returns an iterable of parent
@@ -11,6 +12,7 @@ def get_node_length_pairs(etree):
     """
     for node in etree.xpath(NODES_WITH_TEXT):
         yield node.getparent(), text_length(node)
+
 
 get_node = itemgetter(0)
 
