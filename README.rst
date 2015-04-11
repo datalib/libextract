@@ -32,7 +32,7 @@ Overview
 Usage
 -----
 
-Extracting the text from a wikipedia page.
+Extracting the text from a wikipedia page:
 
 .. code-block:: python
 
@@ -83,4 +83,3 @@ Viewing the table in your browser:
 
 
 .. _eatihit: http://rodricios.github.io/eatiht/
-.. _requests: https://github.com/kennethreitz/requests
