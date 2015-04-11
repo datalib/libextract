@@ -25,4 +25,8 @@ def get_text(node):
     return ' '.join(node.xpath(FILTER_TEXT))
 
 
-STRATEGY = (parse_html, get_node_length_pairs, histogram, argmax, get_node)
+STRATEGY = (parse_html,
+            get_node_length_pairs,
+            histogram,
+            argmax,
+            get_node)
