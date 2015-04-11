@@ -8,7 +8,7 @@ the function will return either a numerical type or a Counter
 where the key=<node> and value=<numerical>
 """
 
-from libextract.coretools import Counter
+from collections import Counter
 
 
 def text_length(node):

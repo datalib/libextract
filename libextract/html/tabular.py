@@ -1,6 +1,5 @@
 from operator import itemgetter
 from heapq import nlargest
-from libextract.coretools import Counter
 from libextract.html import parse_html
 from libextract.html._xpaths import SELECT_ALL
 from libextract.quantifiers import children_counter
