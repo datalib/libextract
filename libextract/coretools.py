@@ -20,12 +20,7 @@ def above_threshold(score):
     return proc
 
 
-def pipeline(data, *args):
-    try:
-        for arg in args[0:]:
-            data = arg(data)
-    except(TypeError):
-        for arg in args[0]:
-            data = arg(data)
-    finally:
-        return data
+def pipeline(data, functions):
+    for item in functions:
+        data = item(data)
+    return data

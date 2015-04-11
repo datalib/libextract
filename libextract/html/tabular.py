@@ -2,7 +2,7 @@ from operator import itemgetter
 from heapq import nlargest
 from libextract.html import parse_html
 from libextract.html._xpaths import SELECT_ALL
-from libextract.quantifiers import children_counter
+from libextract.quantifiers import count_children
 
 # TODO: Consolidate get_pairs functions
 # TODO: Converge on get_*, filter_*
@@ -16,7 +16,7 @@ def get_node_counter_pairs(etree):
     """
     for node in etree.xpath(SELECT_ALL):
         if len(node):
-            yield node, children_counter(node)
+            yield node, count_children(node)
 
 
 def node_counter_argmax(pairs):

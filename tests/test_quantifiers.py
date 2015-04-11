@@ -1,4 +1,4 @@
-from libextract.quantifiers import text_length, children_counter
+from libextract.quantifiers import text_length, count_children
 
 
 def test_text_length(etree):
@@ -9,7 +9,7 @@ def test_text_length(etree):
 
 def test_children_counter(etree):
     article = etree.xpath('//body/article')[0]
-    counter = children_counter(article)
+    counter = count_children(article)
 
     assert len(counter) == 1
     assert counter['div'] == 9
