@@ -42,34 +42,23 @@ existed, we would simply create our own, under the following protocols:
 """
 
 from functools import wraps
-from inspect import getargspec
 
-from libextract.html._xpaths import SELECT_ALL, NODES_WITH_TEXT
+from libextract.html.xpaths import SELECT_ALL, NODES_WITH_TEXT
 from libextract.quantifiers import count_children, text_length
 
 
-def pruner(func):
-    #print("decorating", func)
-    @wraps(func)
-    def decorator(etree):
-        # FIXME: Better way than this?
-        # TODO: add argument checking for non/keyword case
-        _, _, varkw, defaults = getargspec(func)
-        if isinstance(varkw, dict):
-            selector = varkw.get('selector', None)
-        elif defaults:
-            selector = defaults[0] or None
-        if not selector:
-            raise Exception("xpath selector not given")
-
-        print("select", selector, etree)
-        for node in etree.xpath(selector):
-            yield func(node)
+def pruner(selector):
+    def decorator(func):
+        @wraps(func)
+        def quantifier(etree):
+            for node in etree.xpath(selector):
+                yield func(node)
+        return quantifier
     return decorator
 
 
-@pruner
-def subnode_count_pruner(node, selector=SELECT_ALL):
+@pruner(selector=SELECT_ALL)
+def subnode_count_pruner(node):
     """
     Given an *etree*, returns an iterable of parent
     to child node frequencies (collections.Counter) pairs.
@@ -77,8 +66,8 @@ def subnode_count_pruner(node, selector=SELECT_ALL):
     return node, count_children(node)
 
 
-@pruner
-def subnode_textlen_pruner(node, selector=NODES_WITH_TEXT):
+@pruner(selector=NODES_WITH_TEXT)
+def subnode_textlen_pruner(node):
     """
     Given an *etree*, returns an iterable of parent
     to node text length pairs.
