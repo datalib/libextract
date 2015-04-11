@@ -2,16 +2,7 @@ from operator import itemgetter
 from libextract.html import parse_html
 from libextract.coretools import histogram, argmax
 from libextract.html._xpaths import NODES_WITH_TEXT, FILTER_TEXT
-
-
-def node_text_length(node):
-    """
-    Returns the length of the text contained within
-    a given *node*.
-    """
-    text = node.text
-    return len(' '.join(text.split())) if text else 0
-
+from libextract.quantifiers import text_length
 
 def get_node_length_pairs(etree):
     """
@@ -19,8 +10,7 @@ def get_node_length_pairs(etree):
     to node text length pairs.
     """
     for node in etree.xpath(NODES_WITH_TEXT):
-        yield node.getparent(), node_text_length(node)
-
+        yield node.getparent(), text_length(node)
 
 get_node = itemgetter(0)
 

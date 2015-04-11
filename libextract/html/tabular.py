@@ -3,19 +3,11 @@ from heapq import nlargest
 from libextract.coretools import Counter
 from libextract.html import parse_html
 from libextract.html._xpaths import SELECT_ALL
+from libextract.quantifiers import children_counter
 
 # TODO: Consolidate get_pairs functions
 # TODO: Converge on get_*, filter_*
 # TODO: Better yet, decide on "meta/pipelining language"
-
-
-def children_counter(node):
-    """
-    Returns the a collections.Counter object measuring the
-    frequenies of the children nodes (by tag name) contained
-    within a given *node*.
-    """
-    return Counter([child.tag for child in node])
 
 
 def get_node_counter_pairs(etree):
