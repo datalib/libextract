@@ -1,6 +1,5 @@
 from pytest import fixture
-from libextract.coretools import pipeline, histogram,\
-        above_threshold, argmax
+from libextract.coretools import pipeline, histogram, argmax
 
 
 @fixture
@@ -24,15 +23,6 @@ def test_histogram(pairs):
     hist = histogram(pairs)
     assert hist['i'] == 15
     assert hist['g'] == 20
-
-
-def test_above_threshold(pairs):
-    func = above_threshold(7)
-    assert list(func(pairs)) == [
-            ('h', 7),
-            ('g', 20),
-            ('i', 10)
-            ]
 
 
 def test_argmax(pairs):
