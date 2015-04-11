@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 """
 A submodule providing 'quantifying' functions.
 
@@ -7,7 +8,8 @@ the function will return either a numerical type or a Counter
 where the key=<node> and value=<numerical>
 """
 
-from coretools import Counter
+from libextract.coretools import Counter
+
 
 def text_length(node):
     """
