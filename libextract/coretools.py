@@ -8,8 +8,8 @@ def histogram(iterable):
     return hist
 
 
-def argmax(histogram):
-    return histogram.most_common(1)[0]
+def argmax(counter):
+    return counter.most_common(1)[0]
 
 
 def pipeline(data, functions):
