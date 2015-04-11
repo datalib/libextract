@@ -7,6 +7,7 @@ def test_text_length(etree):
         assert text_length(node) == 4
     assert res
 
+
 def test_count_children(etree):
     article = etree.xpath('//body/article')[0]
     counter = count_children(article)

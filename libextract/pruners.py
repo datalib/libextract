@@ -42,6 +42,7 @@ existed, we would simply create our own, under the following protocols:
 """
 
 from functools import wraps
+from collections import Counter
 
 from libextract.html.xpaths import SELECT_ALL, NODES_WITH_TEXT
 from libextract.quantifiers import count_children, text_length
@@ -63,7 +64,8 @@ def subnode_count_pruner(node):
     Given an *etree*, returns an iterable of parent
     to child node frequencies (collections.Counter) pairs.
     """
-    return node, count_children(node)
+
+    return node, count_children(node) or Counter({'':0})
 
 
 @pruner(selector=NODES_WITH_TEXT)
