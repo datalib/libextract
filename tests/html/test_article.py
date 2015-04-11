@@ -1,11 +1,4 @@
-from libextract.html.article import get_node_length_pairs, node_text_length
-
-
-def test_node_text_length(etree):
-    res = etree.xpath('//body/article/div')
-    for node in res:
-        assert node_text_length(node) == 4
-    assert res
+from libextract.html.article import get_node_length_pairs
 
 
 def test_get_node_length_pairs(etree):
