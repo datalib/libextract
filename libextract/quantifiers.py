@@ -20,7 +20,7 @@ def text_length(node):
     return len(' '.join(text.split())) if text else 0
 
 
-def children_counter(node):
+def count_children(node):
     """
     Returns the a collections.Counter object measuring the
     frequenies of the children nodes (by tag name) contained
