@@ -16,7 +16,7 @@ SELECT_ALL = '//*'
 @prunes(SELECT_ALL)
 def get_node_counter_pairs(node):
     """
-    Given an *etree*, returns an iterable of parent to
+    Given an *etree*, returns an iterable of node to
     child node frequencies (collections.Counter) pairs.
     """
     return node, count_children(node)
