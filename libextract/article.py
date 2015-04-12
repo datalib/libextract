@@ -5,7 +5,6 @@
     data from articles.
 """
 
-from operator import itemgetter
 from libextract.coretools import histogram, argmax, prunes, parse_html
 from libextract.metrics import text_length
 from libextract.formatters import get_text
@@ -21,7 +20,13 @@ def get_node_length_pairs(node):
     return node.getparent(), text_length(node)
 
 
-get_node = itemgetter(0)
+def get_node(pair):
+    """
+    Given a (node, text_length) *pair*, returns the
+    node.
+    """
+    node, text_length = pair
+    return node
 
 
 STRATEGY = (parse_html,

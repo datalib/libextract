@@ -1,4 +1,10 @@
-"""A handful of useful xpath expressions to help you along the way"""
+"""
+    libextract.xpaths
+    ~~~~~~~~~~~~~~~~~
+
+    A handful of useful xpath expressions to help you along
+    the way.
+"""
 
 
 NODES_WITH_TEXT = '//*[not(self::script or self::style)]/\

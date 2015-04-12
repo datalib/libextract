@@ -1,5 +1,4 @@
 from functools import partial
-
 from libextract.xpaths import FILTER_TEXT
 
 
