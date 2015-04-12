@@ -1,13 +1,13 @@
 from pytest import fixture
 from lxml import etree
-from libextract.pruners import subnode_count_pruner
+from libextract.pruners import prune_by_child_count
 from libextract.html.tabular import node_counter_argmax, \
         sort_best_pairs, weighted_score, filter_tags
 
 
 @fixture
 def pairs(etree):
-    return subnode_count_pruner(etree)
+    return prune_by_child_count(etree)
 
 
 @fixture

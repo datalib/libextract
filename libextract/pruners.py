@@ -21,7 +21,7 @@ import our builtin's (libextract.quantifiers), or they can create
 their "quantifier" within a custom function, which they would then
 decorate with *pruner*.
 
-For example, if we were to not know that the*text_length* quantifier
+For example, if we were to not know that the *text_length* quantifier
 existed, we would simply create our own, under the following protocols:
 
 ```python
@@ -31,8 +31,8 @@ existed, we would simply create our own, under the following protocols:
     # INPUTS
     # "node" must declared, selector must be given as keyword argument
     # user must assume it is an lxml.html.HtmlElement object
-    @pruner
-    def my_pruner(node, selector=NODES_WITH_TEXT):
+    @pruner(selector=NODES_WITH_TEXT)
+    def my_pruner(node):
         text = node.text
         textlen = len(' '.join(text.split())) if text else 0
         return node.getparent(), textlen
@@ -59,17 +59,17 @@ def pruner(selector):
 
 
 @pruner(selector=SELECT_ALL)
-def subnode_count_pruner(node):
+def prune_by_child_count(node):
     """
     Given an *etree*, returns an iterable of parent
     to child node frequencies (collections.Counter) pairs.
     """
 
-    return node, count_children(node) or Counter({'':0})
+    return node, count_children(node) or Counter()
 
 
 @pruner(selector=NODES_WITH_TEXT)
-def subnode_textlen_pruner(node):
+def prune_by_text_length(node):
     """
     Given an *etree*, returns an iterable of parent
     to node text length pairs.

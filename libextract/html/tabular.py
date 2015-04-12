@@ -1,6 +1,6 @@
 from heapq import nlargest
 from libextract.html import parse_html
-from libextract.pruners import subnode_count_pruner
+from libextract.pruners import prune_by_child_count
 
 # TODO: Consolidate get_pairs functions
 # TODO: Converge on get_*, filter_*
@@ -13,7 +13,8 @@ def node_counter_argmax(pairs):
     (node, collections.Counter) *pairs*.
     """
     for node, children in pairs:
-        yield node, children.most_common(1)[0]
+        if children:
+            yield node, children.most_common(1)[0]
 
 
 def select_score(pair):
@@ -59,7 +60,7 @@ def filter_tags(pairs):
 
 
 STRATEGY = (parse_html,
-            subnode_count_pruner,
+            prune_by_child_count,
             node_counter_argmax,
             sort_best_pairs,
             filter_tags)

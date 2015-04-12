@@ -2,7 +2,7 @@ from operator import itemgetter
 from libextract.html import parse_html
 from libextract.coretools import histogram, argmax
 from libextract.html.xpaths import FILTER_TEXT
-from libextract.pruners import subnode_textlen_pruner
+from libextract.pruners import prune_by_text_length
 
 
 get_node = itemgetter(0)
@@ -17,7 +17,7 @@ def get_text(node):
 
 
 STRATEGY = (parse_html,
-            subnode_textlen_pruner,
+            prune_by_text_length,
             histogram,
             argmax,
             get_node)

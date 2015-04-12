@@ -1,14 +1,15 @@
 from pytest import fixture
+from collections import Counter
 
-from libextract.pruners import subnode_count_pruner, subnode_textlen_pruner
+from libextract.pruners import prune_by_child_count, prune_by_text_length
 
 
 @fixture
 def pairs(etree):
-    return subnode_count_pruner(etree)
+    return prune_by_child_count(etree)
 
 
-def test_subnode_count_pruner(pairs):
+def test_prune_by_child_count(pairs):
     u = {elem.tag: counter for elem, counter in pairs}
     u.pop('head')
     print(u)
@@ -16,13 +17,13 @@ def test_subnode_count_pruner(pairs):
         'article': {'div': 9},
         'body': {'article': 1, 'footer': 1},
         'html': {'body': 1, 'head': 1},
-        'footer': {'':0},
-        'div': {'':0},
+        'footer': Counter(),
+        'div': Counter()
         }
 
 
-def test_subnode_textlength_pruner(etree):
-    u = list(subnode_textlen_pruner(etree))
+def test_prune_by_text_length(etree):
+    u = list(prune_by_text_length(etree))
     assert len(u) == 10
 
     for node, score in u:
