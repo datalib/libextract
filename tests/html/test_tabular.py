@@ -21,16 +21,6 @@ def sorted_pairs(pairs):
                            top=1)
 
 
-#def test_get_node_counter_pairs(pairs):
-#    u = {elem.tag: counter for elem, counter in pairs}
-#    u.pop('head')
-#    assert u == {
-#        'article': {'div': 9},
-#        'body': {'article': 1, 'footer': 1},
-#        'html': {'body': 1, 'head': 1},
-#        }
-
-
 def test_sort_best_pairs(sorted_pairs, article):
     assert sorted_pairs == [
         (article, ('div', 9))
