@@ -1,13 +1,12 @@
+"""
+    A submodule providing 'quantifying' functions.
+
+    The protocol that's followed is each function expects a "node"
+    of type lxml.html.HtmlElement (sometimes *._ElementTree), and
+    the function will return either a numerical type or a Counter.
+"""
+
 from __future__ import absolute_import
-"""
-A submodule providing 'quantifying' functions.
-
-The protocol that's followed is each function expects a "node"
-of type lxml.html.HtmlElement (sometimes *._ElementTree), and
-the function will return either a numerical type or a Counter
-where the key=<node> and value=<numerical>
-"""
-
 from collections import Counter
 
 
