@@ -74,6 +74,19 @@ present in the HT/XML document:
     height_data = get("http://en.wikipedia.org/wiki/Human_height")
     tabs = list(extract(height_data.content, strategy=TABULAR))
 
+
+To convert HT/XML element to python ``list``
+
+.. code-block:: python
+    from libextract.formatters import get_table_as_header_rows_list
+
+    table = get_table_as_header_rows_list(tabs[0])
+
+    for row in table[:10]: # print just the first 10 rows
+        print(row[:3])     # print the first 3 columns
+
+
+
 Viewing the table in your browser:
 
 .. code-block:: python
