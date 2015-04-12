@@ -7,6 +7,8 @@
 """
 
 from functools import partial
+
+from libextract.coretools import chunks
 from libextract.xpaths import FILTER_TEXT
 
 
@@ -51,3 +53,28 @@ def node_json(node, depth=0):
             [node_json(n, depth-1) for n in node] if depth else None
         ),
     }
+
+
+def get_table_headings(node):
+    for elem in node.iter("th"):
+        yield " ".join(elem.text_content().split())
+
+
+def get_table_data(node):
+    for elem in node.iter("td"):
+        yield " ".join(elem.text_content().split())
+
+
+def get_table_as_header_rows_list(node):
+    """
+    Given a table *HtmlElement* (ie. <table>), return
+    a list of lists, where the first list contains the
+    table headings, and the subsequent lists contain table
+    rows of data
+    """
+    tdatas = list(get_table_data(node))
+    theadings = list(get_table_headings(node))
+    trows = list(chunks(tdatas, len(theadings)))
+    payload = [theadings]
+    payload.extend(trows)
+    return payload

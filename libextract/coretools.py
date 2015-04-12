@@ -11,6 +11,12 @@ from functools import wraps
 from lxml.html import parse, HTMLParser
 
 
+def chunks(iterable, size):
+    """ Yield successive n-sized chunks from l.
+    """
+    for i in xrange(0, len(iterable), size):
+        yield iterable[i:i+size]
+
 def histogram(iterable):
     """
     Given an *iterable* of key-to-value pairs, sum up the
