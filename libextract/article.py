@@ -6,18 +6,7 @@
 """
 
 from libextract.coretools import histogram, argmax, prunes, parse_html
-from libextract.metrics import text_length
-from libextract.xpaths import NODES_WITH_TEXT
-
-
-@prunes(NODES_WITH_TEXT)
-def get_node_length_pairs(node):
-    """
-    Given an *etree*, returns an iterable of parent
-    to node text length pairs.
-    """
-    return node.getparent(), text_length(node)
-
+from libextract.baskets import basket_parent_and_lengths
 
 def get_node(pair):
     """
@@ -29,7 +18,7 @@ def get_node(pair):
 
 
 STRATEGY = (parse_html,
-            get_node_length_pairs,
+            basket_parent_and_lengths,
             histogram,
             argmax,
             get_node)
