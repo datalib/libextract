@@ -1,3 +1,11 @@
+"""
+    libextract.html.article
+    ~~~~~~~~~~~~~~~~~~~~~~~
+    Implements extraction strategy for extracting textual
+    data from articles.
+"""
+
+
 from operator import itemgetter
 from libextract.html import parse_html
 from libextract.coretools import histogram, argmax
