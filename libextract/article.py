@@ -7,7 +7,6 @@
 
 from libextract.coretools import histogram, argmax, prunes, parse_html
 from libextract.metrics import text_length
-from libextract.formatters import get_text
 from libextract.xpaths import NODES_WITH_TEXT
 
 
@@ -25,7 +24,7 @@ def get_node(pair):
     Given a (node, text_length) *pair*, returns the
     node.
     """
-    node, text_length = pair
+    node, _ = pair
     return node
 
 
