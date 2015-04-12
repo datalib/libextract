@@ -1,6 +1,6 @@
 from pytest import fixture
 from tests import asset_path
-from libextract.html import parse_html
+from libextract.coretools import parse_html
 
 
 FOOS_FILENAME = asset_path('full_of_foos.html')

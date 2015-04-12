@@ -6,20 +6,20 @@
 """
 
 from heapq import nlargest
-from libextract.coretools import argmax
-from libextract.html import parse_html
-from libextract.html._xpaths import SELECT_ALL
+from libextract.coretools import argmax, prunes, parse_html
 from libextract.metrics import count_children
 
 
-def get_node_counter_pairs(etree):
+SELECT_ALL = '//*'
+
+
+@prunes(SELECT_ALL)
+def get_node_counter_pairs(node):
     """
     Given an *etree*, returns an iterable of parent to
     child node frequencies (collections.Counter) pairs.
     """
-    for node in etree.xpath(SELECT_ALL):
-        if len(node):
-            yield node, count_children(node)
+    return node, count_children(node)
 
 
 def node_counter_argmax(pairs):
@@ -28,7 +28,8 @@ def node_counter_argmax(pairs):
     of (node, collections.Counter) *pairs*.
     """
     for node, counter in pairs:
-        yield node, argmax(counter)
+        if counter:
+            yield node, argmax(counter)
 
 
 def select_score(pair):

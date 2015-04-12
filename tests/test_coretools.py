@@ -1,5 +1,5 @@
 from pytest import fixture
-from libextract.coretools import pipeline, histogram, argmax
+from libextract.coretools import pipeline, histogram, argmax, parse_html
 
 
 @fixture
@@ -28,3 +28,11 @@ def test_histogram(pairs):
 def test_argmax(pairs):
     hist = histogram(pairs)
     assert argmax(hist) == ('g', 20)
+
+
+def test_parse_html(foo_file):
+    etree = parse_html(foo_file)
+    divs = etree.xpath('//body/article/div')
+
+    assert all(k.text == 'foo.' for k in divs)
+    assert len(divs) == 9

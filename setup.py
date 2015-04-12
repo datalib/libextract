@@ -32,7 +32,7 @@ setup(
     url='https://github.com/libextract/libextract',
     license='MIT',
     description='A ridiculously simple HT/XML article-text extractor',
-    packages=['libextract', 'libextract.html'],
+    packages=['libextract'],
     include_package_data=True,
     zip_safe=False,
     platforms='any',

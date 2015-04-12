@@ -1,4 +1,4 @@
-from libextract.html.article import get_node_length_pairs
+from libextract.article import get_node_length_pairs
 
 
 def test_get_node_length_pairs(etree):

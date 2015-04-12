@@ -1,13 +1,7 @@
 from pytest import fixture
 from lxml import etree
-from libextract.html.tabular import get_node_counter_pairs, \
-        node_counter_argmax, sort_best_pairs, weighted_score, \
-        filter_tags
-
-
-@fixture
-def pairs(etree):
-    return get_node_counter_pairs(etree)
+from libextract.tabular import node_counter_argmax, sort_best_pairs, \
+        weighted_score, filter_tags, get_node_counter_pairs
 
 
 @fixture
@@ -16,19 +10,10 @@ def article(etree):
 
 
 @fixture
-def sorted_pairs(pairs):
+def sorted_pairs(etree):
+    pairs = get_node_counter_pairs(etree)
     return sort_best_pairs(node_counter_argmax(pairs),
                            top=1)
-
-
-def test_get_node_counter_pairs(pairs):
-    u = {elem.tag: counter for elem, counter in pairs}
-    u.pop('head')
-    assert u == {
-        'article': {'div': 9},
-        'body': {'article': 1, 'footer': 1},
-        'html': {'body': 1, 'head': 1},
-        }
 
 
 def test_sort_best_pairs(sorted_pairs, article):

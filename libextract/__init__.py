@@ -10,8 +10,6 @@
 """
 
 
-from __future__ import absolute_import
-
 try:
     from cStringIO import StringIO as BytesIO
 except ImportError:
@@ -19,8 +17,7 @@ except ImportError:
 
 from functools import partial
 from chardet import detect
-from libextract.html import parse_html
-from libextract.coretools import pipeline
+from libextract.coretools import pipeline, parse_html
 from libextract.strategies import ARTICLE_TEXT
 
 
