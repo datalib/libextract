@@ -1,8 +1,17 @@
 from operator import itemgetter
 from libextract.html import parse_html
 from libextract.coretools import histogram, argmax
-from libextract.html.xpaths import FILTER_TEXT
-from libextract.pruners import prune_by_text_length
+from libextract.html._xpaths import NODES_WITH_TEXT, FILTER_TEXT
+from libextract.quantifiers import text_length
+
+
+def get_node_length_pairs(etree):
+    """
+    Given an *etree*, returns an iterable of parent
+    to node text length pairs.
+    """
+    for node in etree.xpath(NODES_WITH_TEXT):
+        yield node.getparent(), text_length(node)
 
 
 get_node = itemgetter(0)
@@ -17,7 +26,7 @@ def get_text(node):
 
 
 STRATEGY = (parse_html,
-            prune_by_text_length,
+            get_node_length_pairs,
             histogram,
             argmax,
             get_node)
