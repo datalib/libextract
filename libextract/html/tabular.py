@@ -1,21 +1,10 @@
 from heapq import nlargest
 from libextract.html import parse_html
-from libextract.html._xpaths import SELECT_ALL
-from libextract.quantifiers import count_children
+from libextract.pruners import prune_by_child_count
 
 # TODO: Consolidate get_pairs functions
 # TODO: Converge on get_*, filter_*
 # TODO: Better yet, decide on "meta/pipelining language"
-
-
-def get_node_counter_pairs(etree):
-    """
-    Given an *etree*, returns an iterable of parent
-    to child node frequencies (collections.Counter) pairs.
-    """
-    for node in etree.xpath(SELECT_ALL):
-        if len(node):
-            yield node, count_children(node)
 
 
 def node_counter_argmax(pairs):
@@ -24,7 +13,8 @@ def node_counter_argmax(pairs):
     (node, collections.Counter) *pairs*.
     """
     for node, children in pairs:
-        yield node, children.most_common(1)[0]
+        if children:
+            yield node, children.most_common(1)[0]
 
 
 def select_score(pair):
@@ -70,7 +60,7 @@ def filter_tags(pairs):
 
 
 STRATEGY = (parse_html,
-            get_node_counter_pairs,
+            prune_by_child_count,
             node_counter_argmax,
             sort_best_pairs,
             filter_tags)
