@@ -5,7 +5,6 @@
     data from articles.
 """
 
-
 from operator import itemgetter
 from libextract.coretools import histogram, argmax, prunes, parse_html
 from libextract.metrics import text_length
