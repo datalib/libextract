@@ -9,6 +9,7 @@
 from operator import itemgetter
 from libextract.coretools import histogram, argmax, prunes, parse_html
 from libextract.metrics import text_length
+from libextract.formatters import get_text
 
 
 NODES_WITH_TEXT = '//*[not(self::script or self::style)]/\
@@ -29,14 +30,6 @@ def get_node_length_pairs(node):
 
 
 get_node = itemgetter(0)
-
-
-def get_text(node):
-    """
-    Gets the text contained within the children node
-    of a given *node*, joined by a space.
-    """
-    return ' '.join(node.xpath(FILTER_TEXT))
 
 
 STRATEGY = (parse_html,

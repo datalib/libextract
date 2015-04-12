@@ -4,6 +4,14 @@ from functools import partial
 UNLIMITED = float('NaN')
 
 
+def get_text(node):
+    """
+    Gets the text contained within the children node
+    of a given *node*, joined by a space.
+    """
+    return ' '.join(node.xpath(FILTER_TEXT))
+
+
 def split_node_attr(node, attr):
     """
     Given a *node*, split the *attr* of the node
