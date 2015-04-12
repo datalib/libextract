@@ -1,3 +1,11 @@
+"""
+    libextract.formatters
+    ~~~~~~~~~~~~~~~~~~~~~
+
+    Formats the results of extraction into serializable
+    representations, e.g. JSON, text.
+"""
+
 from functools import partial
 from libextract.xpaths import FILTER_TEXT
 
