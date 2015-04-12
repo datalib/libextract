@@ -5,18 +5,11 @@
     data from articles.
 """
 
-
 from operator import itemgetter
 from libextract.coretools import histogram, argmax, prunes, parse_html
 from libextract.metrics import text_length
-
-
-NODES_WITH_TEXT = '//*[not(self::script or self::style)]/\
-                     text()[normalize-space()]/..'
-
-FILTER_TEXT = './/*[not(self::script or self::style or \
-        self::figure or self::span or self::time)]/\
-        text()[normalize-space()]'
+from libextract.formatters import get_text
+from libextract.xpaths import NODES_WITH_TEXT
 
 
 @prunes(NODES_WITH_TEXT)
@@ -29,14 +22,6 @@ def get_node_length_pairs(node):
 
 
 get_node = itemgetter(0)
-
-
-def get_text(node):
-    """
-    Gets the text contained within the children node
-    of a given *node*, joined by a space.
-    """
-    return ' '.join(node.xpath(FILTER_TEXT))
 
 
 STRATEGY = (parse_html,
