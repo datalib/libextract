@@ -1,9 +1,11 @@
 """
-    A submodule providing 'quantifying' functions.
+    libextract.metrics
+    ~~~~~~~~~~~~~~~~~~
 
-    The protocol that's followed is each function expects a "node"
-    of type lxml.html.HtmlElement (sometimes *._ElementTree), and
-    the function will return either a numerical type or a Counter.
+    Implements "quantifying functions"- each function expects
+    a lxml.html.HtmlElement (sometimes *._ElementTree) *node*
+    and the function will return either a numerical type or a
+    Counter.
 """
 
 from collections import Counter

@@ -1,3 +1,11 @@
+"""
+    libextract.coretools
+    ~~~~~~~~~~~~~~~~~~~~
+
+    Implements the core utilities and functions in which
+    libextract is built around.
+"""
+
 from collections import Counter
 from functools import wraps
 from lxml.html import parse, HTMLParser
@@ -5,9 +13,8 @@ from lxml.html import parse, HTMLParser
 
 def histogram(iterable):
     """
-    Given an *iterable* of key-to-value pairs,
-    sum up the `value` for each `key` and return
-    a counter/histogram.
+    Given an *iterable* of key-to-value pairs, sum up the
+    `value` for each `key` and return a counter/histogram.
     """
     hist = Counter()
     for key, score in iterable:
@@ -24,9 +31,8 @@ def argmax(counter):
 
 def pipeline(data, functions):
     """
-    Pipes *functions* onto a given *data*, where
-    the result of the previous function is fed
-    to the next function.
+    Pipes *functions* onto a given *data*, where the result
+    of the previous function is fed to the next function.
     """
     for item in functions:
         data = item(data)
@@ -35,10 +41,9 @@ def pipeline(data, functions):
 
 def prunes(selector):
     """
-    Given a *selector*, returns a function which
-    selects nodes from a given etree and then yields
-    the result of calling the wrapped function on
-    each node.
+    Given a *selector*, returns a function which selects
+    nodes from a given etree and then yields the result
+    of calling the wrapped function on each node.
     """
     def decorator(fn):
         @wraps(fn)

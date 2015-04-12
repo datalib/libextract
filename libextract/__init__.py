@@ -24,15 +24,14 @@ from libextract.strategies import ARTICLE_TEXT
 __all__ = ('extract',)
 
 
-def extract(document, strategy=ARTICLE_TEXT):
+def extract(document, encoding=None, strategy=ARTICLE_TEXT):
     """
     Given an X/HTML string *document*, process the
     document using the given *strategy* and returns
     the result.
     """
     enc_etree = partial(parse_html,
-                        encoding=detect(document)['encoding'])
+                        encoding=encoding or detect(document)['encoding'])
 
-    # TODO: This part is confusing
     return pipeline(BytesIO(document),
                     (enc_etree,) + strategy[1:])
