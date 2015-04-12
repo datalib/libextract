@@ -8,16 +8,8 @@ def histogram(iterable):
     return hist
 
 
-def argmax(histogram):
-    return histogram.most_common(1)[0]
-
-
-def above_threshold(score):
-    def proc(pairs):
-        for key, value in pairs:
-            if value >= score:
-                yield key, value
-    return proc
+def argmax(counter):
+    return counter.most_common(1)[0]
 
 
 def pipeline(data, functions):

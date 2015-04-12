@@ -1,4 +1,3 @@
-from operator import itemgetter
 from heapq import nlargest
 from libextract.html import parse_html
 from libextract.pruners import subnode_count_pruner
@@ -26,7 +25,7 @@ def select_score(pair):
     return score
 
 
-def weighted_score(pair, favours={'table'}, k=1.5):
+def weighted_score(pair, favours=frozenset(['table']), k=1.5):
     """
     Return the score for a given (node, (tag, frequency))
     *pair* favouring nodes which tags are contained in
@@ -53,7 +52,7 @@ def filter_tags(pairs):
     tag names != tag.
     """
     for node, (tag, _) in pairs:
-        for child in list(node):
+        for child in node:
             if child.tag != tag:
                 node.remove(child)
         yield node
