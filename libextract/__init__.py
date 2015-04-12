@@ -2,7 +2,7 @@
     libextract
     ~~~~~~~~~~
 
-    Beautfully simple text extraction using simple,
+    Beautfully simple data extraction using simple,
     composable pipelined functions.
 
     :copyright: (c) 2015 Libextract

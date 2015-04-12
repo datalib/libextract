@@ -8,9 +8,7 @@
 from heapq import nlargest
 from libextract.coretools import argmax, prunes, parse_html
 from libextract.metrics import count_children
-
-
-SELECT_ALL = '//*'
+from libextract.xpath import SELECT_ALL
 
 
 @prunes(SELECT_ALL)

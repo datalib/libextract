@@ -6,6 +6,8 @@
     the way.
 """
 
+SELECT_ALL = '//*'
+
 
 NODES_WITH_TEXT = '//*[not(self::script or self::style)]/\
                      text()[normalize-space()]/..'
