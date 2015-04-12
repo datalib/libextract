@@ -1,4 +1,4 @@
-from libextract.quantifiers import text_length, count_children
+from libextract.metrics import text_length, count_children
 
 
 def test_text_length(etree):

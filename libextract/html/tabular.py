@@ -1,7 +1,7 @@
 from heapq import nlargest
 from libextract.html import parse_html
 from libextract.html._xpaths import SELECT_ALL
-from libextract.quantifiers import count_children
+from libextract.metrics import count_children
 
 # TODO: Consolidate get_pairs functions
 # TODO: Converge on get_*, filter_*

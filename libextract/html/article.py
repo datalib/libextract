@@ -2,7 +2,7 @@ from operator import itemgetter
 from libextract.html import parse_html
 from libextract.coretools import histogram, argmax
 from libextract.html._xpaths import NODES_WITH_TEXT, FILTER_TEXT
-from libextract.quantifiers import text_length
+from libextract.metrics import text_length
 
 
 def get_node_length_pairs(etree):
