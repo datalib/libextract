@@ -54,6 +54,15 @@ def prunes(selector):
     return decorator
 
 
+def get_node(pair):
+    """
+    Given a (node, text_length or collections.Counter)
+    *pair*, returns the node.
+    """
+    node, _ = pair
+    return node
+
+
 def parse_html(fileobj, encoding='utf-8'):
     """
     Get an ElementTree instance from a given file object

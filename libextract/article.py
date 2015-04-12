@@ -5,16 +5,9 @@
     data from articles.
 """
 
-from libextract.coretools import histogram, argmax, prunes, parse_html
 from libextract.baskets import basket_parent_and_lengths
-
-def get_node(pair):
-    """
-    Given a (node, text_length) *pair*, returns the
-    node.
-    """
-    node, _ = pair
-    return node
+from libextract.coretools import histogram, argmax, prunes, \
+                    parse_html, get_node
 
 
 STRATEGY = (parse_html,
