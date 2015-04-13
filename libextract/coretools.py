@@ -12,11 +12,16 @@ from lxml.html import parse, HTMLParser
 
 
 def chunks(iterable, size):
-    """ 
+    """
     Yield successive n-sized chunks from l.
     """
-    for i in range(0, len(iterable), size):
-        yield iterable[i:i+size]
+    chunk = []
+    for item in iterable:
+        chunk.append(item)
+        if len(chunk) == size:
+            yield chunk
+            chunk = []
+
 
 def histogram(iterable):
     """

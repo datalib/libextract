@@ -2,7 +2,7 @@ from pytest import fixture
 from copy import deepcopy
 from lxml import etree
 from lxml import html
-from libextract.formatters import node_json, get_table_as_header_rows_list
+from libextract.formatters import node_json, table_json
 
 
 @fixture
@@ -10,6 +10,7 @@ def elem():
     return etree.fromstring(
         '<html class="this those" id="that"><p>Hello World</p></html>'
     )
+
 
 @fixture
 def table():
@@ -34,6 +35,7 @@ def table():
         </table>'
     )
 
+
 @fixture
 def json():
     return {'children': None,
@@ -49,23 +51,23 @@ def test_node_json(elem, json):
 
 
 def test_depth(elem, json):
-    json['children'] = [{
+    child = {
         'children': None,
         'xpath': '/html/p',
         'text': 'Hello World',
         'class': [],
         'id': [],
         'tag': 'p',
-    }]
-    expected = deepcopy(json)
-    expected['children'][0]['children'] = []
-
+    }
+    json['children'] = [child]
     assert node_json(elem, depth=1) == json
-    assert node_json(elem, depth=2) == expected
+
+    child['children'] = []
+    assert node_json(elem, depth=2) == json
 
 
-def test_get_table_as_header_rows_list(table):
-    lists = get_table_as_header_rows_list(table)
-    assert lists[0] == ['Name', 'Gender']
-    assert lists[1] == ['Rodrigo', 'male']
-    assert lists[2] == ['Eugene', 'male']
+def test_table_json(table):
+    table = list(table_json(table))
+    assert table == [['Name', 'Gender'],
+                     ['Rodrigo', 'male'],
+                     ['Eugene', 'male']]

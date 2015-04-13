@@ -4,6 +4,7 @@ from libextract.tabular import node_counter_argmax, sort_best_pairs, \
         weighted_score, filter_tags
 from libextract.baskets import basket_node_and_counter
 
+
 @fixture
 def article(etree):
     return etree.xpath('//body/article')[0]
