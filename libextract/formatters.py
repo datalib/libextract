@@ -110,12 +110,12 @@ def table_list(node):
 def ul_ol_list(node):
     """
     Given an un/ordered list *HtmlElement* (ie. <ul>|<ol>),
-    return a list, where the first item may be the id or class
-    of the node, and the subsequent items contain the inner text
-    of the list
+    return a list, where the first item is be the id and classes
+    of the *node*, and the subsequent items contain the inner
+    text of the list.
     """
-    list_name = get_node_id(node) or get_node_class(node)
-    if list_name:
-        yield list_name
+    attrs = get_node_id(node)
+    attrs.extend(get_node_class(node))
+    yield attrs
     for elem in node.iter('li'):
         yield elem.text_content()
