@@ -79,9 +79,8 @@ def get_table_data(node):
 def table_json(node):
     """
     Given a table *HtmlElement* (ie. <table>), return
-    a list of lists, where the first list contains the
-    table headings, and the subsequent lists contain table
-    rows of data
+    a dict, with the headings as keys and the subsequent
+    lists contain table rows of data
     """
     rows = get_table_data
     headings = list(get_table_headings(node))
@@ -102,3 +101,17 @@ def table_list(node):
     table = [headings]
     table.extend(chunks(data, len(headings)))
     return table
+
+
+def ul_ol_list(node):
+    """
+    Given an un/ordered list *HtmlElement* (ie. <ul>|<ol>),
+    return a list, where the first item may be the id or class
+    of the node, and the subsequent items contain the inner text
+    of the list
+    """
+    list_name = get_node_id(node) or get_node_class(node)
+    if list_name:
+        yield list_name
+    for elem in node.iter('li'):
+        yield elem.text_content()
