@@ -56,13 +56,13 @@ def node_json(node, depth=0):
 
 
 def get_table_headings(node):
-    for elem in node.iter("th"):
-        yield " ".join(elem.text_content().split())
+    for elem in node.iter('th'):
+        yield ' '.join(elem.text_content().split())
 
 
 def get_table_data(node):
-    for elem in node.iter("td"):
-        yield " ".join(elem.text_content().split())
+    for elem in node.iter('td'):
+        yield ' '.join(elem.text_content().split())
 
 
 def table_json(node):
@@ -75,5 +75,5 @@ def table_json(node):
     headings = list(get_table_headings(node))
     data = get_table_data(node)
     yield headings
-    for row in list(chunks(data, len(headings))):
+    for row in chunks(data, len(headings)):
         yield row
