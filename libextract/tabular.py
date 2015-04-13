@@ -6,8 +6,7 @@
 """
 
 from heapq import nlargest
-from libextract.coretools import argmax, prunes, parse_html
-from libextract.metrics import count_children
+from libextract.coretools import argmax, parse_html
 from libextract.baskets import basket_node_and_counter
 
 

@@ -7,6 +7,10 @@
 """
 
 from functools import partial
+try:
+    from itertools import izip_longest as zip_longest
+except ImportError:
+    from itertools import zip_longest
 from libextract.xpaths import FILTER_TEXT
 
 
@@ -55,51 +59,51 @@ def node_json(node, depth=0):
 
 def chunks(iterable, size):
     """
-    Yield successive chunks of *size* from a
-    given *iterable*.
+    Yield successive chunks of *size* from a given
+    *iterable*, filling the unfilled chunks with
+    None.
     """
-    chunk = []
-    for item in iterable:
-        chunk.append(item)
-        if len(chunk) == size:
-            yield chunk
-            chunk = []
+    args = [iter(iterable)] * size
+    for row in zip_longest(*args, fillvalue=None):
+        yield list(row)
 
 
-def get_table_headings(node):
-    for elem in node.iter('th'):
+def extract_tabular_node(node, tag):
+    """
+    Given a *node*, yield all of the child nodes in depth
+    first order, that matches the given *tag*.
+    """
+    for elem in node.iter(tag):
         yield ' '.join(elem.text_content().split())
 
 
-def get_table_data(node):
-    for elem in node.iter('td'):
-        yield ' '.join(elem.text_content().split())
+get_table_headings = partial(extract_tabular_node, tag='th')
+get_table_rows = partial(extract_tabular_node, tag='td')
 
 
 def table_json(node):
     """
-    Given a table *HtmlElement* (ie. <table>), return
-    a dict, with the headings as keys and the subsequent
-    lists contain table rows of data
+    Given a table *node* (ie. <table>), return a dictionary
+    of key-value pairs, where the key is the heading and the
+    value is a list of rows.
     """
-    rows = get_table_data
     headings = list(get_table_headings(node))
-    num_of_keys = len(headings)
-    return {heading: [row[column] for row in chunks(rows(node), num_of_keys)]
-            for column, heading in enumerate(headings)}
+    rows = list(chunks(get_table_rows(node), len(headings)))
+    return {heading: [row[col] for row in rows]
+            for col, heading in enumerate(headings)}
 
 
 def table_list(node):
     """
     Given a table *HtmlElement* (ie. <table>), return
     a list of lists, where the first list contains the
-    table headings, and the subsequent lists contain table
-    rows of data
+    table headings, and the subsequent lists contain
+    rows of data.
     """
     headings = list(get_table_headings(node))
-    data = get_table_data(node)
+    rows = get_table_rows(node)
     table = [headings]
-    table.extend(chunks(data, len(headings)))
+    table.extend(chunks(rows, len(headings)))
     return table
 
 

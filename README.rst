@@ -79,8 +79,8 @@ To convert HT/XML element to python ``list``
 
 .. code-block:: python
 
-    >>> from libextract.formatters import table_json
-    >>> table_json(tabs[0])
+    >>> from libextract.formatters import table_list
+    >>> table_list(tabs[0])
     [['Country/Region',
       'Average male height',
       'Average female height',
