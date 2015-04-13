@@ -74,6 +74,25 @@ present in the HT/XML document:
     height_data = get("http://en.wikipedia.org/wiki/Human_height")
     tabs = list(extract(height_data.content, strategy=TABULAR))
 
+
+To convert HT/XML element to python ``list``
+
+.. code-block:: python
+
+    from libextract.formatters import get_table_as_header_rows_list
+    table = get_table_as_header_rows_list(tabs[0])
+    
+    # print just the first 4 rows
+    for row in table[:4]: 
+        # print the first 3 columns
+        print("{0}||{1}||{2}".format(row[0],row[1],row[2]))   
+    
+    # Country/Region||Average male height||Average female height
+    # Albania||174.0 cm (5 ft 8 1⁄2 in)||N/A
+    # Argentina||N/A||159.6 cm (5 ft 3 in)
+    # Argentina||173.48 cm (5 ft 8 1⁄2 in)||160.76 cm (5 ft 3 1⁄2 in)
+
+
 Viewing the table in your browser:
 
 .. code-block:: python

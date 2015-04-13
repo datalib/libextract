@@ -1,8 +1,8 @@
 from pytest import fixture
 from lxml import etree
 from libextract.tabular import node_counter_argmax, sort_best_pairs, \
-        weighted_score, filter_tags, get_node_counter_pairs
-
+        weighted_score, filter_tags
+from libextract.baskets import basket_node_and_counter
 
 @fixture
 def article(etree):
@@ -11,7 +11,7 @@ def article(etree):
 
 @fixture
 def sorted_pairs(etree):
-    pairs = get_node_counter_pairs(etree)
+    pairs = basket_node_and_counter(etree)
     return sort_best_pairs(node_counter_argmax(pairs),
                            top=1)
 

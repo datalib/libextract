@@ -8,16 +8,7 @@
 from heapq import nlargest
 from libextract.coretools import argmax, prunes, parse_html
 from libextract.metrics import count_children
-from libextract.xpaths import SELECT_ALL
-
-
-@prunes(SELECT_ALL)
-def get_node_counter_pairs(node):
-    """
-    Given an *etree*, returns an iterable of node to
-    child node frequencies (collections.Counter) pairs.
-    """
-    return node, count_children(node)
+from libextract.baskets import basket_node_and_counter
 
 
 def node_counter_argmax(pairs):
@@ -73,7 +64,7 @@ def filter_tags(pairs):
 
 
 STRATEGY = (parse_html,
-            get_node_counter_pairs,
+            basket_node_and_counter,
             node_counter_argmax,
             sort_best_pairs,
             filter_tags)

@@ -11,6 +11,13 @@ from functools import wraps
 from lxml.html import parse, HTMLParser
 
 
+def chunks(iterable, size):
+    """ 
+    Yield successive n-sized chunks from l.
+    """
+    for i in range(0, len(iterable), size):
+        yield iterable[i:i+size]
+
 def histogram(iterable):
     """
     Given an *iterable* of key-to-value pairs, sum up the
@@ -52,6 +59,15 @@ def prunes(selector):
                 yield fn(node)
         return mapper
     return decorator
+
+
+def get_node(pair):
+    """
+    Given a (node, text_length or collections.Counter)
+    *pair*, returns the node.
+    """
+    node, _ = pair
+    return node
 
 
 def parse_html(fileobj, encoding='utf-8'):
