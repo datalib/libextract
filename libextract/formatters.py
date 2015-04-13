@@ -82,11 +82,10 @@ def table_json(node):
     table headings, and the subsequent lists contain table
     rows of data
     """
-    rows = get_table_data
     headings = list(get_table_headings(node))
-    num_of_keys = len(headings)
-    return {heading: [row[column] for row in chunks(rows(node), num_of_keys)]
-            for column, heading in enumerate(headings)}
+    rows = list(chunks(get_table_rows(node), len(headings)))
+    return {heading: [row[col] for row in rows]
+            for col, heading in enumerate(headings)}
 
 
 def table_list(node):
