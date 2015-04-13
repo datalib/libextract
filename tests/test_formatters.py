@@ -67,7 +67,7 @@ def test_depth(elem, json):
 
 
 def test_table_json(table):
-    table = list(table_json(table))
+    table = table_json(table)
     assert table == [['Name', 'Gender'],
                      ['Rodrigo', 'male'],
                      ['Eugene', 'male']]

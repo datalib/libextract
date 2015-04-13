@@ -81,12 +81,12 @@ To convert HT/XML element to python ``list``
 
     from libextract.formatters import table_json
     table = table_json(tabs[0])
-    
+
     # print just the first 4 rows
-    for row in table[:4]: 
+    for row in table[:4]:
         # print the first 3 columns
-        print("{0}||{1}||{2}".format(row[0],row[1],row[2]))   
-    
+        print("{0}||{1}||{2}".format(row[0],row[1],row[2]))
+
     # Country/Region||Average male height||Average female height
     # Albania||174.0 cm (5 ft 8 1⁄2 in)||N/A
     # Argentina||N/A||159.6 cm (5 ft 3 in)

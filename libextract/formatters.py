@@ -74,6 +74,6 @@ def table_json(node):
     """
     headings = list(get_table_headings(node))
     data = get_table_data(node)
-    yield headings
-    for row in chunks(data, len(headings)):
-        yield row
+    table = [headings]
+    table.extend(chunks(data, len(headings)))
+    return table
