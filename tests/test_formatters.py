@@ -1,7 +1,7 @@
 from pytest import fixture
 from copy import deepcopy
 from lxml import html
-from libextract.formatters import node_json, table_json
+from libextract.formatters import node_json, table_json, chunks
 
 
 @fixture
@@ -63,6 +63,11 @@ def test_depth(elem, json):
 
     child['children'] = []
     assert node_json(elem, depth=2) == json
+
+
+def test_chunks():
+    r = list(chunks([1,2,3,4], 2))
+    assert r == [[1, 2], [3, 4]]
 
 
 def test_table_json(table):

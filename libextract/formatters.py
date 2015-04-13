@@ -7,8 +7,6 @@
 """
 
 from functools import partial
-
-from libextract.coretools import chunks
 from libextract.xpaths import FILTER_TEXT
 
 
@@ -53,6 +51,19 @@ def node_json(node, depth=0):
             [node_json(n, depth-1) for n in node] if depth else None
         ),
     }
+
+
+def chunks(iterable, size):
+    """
+    Yield successive chunks of *size* from a
+    given *iterable*.
+    """
+    chunk = []
+    for item in iterable:
+        chunk.append(item)
+        if len(chunk) == size:
+            yield chunk
+            chunk = []
 
 
 def get_table_headings(node):
