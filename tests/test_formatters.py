@@ -71,7 +71,6 @@ def test_chunks():
 
 
 def test_table_json(table):
-<<<<<<< HEAD
     tjson = table_json(table)
     assert tjson == {
         'Name': ['Rodrigo', 'Eugene'],
@@ -82,9 +81,5 @@ def test_table_json(table):
 def test_table_list(table):
     tlist = list(table_list(table))
     assert tlist == [['Name', 'Gender'],
-=======
-    table = table_json(table)
-    assert table == [['Name', 'Gender'],
->>>>>>> dc2fa31fd91da1c0384243c3cb2a7dd87f11ca69
                      ['Rodrigo', 'male'],
                      ['Eugene', 'male']]
