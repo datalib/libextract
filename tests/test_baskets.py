@@ -1,10 +1,10 @@
 from tests.fixtures import element
-from libextract.baskets import children_pairs_of, \
+from libextract.baskets import node_children_pairs_of, \
         parent_length_pairs_of
 
 
-def test_children_pairs_of(element):
-    func = children_pairs_of('/tag')
+def test_node_children_pairs_of(element):
+    func = node_children_pairs_of('/tag')
     u = list(func(element))
     assert u == [(element, {'nest': 2})]
 

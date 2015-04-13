@@ -6,7 +6,7 @@
 """
 
 from heapq import nlargest
-from libextract.baskets import children_pairs_of
+from libextract.baskets import node_children_pairs_of
 from libextract.coretools import argmax, parse_html
 from libextract.xpaths import NODES_WITH_CHILDREN
 
@@ -29,24 +29,30 @@ def select_score(pair):
     return score
 
 
-def weighted_score(pair, favours=frozenset(['table']), k=1.5):
+def weighted_score(favours, k=1.5):
     """
-    Return the score for a given (node, (tag, frequency))
-    *pair* favouring nodes which tags are contained in
-    *favours* by multiplying their scores by *k*.
+    Return a function that gets the frequency for a given
+    (node, (tag, frequency)) *pair* favouring nodes which
+    tags are contained in *favours* by multiplying their
+    scores by *k*.
     """
-    parent, (_, score) = pair
-    if parent.tag in favours:
-        return k * score
-    return score
+    def scorefunc(pair):
+        node, (_, score) = pair
+        if node.tag in favours:
+            return k * score
+        return score
+    return scorefunc
 
 
-def sort_best_pairs(pairs, top=5, sortfunc=select_score):
+def get_top_pairs(top, sortfunc=select_score):
     """
-    Given an iterable of (node, (tag, frequency)) *pairs*,
-    obtain the *top* best pairs according to *sortfunc*.
+    Returns a function that sorts an iterable of
+    (node, (tag, frequency)) pairs using *sortfunc*,
+    and obtains the *top* best pairs.
     """
-    return nlargest(top, pairs, key=sortfunc)
+    def sort_best_pairs(pairs):
+        return nlargest(top, pairs, key=sortfunc)
+    return sort_best_pairs
 
 
 def filter_tags(pairs):
@@ -63,7 +69,7 @@ def filter_tags(pairs):
 
 
 STRATEGY = (parse_html,
-            children_pairs_of(NODES_WITH_CHILDREN),
+            node_children_pairs_of(NODES_WITH_CHILDREN),
             node_counter_argmax,
-            sort_best_pairs,
+            get_top_pairs(5),
             filter_tags)

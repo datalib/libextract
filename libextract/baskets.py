@@ -45,7 +45,7 @@ def parent_length_pairs_of(selector):
     return func
 
 
-def children_pairs_of(selector):
+def node_children_pairs_of(selector):
     """
     Given an *etree*, returns an iterable of node to
     child node frequencies (collections.Counter) pairs.

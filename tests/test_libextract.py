@@ -1,4 +1,4 @@
-from pytest import fixture
+from tests.fixtures import foo_file
 from libextract import extract
 
 
