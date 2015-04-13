@@ -69,6 +69,10 @@ def chunks(iterable, size):
 
 
 def extract_tabular_node(node, tag):
+    """
+    Given a *node*, yield all of the child nodes in depth
+    first order, that matches the given *tag*.
+    """
     for elem in node.iter(tag):
         yield ' '.join(elem.text_content().split())
 

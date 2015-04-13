@@ -6,8 +6,7 @@
 """
 
 from libextract.baskets import basket_parent_and_lengths
-from libextract.coretools import histogram, argmax, prunes, \
-                    parse_html, get_node
+from libextract.coretools import histogram, argmax, parse_html, get_node
 
 
 STRATEGY = (parse_html,
