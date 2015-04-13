@@ -29,28 +29,22 @@
     perform more complex node-metric associations.
 """
 
-from libextract.coretools import prunes
+from libextract.coretools import pruner
 from libextract.metrics import text_length, count_children
 
 
-def parent_length_pairs_of(selector):
+@pruner
+def parent_length_pairs_of(node):
     """
-    Given a *selector*, return a function that prunes
-    the etree's nodes matching *selector* and yields
-    their parent nodes and text-lengths.
+    Pruner that yields parent node to text-length pairs.
     """
-    @prunes(selector)
-    def func(node):
-        return node.getparent(), text_length(node)
-    return func
+    return node.getparent(), text_length(node)
 
 
-def node_children_pairs_of(selector):
+@pruner
+def node_children_pairs_of(node):
     """
-    Given an *etree*, returns an iterable of node to
-    child node frequencies (collections.Counter) pairs.
+    Pruner to that yields node to child node frequencies
+    (collections.Counter) pairs.
     """
-    @prunes(selector)
-    def func(node):
-        return node, count_children(node)
-    return func
+    return node, count_children(node)
