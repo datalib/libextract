@@ -1,4 +1,5 @@
 from pytest import fixture
+from tests.fixtures import foo_file
 from libextract.coretools import pipeline, histogram, argmax, parse_html
 
 
@@ -8,7 +9,6 @@ def pairs():
             ('h', 7),
             ('g', 20),
             ('i', 10))
-
 
 
 def test_pipeline():
