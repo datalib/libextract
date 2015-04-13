@@ -1,15 +1,14 @@
 from pytest import fixture
 from copy import deepcopy
-from lxml import etree
 from lxml import html
 from libextract.formatters import node_json, table_json
 
 
 @fixture
 def elem():
-    return etree.fromstring(
-        '<html class="this those" id="that"><p>Hello World</p></html>'
-    )
+    return html.fromstring(
+        '<html class="this those" id="that"><body>Hello World</body></html>'
+        )
 
 
 @fixture
@@ -53,11 +52,11 @@ def test_node_json(elem, json):
 def test_depth(elem, json):
     child = {
         'children': None,
-        'xpath': '/html/p',
+        'xpath': '/html/body',
         'text': 'Hello World',
         'class': [],
         'id': [],
-        'tag': 'p',
+        'tag': 'body',
     }
     json['children'] = [child]
     assert node_json(elem, depth=1) == json
