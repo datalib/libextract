@@ -65,16 +65,15 @@ def get_table_data(node):
         yield " ".join(elem.text_content().split())
 
 
-def get_table_as_header_rows_list(node):
+def table_json(node):
     """
     Given a table *HtmlElement* (ie. <table>), return
     a list of lists, where the first list contains the
     table headings, and the subsequent lists contain table
     rows of data
     """
-    tdatas = list(get_table_data(node))
-    theadings = list(get_table_headings(node))
-    trows = list(chunks(tdatas, len(theadings)))
-    payload = [theadings]
-    payload.extend(trows)
-    return payload
+    headings = list(get_table_headings(node))
+    data = get_table_data(node)
+    yield headings
+    for row in list(chunks(data, len(headings))):
+        yield row
