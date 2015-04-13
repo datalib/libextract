@@ -66,14 +66,13 @@ def chunks(iterable, size):
             chunk = []
 
 
-def get_table_headings(node):
-    for elem in node.iter('th'):
+def extract_tabular_node(node, tag):
+    for elem in node.iter(tag):
         yield ' '.join(elem.text_content().split())
 
 
-def get_table_data(node):
-    for elem in node.iter('td'):
-        yield ' '.join(elem.text_content().split())
+get_table_headings = partial(extract_tabular_node, tag='th')
+get_table_rows = partial(extract_tabular_node, tag='td')
 
 
 def table_json(node):
@@ -84,7 +83,7 @@ def table_json(node):
     rows of data
     """
     headings = list(get_table_headings(node))
-    data = get_table_data(node)
+    rows = get_table_rows(node)
     table = [headings]
-    table.extend(chunks(data, len(headings)))
+    table.extend(chunks(rows, len(headings)))
     return table
