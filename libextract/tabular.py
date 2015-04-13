@@ -6,8 +6,9 @@
 """
 
 from heapq import nlargest
+from libextract.baskets import children_pairs_of
 from libextract.coretools import argmax, parse_html
-from libextract.baskets import basket_node_and_counter
+from libextract.xpaths import NODES_WITH_CHILDREN
 
 
 def node_counter_argmax(pairs):
@@ -62,7 +63,7 @@ def filter_tags(pairs):
 
 
 STRATEGY = (parse_html,
-            basket_node_and_counter,
+            children_pairs_of(NODES_WITH_CHILDREN),
             node_counter_argmax,
             sort_best_pairs,
             filter_tags)
