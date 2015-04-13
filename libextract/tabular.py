@@ -17,8 +17,7 @@ def node_counter_argmax(pairs):
     of (node, collections.Counter) *pairs*.
     """
     for node, counter in pairs:
-        if counter:
-            yield node, argmax(counter)
+        yield node, argmax(counter)
 
 
 def select_score(pair):
