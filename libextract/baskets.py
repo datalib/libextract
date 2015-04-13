@@ -31,7 +31,7 @@
 
 from libextract.coretools import prunes
 from libextract.metrics import text_length, count_children
-from libextract.xpaths import NODES_WITH_TEXT, SELECT_ALL
+from libextract.xpaths import NODES_WITH_TEXT, NODES_WITH_CHILDREN
 
 
 @prunes(NODES_WITH_TEXT)
@@ -43,7 +43,7 @@ def basket_parent_and_lengths(node):
     return node.getparent(), text_length(node)
 
 
-@prunes(SELECT_ALL)
+@prunes(NODES_WITH_CHILDREN)
 def basket_node_and_counter(node):
     """
     Given an *etree*, returns an iterable of node to

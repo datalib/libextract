@@ -38,7 +38,7 @@ setup(
     platforms='any',
     install_requires=[
         'chardet>=2.3.0',
-        'lxml>=3.4.2',
+        'lxml>=3.4.0',
     ],
     keywords='extract extraction main article text html data-extraction data\
               content-extraction content unsupervised classification',

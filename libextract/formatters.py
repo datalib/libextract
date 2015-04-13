@@ -7,8 +7,6 @@
 """
 
 from functools import partial
-
-from libextract.coretools import chunks
 from libextract.xpaths import FILTER_TEXT
 
 
@@ -55,14 +53,27 @@ def node_json(node, depth=0):
     }
 
 
+def chunks(iterable, size):
+    """
+    Yield successive chunks of *size* from a
+    given *iterable*.
+    """
+    chunk = []
+    for item in iterable:
+        chunk.append(item)
+        if len(chunk) == size:
+            yield chunk
+            chunk = []
+
+
 def get_table_headings(node):
-    for elem in node.iter("th"):
-        yield " ".join(elem.text_content().split())
+    for elem in node.iter('th'):
+        yield ' '.join(elem.text_content().split())
 
 
 def get_table_data(node):
-    for elem in node.iter("td"):
-        yield " ".join(elem.text_content().split())
+    for elem in node.iter('td'):
+        yield ' '.join(elem.text_content().split())
 
 
 def table_json(node):
@@ -88,6 +99,6 @@ def table_list(node):
     """
     headings = list(get_table_headings(node))
     data = get_table_data(node)
-    yield headings
-    for row in list(chunks(data, len(headings))):
-        yield row
+    table = [headings]
+    table.extend(chunks(data, len(headings)))
+    return table
