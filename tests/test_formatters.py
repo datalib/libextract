@@ -1,7 +1,7 @@
 from pytest import fixture
 from copy import deepcopy
 from lxml import html
-from libextract.formatters import node_json, table_json, chunks
+from libextract.formatters import node_json, table_list, table_json, chunks
 
 
 @fixture
@@ -71,7 +71,15 @@ def test_chunks():
 
 
 def test_table_json(table):
-    table = table_json(table)
-    assert table == [['Name', 'Gender'],
+    tjson = table_json(table)
+    assert tjson == {
+        'Name': ['Rodrigo', 'Eugene'],
+        'Gender': ['male', 'male']
+            }
+
+
+def test_table_list(table):
+    tlist = list(table_list(table))
+    assert tlist == [['Name', 'Gender'],
                      ['Rodrigo', 'male'],
                      ['Eugene', 'male']]
