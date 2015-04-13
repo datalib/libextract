@@ -72,6 +72,20 @@ def table_json(node):
     table headings, and the subsequent lists contain table
     rows of data
     """
+    rows = get_table_data
+    headings = list(get_table_headings(node))
+    num_of_keys = len(headings)
+    return {heading: [row[column] for row in chunks(rows(node), num_of_keys)]
+            for column, heading in enumerate(headings)}
+
+
+def table_list(node):
+    """
+    Given a table *HtmlElement* (ie. <table>), return
+    a list of lists, where the first list contains the
+    table headings, and the subsequent lists contain table
+    rows of data
+    """
     headings = list(get_table_headings(node))
     data = get_table_data(node)
     yield headings

@@ -2,7 +2,7 @@ from pytest import fixture
 from copy import deepcopy
 from lxml import etree
 from lxml import html
-from libextract.formatters import node_json, table_json
+from libextract.formatters import node_json, table_list, table_json
 
 
 @fixture
@@ -67,7 +67,15 @@ def test_depth(elem, json):
 
 
 def test_table_json(table):
-    table = list(table_json(table))
-    assert table == [['Name', 'Gender'],
+    tjson = table_json(table)
+    assert tjson == {
+        'Name': ['Rodrigo', 'Eugene'],
+        'Gender': ['male', 'male']
+            }
+
+
+def test_table_list(table):
+    tlist = list(table_list(table))
+    assert tlist == [['Name', 'Gender'],
                      ['Rodrigo', 'male'],
                      ['Eugene', 'male']]
