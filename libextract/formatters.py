@@ -7,6 +7,10 @@
 """
 
 from functools import partial
+try:
+    from itertools import izip_longest as zip_longest
+except ImportError:
+    from itertools import zip_longest
 from libextract.xpaths import FILTER_TEXT
 
 
@@ -55,15 +59,13 @@ def node_json(node, depth=0):
 
 def chunks(iterable, size):
     """
-    Yield successive chunks of *size* from a
-    given *iterable*.
+    Yield successive chunks of *size* from a given
+    *iterable*, filling the unfilled chunks with
+    None.
     """
-    chunk = []
-    for item in iterable:
-        chunk.append(item)
-        if len(chunk) == size:
-            yield chunk
-            chunk = []
+    args = [iter(iterable)] * size
+    for row in zip_longest(*args, fillvalue=None):
+        yield list(row)
 
 
 def extract_tabular_node(node, tag):
@@ -77,10 +79,9 @@ get_table_rows = partial(extract_tabular_node, tag='td')
 
 def table_json(node):
     """
-    Given a table *HtmlElement* (ie. <table>), return
-    a list of lists, where the first list contains the
-    table headings, and the subsequent lists contain table
-    rows of data
+    Given a table *node* (ie. <table>), return a dictionary
+    of key-value pairs, where the key is the heading and the
+    value is a list of rows.
     """
     headings = list(get_table_headings(node))
     rows = list(chunks(get_table_rows(node), len(headings)))
@@ -92,8 +93,8 @@ def table_list(node):
     """
     Given a table *HtmlElement* (ie. <table>), return
     a list of lists, where the first list contains the
-    table headings, and the subsequent lists contain table
-    rows of data
+    table headings, and the subsequent lists contain
+    rows of data.
     """
     headings = list(get_table_headings(node))
     rows = get_table_rows(node)
