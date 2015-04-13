@@ -79,8 +79,8 @@ To convert HT/XML element to python ``list``
 
 .. code-block:: python
 
-    from libextract.formatters import get_table_as_header_rows_list
-    table = get_table_as_header_rows_list(tabs[0])
+    from libextract.formatters import table_json
+    table = table_json(tabs[0])
     
     # print just the first 4 rows
     for row in table[:4]: 
