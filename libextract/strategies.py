@@ -2,7 +2,7 @@
     libextract.strategies
     ~~~~~~~~~~~~~~~~~~~~~
 
-    Exports the strategies for tabular/article data
+    Exports trategies for tabular/article data
     extraction.
 """
 
