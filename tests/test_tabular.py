@@ -8,6 +8,7 @@ def test_node_counter_argmax(element):
     data = [
         (element, Counter(a=1, b=3)),
         (element, Counter(a=2, b=1)),
+        (element, {}),
     ]
     assert list(node_counter_argmax(data)) == [
         (element, ('b', 3)),
