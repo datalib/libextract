@@ -1,10 +1,17 @@
-from libextract.baskets import basket_parent_and_lengths
+from tests.fixtures import element
+from libextract.baskets import node_children_pairs, \
+        parent_length_pairs
 
 
-def test_basket_parent_and_lengths(etree):
-    u = list(basket_parent_and_lengths(etree))
-    assert len(u) == 10
+def test_node_children_pairs(element):
+    u = list(node_children_pairs(element))
+    assert u == [(element, {'nest': 2})]
+
+
+def test_parent_length_pairs(element):
+    u = list(parent_length_pairs(element))
+    assert len(u) == 2
 
     for node, score in u:
-        assert node.tag in {'article', 'body'}
-        assert score in {4, 14}
+        assert node.tag == 'tag'
+        assert score in [2, 3]

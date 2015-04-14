@@ -6,7 +6,6 @@
     representations, e.g. JSON, text.
 """
 
-from functools import partial
 try:
     from itertools import izip_longest as zip_longest
 except ImportError:
@@ -25,17 +24,18 @@ def get_text(node):
     return ' '.join(node.xpath(FILTER_TEXT))
 
 
-def split_node_attr(node, attr):
+def split_node_attr(attr):
     """
-    Given a *node*, split the *attr* of the node
-    into a list of strings, suitable for id/class
-    handling.
+    Returns a function that, given a *node*, splits
+    the *attr* of the node into a list of strings.
     """
-    return (node.get(attr) or '').split()
+    def splitter(node):
+        return (node.get(attr) or '').split()
+    return splitter
 
 
-get_node_id = partial(split_node_attr, attr='id')
-get_node_class = partial(split_node_attr, attr='class')
+get_node_id = split_node_attr('id')
+get_node_class = split_node_attr('class')
 
 
 def node_json(node, depth=0):
@@ -68,17 +68,20 @@ def chunks(iterable, size):
         yield list(row)
 
 
-def extract_tabular_node(node, tag):
+def tabular_node_extractor(tag):
     """
-    Given a *node*, yield all of the child nodes in depth
-    first order, that matches the given *tag*.
+    Returns a function that yields all of the child
+    nodes of a given *node* in depth first order, that
+    matches the given *tag*.
     """
-    for elem in node.iter(tag):
-        yield ' '.join(elem.text_content().split())
+    def extract(node):
+        for elem in node.iter(tag):
+            yield ' '.join(elem.text_content().split())
+    return extract
 
 
-get_table_headings = partial(extract_tabular_node, tag='th')
-get_table_rows = partial(extract_tabular_node, tag='td')
+get_table_headings = tabular_node_extractor('th')
+get_table_rows = tabular_node_extractor('td')
 
 
 def table_json(node):
