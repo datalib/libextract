@@ -39,19 +39,19 @@ def pipeline(data, functions):
     return data
 
 
-def pruner(fn):
+def prunes(selector):
     """
     Given a function *fn*, return a closure that can be
     called with a *selector* to generatue a function that
     yields the result of calling *fn* with the matching nodes.
     """
-    @wraps(fn)
-    def genfunc(selector):
+    def decorator(fn):
+        @wraps(fn)
         def mapper(etree):
             for node in etree.xpath(selector):
                 yield fn(node)
         return mapper
-    return genfunc
+    return decorator
 
 
 def node_processor(fn):

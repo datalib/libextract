@@ -29,22 +29,26 @@
     perform more complex node-metric associations.
 """
 
-from libextract.coretools import pruner
+from libextract.coretools import prunes
 from libextract.metrics import text_length, count_children
 
 
-@pruner
-def parent_length_pairs_of(node):
+def parent_length_pairs_of(selector):
     """
     Pruner that yields parent node to text-length pairs.
     """
-    return node.getparent(), text_length(node)
+    @prunes(selector)
+    def func(node):
+        return node.getparent(), text_length(node)
+    return func
 
 
-@pruner
-def node_children_pairs_of(node):
+def node_children_pairs_of(selector):
     """
     Pruner to that yields node to child node frequencies
     (collections.Counter) pairs.
     """
-    return node, count_children(node)
+    @prunes(selector)
+    def func(node):
+        return node, count_children(node)
+    return func
