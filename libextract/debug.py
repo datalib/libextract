@@ -1,9 +1,5 @@
-from functools import wraps
-
-
-def debug(fn):
-    """
-    This decorator will hook into a function's out
+"""
+    These decorator will hook into a function's stream
     and print out the output value.
 
     @debug
@@ -17,6 +13,8 @@ def debug(fn):
             return table
         else:
             return node
+
+    ~~~~~~~~~~~~~~
 
     Sample output:
 
@@ -39,7 +37,12 @@ def debug(fn):
     Press <Enter> to continue
     decorator running ... output: <Element ul at 0x3af64a8>)
     Press <Enter> to continue
-    """
+"""
+
+from functools import wraps
+
+
+def debug(fn):
     prefix = fn.__name__
     @wraps(fn)
     def decorator(*args, **kwargs):
