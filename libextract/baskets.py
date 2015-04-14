@@ -31,22 +31,21 @@
 
 from libextract.coretools import prunes
 from libextract.metrics import text_length, count_children
-from libextract.xpaths import NODES_WITH_TEXT, NODES_WITH_CHILDREN
+from libextract.xpaths import NODES_WITH_CHILDREN, NODES_WITH_TEXT
 
 
 @prunes(NODES_WITH_TEXT)
-def basket_parent_and_lengths(node):
+def parent_length_pairs(node):
     """
-    Given an *etree*, returns an iterable of parent node
-    to child nodes text length pairs.
+    Pruner that yields parent node to text-length pairs.
     """
     return node.getparent(), text_length(node)
 
 
 @prunes(NODES_WITH_CHILDREN)
-def basket_node_and_counter(node):
+def node_children_pairs(node):
     """
-    Given an *etree*, returns an iterable of node to
-    child node frequencies (collections.Counter) pairs.
+    Pruner to that yields node to child node frequencies
+    (collections.Counter) pairs.
     """
     return node, count_children(node)

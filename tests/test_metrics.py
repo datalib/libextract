@@ -1,16 +1,12 @@
+from tests.fixtures import element
 from libextract.metrics import text_length, count_children
 
 
-def test_text_length(etree):
-    res = etree.xpath('//body/article/div')
-    for node in res:
-        assert text_length(node) == 4
-    assert res
+def test_text_length(element):
+    assert text_length(element) == 0
+    assert [text_length(k) for k in element] == [2, 3]
 
 
-def test_count_children(etree):
-    article = etree.xpath('//body/article')[0]
-    counter = count_children(article)
-
-    assert len(counter) == 1
-    assert counter['div'] == 9
+def test_count_children(element):
+    assert count_children(element) == {'nest': 2}
+    assert count_children(element[0]) == {}
