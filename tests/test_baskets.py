@@ -1,17 +1,15 @@
 from tests.fixtures import element
-from libextract.baskets import node_children_pairs_of, \
-        parent_length_pairs_of
+from libextract.baskets import node_children_pairs, \
+        parent_length_pairs
 
 
-def test_node_children_pairs_of(element):
-    func = node_children_pairs_of('/tag')
-    u = list(func(element))
+def test_node_children_pairs(element):
+    u = list(node_children_pairs(element))
     assert u == [(element, {'nest': 2})]
 
 
-def test_parent_length_pairs_of(element):
-    func = parent_length_pairs_of('//nest')
-    u = list(func(element))
+def test_parent_length_pairs(element):
+    u = list(parent_length_pairs(element))
     assert len(u) == 2
 
     for node, score in u:

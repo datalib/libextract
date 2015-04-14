@@ -31,24 +31,21 @@
 
 from libextract.coretools import prunes
 from libextract.metrics import text_length, count_children
+from libextract.xpaths import NODES_WITH_CHILDREN, NODES_WITH_TEXT
 
 
-def parent_length_pairs_of(selector):
+@prunes(NODES_WITH_TEXT)
+def parent_length_pairs(node):
     """
     Pruner that yields parent node to text-length pairs.
     """
-    @prunes(selector)
-    def func(node):
-        return node.getparent(), text_length(node)
-    return func
+    return node.getparent(), text_length(node)
 
 
-def node_children_pairs_of(selector):
+@prunes(NODES_WITH_CHILDREN)
+def node_children_pairs(node):
     """
     Pruner to that yields node to child node frequencies
     (collections.Counter) pairs.
     """
-    @prunes(selector)
-    def func(node):
-        return node, count_children(node)
-    return func
+    return node, count_children(node)
