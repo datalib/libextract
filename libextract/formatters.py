@@ -10,7 +10,7 @@ try:
     from itertools import izip_longest as zip_longest
 except ImportError:
     from itertools import zip_longest
-from libextract.xpaths import FILTER_TEXT
+from .xpaths import FILTER_TEXT
 
 
 UNLIMITED = float('NaN')
