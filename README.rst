@@ -29,6 +29,13 @@ Overview
     of functions to be piped to one another (the result of the
     previous is the argument of the next).
 
+Installation
+------------
+
+::
+
+    pip install libextract
+
 Usage
 -----
 
