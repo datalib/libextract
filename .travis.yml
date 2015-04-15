@@ -9,6 +9,9 @@ python:
 install: pip install .
 script: py.test
 sudo: false
+cache:
+  directories:
+    - $HOME/.cache/pip
 notifications:
     email: false
 matrix:
