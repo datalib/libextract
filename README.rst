@@ -1,8 +1,8 @@
 Libextract: elegant text extraction
 ===================================
 
-.. image:: https://travis-ci.org/libextract/libextract.svg?branch=master
-    :target: https://travis-ci.org/libextract/libextract
+.. image:: https://travis-ci.org/datalib/libextract.svg?branch=master
+    :target: https://travis-ci.org/datalib/libextract
 
 ::
 
