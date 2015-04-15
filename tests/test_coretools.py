@@ -1,6 +1,6 @@
 from pytest import fixture
-from tests.fixtures import etree
 from libextract.coretools import pipeline, histogram, argmax, parse_html
+from .fixtures import etree
 
 
 @fixture

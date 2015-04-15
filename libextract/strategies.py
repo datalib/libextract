@@ -6,10 +6,10 @@
     extraction.
 """
 
-from libextract.tabular import STRATEGY as TABULAR
-from libextract.formatters import get_text
-from libextract.baskets import parent_length_pairs
-from libextract.coretools import histogram, argmax, parse_html, get_node
+from .tabular import STRATEGY as TABULAR
+from .formatters import get_text
+from .baskets import parent_length_pairs
+from .coretools import histogram, argmax, parse_html, get_node
 
 
 __all__ = ('ARTICLE_NODE', 'ARTICLE_TEXT', 'TABULAR',)

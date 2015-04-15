@@ -1,5 +1,5 @@
-from tests.fixtures import element
 from libextract.metrics import text_length, count_children
+from .fixtures import element
 
 
 def test_text_length(element):

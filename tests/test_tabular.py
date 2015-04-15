@@ -1,7 +1,7 @@
 from collections import Counter
-from tests.fixtures import element, etree
 from libextract.tabular import node_counter_argmax, select_score, weighted_score, \
         get_top_pairs, filter_tags
+from .fixtures import element, etree
 
 
 def test_node_counter_argmax(element):

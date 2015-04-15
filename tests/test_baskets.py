@@ -1,6 +1,6 @@
-from tests.fixtures import element
 from libextract.baskets import node_children_pairs, \
         parent_length_pairs
+from .fixtures import element
 
 
 def test_node_children_pairs(element):

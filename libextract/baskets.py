@@ -29,9 +29,9 @@
     perform more complex node-metric associations.
 """
 
-from libextract.coretools import prunes
-from libextract.metrics import text_length, count_children
-from libextract.xpaths import NODES_WITH_CHILDREN, NODES_WITH_TEXT
+from .coretools import prunes
+from .metrics import text_length, count_children
+from .xpaths import NODES_WITH_CHILDREN, NODES_WITH_TEXT
 
 
 @prunes(NODES_WITH_TEXT)

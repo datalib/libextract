@@ -6,8 +6,8 @@
 """
 
 from heapq import nlargest
-from libextract.baskets import node_children_pairs
-from libextract.coretools import argmax, parse_html
+from .baskets import node_children_pairs
+from .coretools import argmax, parse_html
 
 
 def node_counter_argmax(pairs):
