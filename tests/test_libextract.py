@@ -1,5 +1,5 @@
-from tests.fixtures import foo_file
 from libextract import extract
+from .fixtures import foo_file
 
 
 FOOS = "foo. foo. foo. foo. foo. foo. foo. foo. foo."
