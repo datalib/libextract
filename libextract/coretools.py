@@ -54,26 +54,20 @@ def prunes(selector):
     return decorator
 
 
-def node_processor(fn):
+def node_processor(*tags):
     """
     Use this decorator if you would like to create your own
     node processor. For example, if you would like to
     execute a custom function if a node happens to be a
     <table>, <ul>, <ol> element:
 
-        @node_processor
+        @node_processor('table')
         def if_table(node):
-            if node.tag == "table":
-                return table_json(node)
-            else:
-                return node
+            return table_json(node)
 
-        @node_processor
+        @node_processor('ul', 'ol')
         def if_list(node):
-            if node.tag == "ul" or node.tag == "ol":
-                return [li.text_content() for li in node.iter('li')]
-            else:
-                return node
+            return [li.text_content() for li in node.iter('li')]
         ...
 
 
@@ -85,13 +79,15 @@ def node_processor(fn):
                     if_table,
                     if_list)
     """
-    wraps(fn)
-    def decorator(nodes):
-        for node in nodes:
-            try:
-                yield fn(node)
-            except(AttributeError):
+    def decorator(fn):
+        @wraps(fn)
+        def func(nodes):
+            for node in nodes:
+                if node.tag in tags:
+                    yield fn(node)
+                    continue
                 yield node
+        return func
     return decorator
 
 
