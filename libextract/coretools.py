@@ -8,6 +8,7 @@
 
 from collections import Counter
 from functools import wraps
+from lxml.etree import ElementBase
 from lxml.html import parse, HTMLParser
 
 
@@ -83,7 +84,7 @@ def node_processor(*tags):
         @wraps(fn)
         def func(nodes):
             for node in nodes:
-                if node.tag in tags:
+                if isinstance(node, ElementBase) and node.tag in tags:
                     yield fn(node)
                     continue
                 yield node
