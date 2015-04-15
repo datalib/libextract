@@ -1,5 +1,5 @@
 import sys
-from setuptools import setup
+from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
 
@@ -32,7 +32,7 @@ setup(
     url='https://github.com/libextract/libextract',
     license='MIT',
     description='A ridiculously simple HT/XML article-text extractor',
-    packages=['libextract'],
+    packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
     platforms='any',

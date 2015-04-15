@@ -1,0 +1,6 @@
+include LICENSE
+include .travis.yml
+include requirements.txt
+include libextract/tests/assets/full_of_foos.html
+
+recursive-include libextract *.py
