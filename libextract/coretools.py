@@ -55,43 +55,6 @@ def prunes(selector):
     return decorator
 
 
-def node_processor(*tags):
-    """
-    Use this decorator if you would like to create your own
-    node processor. For example, if you would like to
-    execute a custom function if a node happens to be a
-    <table>, <ul>, <ol> element:
-
-        @node_processor('table')
-        def if_table(node):
-            return table_json(node)
-
-        @node_processor('ul', 'ol')
-        def if_list(node):
-            return [li.text_content() for li in node.iter('li')]
-        ...
-
-
-        strategy = (parse_html,
-                    basket_node_and_counter,
-                    node_counter_argmax,
-                    sort_best_pairs,
-                    filter_tags,
-                    if_table,
-                    if_list)
-    """
-    def decorator(fn):
-        @wraps(fn)
-        def func(nodes):
-            for node in nodes:
-                if isinstance(node, ElementBase) and node.tag in tags:
-                    yield fn(node)
-                    continue
-                yield node
-        return func
-    return decorator
-
-
 def get_node(pair):
     """
     Given a (node, text_length or collections.Counter)
