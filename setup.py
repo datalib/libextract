@@ -28,7 +28,7 @@ def readme():
 
 setup(
     name='libextract',
-    version='0.0.0',
+    version='0.0.1',
     url='https://github.com/libextract/libextract',
     license='MIT',
     description='A ridiculously simple HT/XML article-text extractor',
