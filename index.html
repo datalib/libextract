@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>libextract by datalib</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">libextract</h1>
+      <h2 class="project-tagline">A Python data extraction library</h2>
+      <a href="https://github.com/datalib/libextract" class="btn">View on GitHub</a>
+      <a href="https://github.com/datalib/libextract/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/datalib/libextract/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="libextract-elegant-text-extraction" class="anchor" href="#libextract-elegant-text-extraction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Libextract: elegant text extraction</h1>
+
+<p><img src="https://travis-ci.org/datalib/libextract.svg" alt="travis"></p>
+
+<pre><code>        ___ __              __                  __
+       / (_) /_  ___  _  __/ /__________ ______/ /_
+      / / / __ \/ _ \| |/_/ __/ ___/ __ `/ ___/ __/
+     / / / /_/ /  __/&gt;  &lt;/ /_/ /  / /_/ / /__/ /_
+    /_/_/_.___/\___/_/|_|\__/_/   \__,_/\___/\__/
+</code></pre>
+
+<p>Libextract is a statistical extraction library that works
+on HTML and XML documents, written in Python and originating
+from <a href="https://github.com/rodricios/eatiht">eatiht</a>. The philosophy and aim is to provide declaratively
+composed, simple and pipelined functions for users to describe
+their extraction algorithms.</p>
+
+<h2>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
+
+<p><code>libextract.extract(doc)</code>
+    Extracts text (by default) from a given HT/XML string <em>doc</em>.
+    What is extracted and how it is extracted can be configured
+    using the <em>strategy</em> parameter, which accepts an iterable
+    of functions to be piped to one another (the result of the
+    previous is the argument of the next).</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<pre><code>pip install libextract
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Extracting the text from a wikipedia page:</p>
+
+<div class="highlight highlight-python"><pre>    <span class="pl-k">from</span> requests <span class="pl-k">import</span> get
+    <span class="pl-k">from</span> libextract <span class="pl-k">import</span> extract
+
+    r <span class="pl-k">=</span> get(<span class="pl-s"><span class="pl-pds">'</span>http://en.wikipedia.org/wiki/Classifier_(linguistics)<span class="pl-pds">'</span></span>)
+    text <span class="pl-k">=</span> extract(r.content)</pre></div>
+
+<p>Getting the node that (most likely) contains the text nodes that
+contain the text of the article:</p>
+
+<div class="highlight highlight-python"><pre>
+    <span class="pl-k">from</span> libextract.strategies <span class="pl-k">import</span> ARTICLE_NODE
+
+    node <span class="pl-k">=</span> extract(r.content, <span class="pl-smi">strategy</span><span class="pl-k">=</span>ARTICLE_NODE)</pre></div>
+
+<p>To serialize the node into JSON format:</p>
+
+<div class="highlight highlight-python"><pre>
+    <span class="pl-k">&gt;&gt;&gt;</span> <span class="pl-k">from</span> libextract.formatters <span class="pl-k">import</span> node_json
+    <span class="pl-k">&gt;&gt;&gt;</span> node_json(node, <span class="pl-smi">depth</span><span class="pl-k">=</span><span class="pl-c1">1</span>)
+    {<span class="pl-s"><span class="pl-pds">'</span>children<span class="pl-pds">'</span></span>: [...],
+     <span class="pl-s"><span class="pl-pds">'</span>class<span class="pl-pds">'</span></span>: [<span class="pl-s"><span class="pl-pds">'</span>mw-content-ltr<span class="pl-pds">'</span></span>],
+     <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>: [<span class="pl-s"><span class="pl-pds">'</span>mw-content-text<span class="pl-pds">'</span></span>],
+     <span class="pl-s"><span class="pl-pds">'</span>tag<span class="pl-pds">'</span></span>: <span class="pl-s"><span class="pl-pds">'</span>div<span class="pl-pds">'</span></span>,
+     <span class="pl-s"><span class="pl-pds">'</span>text<span class="pl-pds">'</span></span>: <span class="pl-c1">None</span>,
+     <span class="pl-s"><span class="pl-pds">'</span>xpath<span class="pl-pds">'</span></span>: <span class="pl-s"><span class="pl-pds">'</span>/html/body/div[3]/div[3]/div[4]<span class="pl-pds">'</span></span>}</pre></div>
+
+<p>Using tabular extraction to get the nodes containing tabular data
+present in the HT/XML document:</p>
+
+<div class="highlight highlight-python"><pre>
+    <span class="pl-k">from</span> libextract.strategies <span class="pl-k">import</span> TABULAR
+
+    height_data <span class="pl-k">=</span> get(<span class="pl-s"><span class="pl-pds">"</span>http://en.wikipedia.org/wiki/Human_height<span class="pl-pds">"</span></span>)
+    tabs <span class="pl-k">=</span> <span class="pl-c1">list</span>(extract(height_data.content, <span class="pl-smi">strategy</span><span class="pl-k">=</span>TABULAR))</pre></div>
+
+<p>To convert HT/XML element to python <code>list</code></p>
+
+<div class="highlight highlight-python"><pre>    <span class="pl-k">&gt;&gt;&gt;</span> <span class="pl-k">from</span> libextract.formatters <span class="pl-k">import</span> table_list
+    <span class="pl-k">&gt;&gt;&gt;</span> table_list(tabs[<span class="pl-c1">0</span>])
+    [[<span class="pl-s"><span class="pl-pds">'</span>Country/Region<span class="pl-pds">'</span></span>,
+      <span class="pl-s"><span class="pl-pds">'</span>Average male height<span class="pl-pds">'</span></span>,
+      <span class="pl-s"><span class="pl-pds">'</span>Average female height<span class="pl-pds">'</span></span>,
+      <span class="pl-s"><span class="pl-pds">'</span>Stature ratio (male to female)<span class="pl-pds">'</span></span>,
+      <span class="pl-s"><span class="pl-pds">'</span>Sample population / age range<span class="pl-pds">'</span></span>,
+      ...]]</pre></div>
+
+<p>Viewing the table in your browser:</p>
+
+<div class="highlight highlight-python"><pre>    <span class="pl-k">from</span> lxml.html <span class="pl-k">import</span> open_in_browser
+    open_in_browser(tabs[<span class="pl-c1">0</span>])</pre></div>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/datalib/libextract">libextract</a> is maintained by <a href="https://github.com/datalib">datalib</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-61980230-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
+
