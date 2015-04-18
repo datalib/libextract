@@ -1,9 +1,7 @@
 from functools import wraps
 from statscounter import stats
 
-from ..formatters import table_json
-
-
+from libextract.formatters import table_json
 
 def processes(*tags):
     tags = set(tag for tag in tags)
@@ -53,14 +51,15 @@ def td_counts(node):
 def td_list_per_tr(node):
     return get_td(node)
 
-@processes('table')
+@processes('table', 'tbody')
 def convert_table(node):
     table = table_json(node)
     if not table:
-        from libextract.formatters import get_table_rows, chunks
+
         mode = stats.mode(td_counts(node))
         rows = [tds for tds in td_list_per_tr(node) if len(tds) == mode]
 
-        table = {str(col): [' '.join(row[col].text_content().split()) for row in rows]
+        table = {str(col): [' '.join(row[col].text_content().split())
+                            for row in rows]
                  for col in range(mode)}
     return table
