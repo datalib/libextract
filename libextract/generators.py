@@ -109,7 +109,15 @@ def maximize(top=5, max_fn=select_score):
     def decorator(fn):
         @wraps(fn)
         def iterator(*args):
-            return nlargest(top, fn(*args), key=max_fn)
+            pairs = list(fn(*args))
+
+            if isinstance(pairs[0][1], int):
+                counter = StatsCounter()
+                for node, value in pairs:
+                    counter[node] += value
+                return counter.most_common(5)
+
+            return nlargest(top, pairs, key=max_fn)
         return iterator
     return decorator
 
