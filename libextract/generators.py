@@ -1,38 +1,53 @@
 """
-from requests import get
-opensecrets = "http://en.wikipedia.org/wiki/Human_height"
-r = get(opensecrets) # make request, receive response from site
+    libextract.generators
+    ~~~~~~~~~~~~~~~~~~~~~
 
-from libextract.core import extract, pipeline
-from libextract.generators import selects, maximize
-from statscounter import StatsCounter
+    This module attempts to refactor the many for-loop
+    node-yielding methods found in the previous implementation
+    of libextract.
 
-from functools import partial
+    The main decorators to try out are *iters*, *selects*,
+    and *maximize*. With just *selects* and *maximize*, users
+    can recreate the TABULAR and ARTICLE_TEXT strategies from
+    the previous implementation of libextract.
 
-@maximize(5, lambda x: x[1].max())
-@selects("//*/..")
-def group_parents_children(node):
-    return node, StatsCounter([child.tag for child in node])
+    ##########################################
+    ################## DEMO ##################
+    ##########################################
+
+    from requests import get
+    opensecrets = "http://en.wikipedia.org/wiki/Human_height"
+    r = get(opensecrets) # make request, receive response from site
+
+    from libextract.core import extract, pipeline
+    from libextract.generators import selects, maximize
+    from statscounter import StatsCounter
+
+    from functools import partial
+
+    @maximize(5, lambda x: x[1].max())
+    @selects("//*/..")
+    def group_parents_children(node):
+        return node, StatsCounter([child.tag for child in node])
 
 
-@maximize(5, lambda x: x[1])
-@selects("text")
-def group_nodes_texts(node):
-    return node.getparent(), len(" ".join(node.text_content().split()))
+    @maximize(5, lambda x: x[1])
+    @selects("text")
+    def group_nodes_texts(node):
+        return node.getparent(), len(" ".join(node.text_content().split()))
 
 
-extract = partial(extract, encoding='utf-8')
+    extract = partial(extract, encoding='utf-8')
 
-tables = pipeline(r.content, (extract, group_parents_children,))
+    tables = pipeline(r.content, (extract, group_parents_children,))
 
-text = pipeline(r.content, (extract, group_nodes_texts,))
+    text = pipeline(r.content, (extract, group_nodes_texts,))
 """
 
 from functools import wraps
 from heapq import nlargest
-from statscounter import StatsCounter
 
-from .xpaths import NODES_WITH_TEXT, NODES_WITH_CHILDREN
+from .metrics import StatsCounter
 
 
 def iters(*tags):
@@ -62,10 +77,6 @@ def selects(xpath):
     To get anchor tags (<a>):
     '//a'
     """
-    if xpath == "text":
-        xpath = NODES_WITH_TEXT
-    elif xpath == "tabular":
-        xpath = NODES_WITH_CHILDREN
     @wraps(selects)
     def decorator(fn):
         @wraps(fn)
@@ -119,7 +130,7 @@ def processes(*tags):
     return decorator
 
 #########################
-### Not yet tested... ###
+### Very experimental ###
 #########################
 
 def filter_tags(fn):
