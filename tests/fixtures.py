@@ -1,6 +1,6 @@
 from pytest import fixture
 from lxml import etree as _etree
-from libextract.coretools import parse_html
+from libextract.core import parse_html
 from tests import asset_path
 
 
@@ -22,4 +22,4 @@ def foo_file(request):
 @fixture
 def etree():
     with open(FOO, 'rb') as fp:
-        return parse_html(fp)
+        return parse_html(fp.read())
