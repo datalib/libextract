@@ -18,6 +18,7 @@ from lxml.html import parse, HTMLParser
 
 __all__ = ['parse_html', 'pipeline']
 
+
 def parse_html(document, encoding='utf-8'):
     """
     Given an X/HTML string *document*, get an ElementTree instance.
