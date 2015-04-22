@@ -63,10 +63,9 @@ The basic pattern that ``pipeline`` follows is this: *the output of the first fu
 
  2. apply *per-node* manipulations to those nodes. Skip to [**Usage**](#usage) for examples.
 
+> **@selects**(xpath)
 
- > **@selects**(xpath)
-
- ``@selects`` differs from ``@iters`` only in name and selection mechanism - where ``@iters('div', 'p')`` will yield all ``<div>``, ``<p>`` nodes, ``@selects('//div/p')`` will yield all ``<p>`` nodes that exist immediately under a ``<div>`` node. In other words, *extract all ``<p>`` nodes that have a ``<div>`` node as a parent*.
+``@selects`` differs from ``@iters`` only in name and selection mechanism - where ``@iters('div', 'p')`` will yield all ``<div>``, ``<p>`` nodes, ``@selects('//div/p')`` will yield all ``<p>`` nodes that exist immediately under a ``<div>`` node. In other words, *extract all ``<p>`` nodes that have a ``<div>`` node as a parent*.
 
  > **@maximize**(*num_of_results*, key_fn)
 
