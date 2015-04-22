@@ -14,28 +14,20 @@ try:
 except ImportError:
     from io import BytesIO
 
-from functools import partial
-from chardet import detect
 from lxml.html import parse, HTMLParser
 
+__all__ = ['parse_html', 'pipeline']
 
-def parse_html(fileobj, encoding='utf-8'):
+def parse_html(document, encoding='utf-8'):
     """
-    Get an ElementTree instance from a given file object
+    Given an X/HTML string *document*, get an ElementTree instance.
+
+    from a given file object
     *fileobj*. The encoding is assumed to be utf8.
     """
-    return parse(fileobj,
-                 HTMLParser(encoding=encoding,
-                            remove_blank_text=True))
+    parser = HTMLParser(encoding=encoding, remove_blank_text=True)
 
-
-def extract(document, encoding=None):
-    """
-    """
-    enc_etree = partial(parse_html,
-                        encoding=encoding or detect(document)['encoding'])
-
-    return enc_etree(BytesIO(document))
+    return parse(BytesIO(document), parser)
 
 
 def pipeline(data, funcs):
