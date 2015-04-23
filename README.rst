@@ -1,4 +1,4 @@
-Libextract: elegant text extraction
+Libextract: simple data extraction
 ===================================
 
 .. image:: https://travis-ci.org/datalib/libextract.svg?branch=master
