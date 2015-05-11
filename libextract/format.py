@@ -71,7 +71,7 @@ def table_json(node):
             for col, heading in enumerate(headings)}
 
 
-def convert_table(node):
+def to_dict(node):
     table = table_json(node)
     if not table:
         mode = stats.mode(table_data_count(node))

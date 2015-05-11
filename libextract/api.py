@@ -16,10 +16,11 @@ from .metrics import StatsCounter
 
 DEF_ENC = 'utf-8'
 
-def articles(document, encoding=DEF_ENC, num_predicted=5):
+
+def articles(document, encoding=DEF_ENC, count=5):
     """
     Given an html *document*, and optionally the *encoding*,
-    and the number of predictions (*num_predicted*) to return
+    and the number of predictions (*count*) to return
     (in descending rank) *articles* returns a list of HTML nodes
     likely containing the main article of a given website.
 
@@ -27,7 +28,7 @@ def articles(document, encoding=DEF_ENC, num_predicted=5):
     Refer to rodricios.github.io/eatiht for an in-depth
     explanation.
     """
-    @maximize(num_predicted, lambda x: x[1])
+    @maximize(count, lambda x: x[1])
     @selects(TEXT_NODES) # uses text-extracting xpath
     def predictor(node):
         return node.getparent(), len(" ".join(node.text_content().split()))
@@ -39,16 +40,17 @@ def articles(document, encoding=DEF_ENC, num_predicted=5):
 
     return pipeline(document, (parse_html, predictor,))
 
-def tabular(document, encoding=DEF_ENC, num_predicted=5):
+
+def tabular(document, encoding=DEF_ENC, count=5):
     """
     Given an html *document*, and optionally the *encoding*,
-    and the number of predictions (*num_predicted*) to return
+    and the number of predictions (*count*) to return
     (in descending rank) *tabular* returns a list of HTML
     nodes likely containing "tabular" data (ie. table,
     and table-like elements).
     """
     # "maximize" is a sorting function.
-    @maximize(num_predicted, lambda x: x[1].max())
+    @maximize(count, lambda x: x[1].max())
     @selects(PARENT_NODES) # uses table-extracting xpath
     def predictor(node):
         return node, StatsCounter([child.tag for child in node])
