@@ -13,21 +13,38 @@ Libextract: simple data extraction
     /_/_/_.___/\___/_/|_|\__/_/   \__,_/\___/\__/
 
 
-Libextract is a statistical extraction library that works
-on HTML and XML documents, written in Python and originating
-from eatihit_. The philosophy and aim is to provide declaratively
-composed, simple and pipelined functions for users to describe
-their extraction algorithms.
+Libextract is a `statistics-enabled
+<https://github.com/datalib/StatsCounter>`_
+extraction library that works on HTML and XML documents, written in Python
+and originating from `eatiht
+<http://rodricios.github.io/eatiht/>`_.
+
 
 Overview
 --------
 
-`libextract.extract(doc)`
-    Extracts text (by default) from a given HT/XML string *doc*.
-    What is extracted and how it is extracted can be configured
-    using the *strategy* parameter, which accepts an iterable
-    of functions to be piped to one another (the result of the
-    previous is the argument of the next).
+Libextract provides two extractors out-of-the-box: ``api.articles`` and ``api.tabular``
+
+
+`libextract.api.articles(document, encoding='utf-8', count=5)`
+
+    Given an html document, and optionally the encoding
+    and the number of predictions (count) to return
+    (in descending rank), ``articles`` returns a list of HTML-nodes
+    likely containing the articles of text of a given website.
+
+    The extraction algorithm is based of text length.
+    Refer to rodricios.github.io/eatiht for an in-depth
+    explanation.
+
+`libextract.api.tabular(document, encoding='utf-8', count=5)`
+
+    Given an html *document*, and optionally the *encoding*,
+    and the number of predictions (*count*) to return
+    (in descending rank) *tabular* returns a list of HTML
+    nodes likely containing "tabular" data (ie. table,
+    and table-like elements).
+    
 
 Installation
 ------------
@@ -39,68 +56,68 @@ Installation
 Usage
 -----
 
-Extracting the text from a wikipedia page:
+Extracting text-nodes from a wikipedia page:
 
 .. code-block:: python
 
     from requests import get
-    from libextract import extract
+    from libextract.api import articles
 
-    r = get('http://en.wikipedia.org/wiki/Classifier_(linguistics)')
-    text = extract(r.content)
+    r = get('http://en.wikipedia.org/wiki/Information_extraction')
+    textnodes = articles(r.content)
 
-Getting the node that (most likely) contains the text nodes that
-contain the text of the article:
+Libextract uses Python's de facto HT/XML processing library, `lxml
+<http://lxml.de/index.html>`_. 
 
-.. code-block:: python
+The predictions returned by both ``api.articles`` and ``api.tabular`` are 
+`lxml HtmlElement
+<http://lxml.de/lxmlhtml.html>`_ objects (along with the associated
+*metric* used to rank each prediction). 
 
-    from libextract.strategies import ARTICLE_NODE
-
-    node = extract(r.content, strategy=ARTICLE_NODE)
-
-To serialize the node into JSON format:
-
-.. code-block:: python
-
-    >>> from libextract.formatters import node_json
-    >>> node_json(node, depth=1)
-    {'children': [...],
-     'class': ['mw-content-ltr'],
-     'id': ['mw-content-text'],
-     'tag': 'div',
-     'text': None,
-     'xpath': '/html/body/div[3]/div[3]/div[4]'}
-
-Using tabular extraction to get the nodes containing tabular data
-present in the HT/XML document:
+Therefore, you can access lxml's methods for post-processing.
 
 .. code-block:: python
 
-    from libextract.strategies import TABULAR
+    >> print(textnodes[0][0].text_content())
+    Information extraction (IE) is the task of automatically extracting structured information...
+    
+
+Tabular-data extraction is just as easy.
+
+.. code-block:: python
+
+    from libextract.api import tabular
 
     height_data = get("http://en.wikipedia.org/wiki/Human_height")
-    tabs = list(extract(height_data.content, strategy=TABULAR))
+    tabs = tabular(height_data.content)
 
-
-To convert HT/XML element to python ``list``
-
-.. code-block:: python
-
-    >>> from libextract.formatters import table_list
-    >>> table_list(tabs[0])
-    [['Country/Region',
-      'Average male height',
-      'Average female height',
-      'Stature ratio (male to female)',
-      'Sample population / age range',
-      ...]]
-
-Viewing the table in your browser:
+To convert HT/XML element to python ``dict`` (and, you know, 
+`use it with Pandas and stuff
+<https://github.com/datalib/libextract.ipynb/blob/master/libextract%20visualizing%20open%20secrets.ipynb>`_):
 
 .. code-block:: python
 
-    from lxml.html import open_in_browser
-    open_in_browser(tabs[0])
+    >>> from libextract import format
+    >>> format.to_dict(tabs[0])
+    {'Entity': ['Monaco',
+      'Macau',
+      'Japan',
+      'Singapore',
+      'San Marino',
+      ...}
 
+Dependencies
+~~~~~~~~~~~~
 
-.. _eatihit: http://rodricios.github.io/eatiht/
+::
+
+    lxml
+    statscounter
+    
+Disclaimer
+~~~~~~~~~~
+
+This project is still in its infancy; and advice and suggestions as
+to what this library could and should be would be greatly appreciated
+
+:) 
