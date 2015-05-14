@@ -6,8 +6,9 @@
     the way.
 """
 
-NODES_WITH_CHILDREN = '//*/..'
-NODES_WITH_TEXT = '//*[not(self::script or self::style)]/\
+PARENT_NODES = '//*/..'
+
+TEXT_NODES = '//*[not(self::script or self::style)]/\
                      text()[normalize-space()]/..'
 
 FILTER_TEXT = './/*[not(self::script or self::style or \

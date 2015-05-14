@@ -8,8 +8,7 @@
     Counter.
 """
 
-from collections import Counter
-
+from statscounter import StatsCounter
 
 def text_length(node):
     """
@@ -26,4 +25,4 @@ def count_children(node):
     frequenies of the children nodes (by tag name) contained
     within a given *node*.
     """
-    return Counter([child.tag for child in node])
+    return StatsCounter([child.tag for child in node])

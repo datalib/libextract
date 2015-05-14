@@ -1,7 +1,7 @@
 from pytest import fixture
 from copy import deepcopy
 from lxml import html
-from libextract.formatters import node_json, table_list, table_json, chunks
+from libextract.format import table_list, table_json, chunks, chunk_gen
 
 
 @fixture
@@ -45,28 +45,9 @@ def json():
             'id': ['that']}
 
 
-def test_node_json(elem, json):
-    assert node_json(elem) == json
 
-
-def test_depth(elem, json):
-    child = {
-        'children': None,
-        'xpath': '/html/body',
-        'text': 'Hello World',
-        'class': [],
-        'id': [],
-        'tag': 'body',
-    }
-    json['children'] = [child]
-    assert node_json(elem, depth=1) == json
-
-    child['children'] = []
-    assert node_json(elem, depth=2) == json
-
-
-def test_chunks():
-    r = list(chunks([1,2,3,4], 2))
+def test_chunk_gen():
+    r = list(chunk_gen([1,2,3,4], 2))
     assert r == [[1, 2], [3, 4]]
 
 
@@ -83,3 +64,5 @@ def test_table_list(table):
     assert tlist == [['Name', 'Gender'],
                      ['Rodrigo', 'male'],
                      ['Eugene', 'male']]
+
+#TODO: to_dict test

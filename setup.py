@@ -28,20 +28,21 @@ def readme():
 
 setup(
     name='libextract',
-    version='0.0.0',
-    url='https://github.com/libextract/libextract',
+    version='0.0.101',
+    url='https://github.com/datalib/libextract',
     license='MIT',
-    description='A ridiculously simple HT/XML article-text extractor',
+    description='A HT/XML web scraping tool',
     packages=['libextract'],
     include_package_data=True,
     zip_safe=False,
     platforms='any',
     install_requires=[
-        'chardet>=2.3.0',
         'lxml>=3.4.0',
+        'statscounter>=0.0.0'
     ],
     keywords='extract extraction main article text html data-extraction data\
-              content-extraction content unsupervised classification',
+              content-extraction content unsupervised classification machine\
+              learning AI artificial intelligence ML',
     author='Rodrigo Palacios, Eeo Jun',
     author_email='rodrigopala91@gmail.com, packwolf58@gmail.com',
     scripts=[],

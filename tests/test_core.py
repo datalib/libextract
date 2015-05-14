@@ -1,5 +1,5 @@
 from pytest import fixture
-from libextract.coretools import pipeline, histogram, argmax, parse_html
+from libextract.core import pipeline, parse_html
 from .fixtures import etree
 
 
@@ -17,17 +17,6 @@ def test_pipeline():
             lambda x: x/2.0]
     assert pipeline(1, pipe) == 2
     assert pipeline(2, pipe) == 2.5
-
-
-def test_histogram(pairs):
-    hist = histogram(pairs)
-    assert hist['i'] == 15
-    assert hist['g'] == 20
-
-
-def test_argmax(pairs):
-    hist = histogram(pairs)
-    assert argmax(hist) == ('g', 20)
 
 
 def test_parse_html(etree):
