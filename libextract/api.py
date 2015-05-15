@@ -15,10 +15,10 @@ from .xpaths import PARENT_NODES, TEXT_NODES
 from .metrics import text_length
 from statscounter import StatsCounter
 
-DEF_ENC = 'utf-8'
+DEFAULT_ENC = 'utf-8'
 
 
-def articles(document, encoding=DEF_ENC, count=5):
+def articles(document, encoding=DEFAULT_ENC, count=5):
     """
     Given an html *document*, and optionally the *encoding*,
     and the number of predictions (*count*) to return
@@ -34,15 +34,11 @@ def articles(document, encoding=DEF_ENC, count=5):
     def predictor(node):
         return node.getparent(), text_length(node)
 
-    if encoding != DEF_ENC:
-        enc_parse = partial(parse_html, encoding=encoding)
-    else:
-        enc_parse = parse_html
-
+    enc_parse = partial(parse_html, encoding=encoding)
     return pipeline(document, (parse_html, predictor,))
 
 
-def tabular(document, encoding=DEF_ENC, count=5):
+def tabular(document, encoding=DEFAULT_ENC, count=5):
     """
     Given an html *document*, and optionally the *encoding*,
     and the number of predictions (*count*) to return
@@ -56,9 +52,5 @@ def tabular(document, encoding=DEF_ENC, count=5):
     def predictor(node):
         return node, StatsCounter([child.tag for child in node])
 
-    if encoding != DEF_ENC:
-        enc_parse = partial(parse_html, encoding=encoding)
-    else:
-        enc_parse = parse_html
-
+    enc_parse = partial(parse_html, encoding=encoding)
     return pipeline(document, (enc_parse, predictor,))
