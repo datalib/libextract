@@ -12,7 +12,8 @@ from functools import partial
 from .core import parse_html, pipeline
 from .generators import selects, maximize
 from .xpaths import PARENT_NODES, TEXT_NODES
-from .metrics import StatsCounter
+from .metrics import text_length
+from statscounter import StatsCounter
 
 DEF_ENC = 'utf-8'
 
@@ -31,7 +32,7 @@ def articles(document, encoding=DEF_ENC, count=5):
     @maximize(count, lambda x: x[1])
     @selects(TEXT_NODES) # uses text-extracting xpath
     def predictor(node):
-        return node.getparent(), len(" ".join(node.text_content().split()))
+        return node.getparent(), text_length(node)
 
     if encoding != DEF_ENC:
         enc_parse = partial(parse_html, encoding=encoding)

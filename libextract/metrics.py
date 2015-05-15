@@ -10,6 +10,7 @@
 
 from statscounter import StatsCounter
 
+
 def text_length(node):
     """
     Returns the length of the text contained within
