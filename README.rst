@@ -97,8 +97,8 @@ To convert HT/XML element to python ``dict`` (and, you know,
 
 .. code-block:: python
 
-    >>> from libextract import format
-    >>> format.to_dict(tabs[0])
+    >>> from libextract import clean
+    >>> clean.to_dict(tabs[0])
     {'Entity': ['Monaco',
       'Macau',
       'Japan',
