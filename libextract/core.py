@@ -1,13 +1,11 @@
 """
-    libextract
-    ~~~~~~~~~~
+    libextract.core
+    ~~~~~~~~~~~~~~~
 
-    Beautfully simple data extraction using simple,
-    composable pipelined functions.
-
-    :copyright: (c) 2015 Libextract
-    :license: MIT, see LICENSE for details.
+    Implements the core utilities and functions in which
+    libextract is built around.
 """
+
 
 try:
     from cStringIO import StringIO as BytesIO

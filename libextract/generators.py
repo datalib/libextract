@@ -55,7 +55,6 @@ def iters(*tags):
     Generates *nodes* using etree.iter
     """
     tags = set(tags)
-    @wraps(iters)
     def decorator(fn):
         @wraps(fn)
         def iterator(node, *args):
@@ -77,7 +76,6 @@ def selects(xpath):
     To get anchor tags (<a>):
     '//a'
     """
-    @wraps(selects)
     def decorator(fn):
         @wraps(fn)
         def selector(node, *args):
@@ -105,7 +103,6 @@ def maximize(top=5, max_fn=select_score):
     Selects the *top* nodes using suing maximizing
     function (*max_fn*).
     """
-    @wraps(maximize)
     def decorator(fn):
         @wraps(fn)
         def iterator(*args):
@@ -124,7 +121,6 @@ def maximize(top=5, max_fn=select_score):
 
 def processes(*tags):
     tags = set(tags)
-    @wraps(processes)
     def decorator(fn):
         @wraps(fn)
         def processor(nodes,*args):
