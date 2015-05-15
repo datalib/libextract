@@ -28,7 +28,7 @@ def readme():
 
 setup(
     name='libextract',
-    version='0.0.101',
+    version='0.0.11',
     url='https://github.com/datalib/libextract',
     license='MIT',
     description='A HT/XML web scraping tool',
