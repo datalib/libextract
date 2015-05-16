@@ -57,9 +57,9 @@ def iters(*tags):
     tags = set(tags)
     def decorator(fn):
         @wraps(fn)
-        def iterator(node, *args):
+        def iterator(node, *args, **kwargs):
             for elem in node.iter(*tags):
-                yield fn(elem,*args)
+                yield fn(elem, *args, **kwargs)
         return iterator
     return decorator
 
@@ -78,9 +78,9 @@ def selects(xpath):
     """
     def decorator(fn):
         @wraps(fn)
-        def selector(node, *args):
+        def selector(node, *args, **kwargs):
             for n in node.xpath(xpath):
-                yield fn(n)
+                yield fn(n, *args, **kwargs)
         return selector
     return decorator
 
@@ -105,15 +105,8 @@ def maximize(top=5, max_fn=select_score):
     """
     def decorator(fn):
         @wraps(fn)
-        def iterator(*args):
-            pairs = list(fn(*args))
-
-            if isinstance(pairs[0][1], int):
-                counter = StatsCounter()
-                for node, value in pairs:
-                    counter[node] += value
-                return counter.most_common(5)
-
+        def iterator(*args, **kwargs):
+            pairs = list(fn(*args, **kwargs))
             return nlargest(top, pairs, key=max_fn)
         return iterator
     return decorator
