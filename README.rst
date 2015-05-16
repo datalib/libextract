@@ -22,7 +22,6 @@ Overview
 --------
 
 `libextract.api.extract(document, encoding='utf-8', strategy=ARTICLE_NODE)`
-
     Given an html *document*, and optionally the *encoding*
     and the *strategy* to use, which defaults to the statistical
     article extraction strategy, return a list of a maximum of
