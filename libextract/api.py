@@ -13,7 +13,7 @@ from .core import parse_html, pipeline
 from .generators import selects, maximize
 from .xpaths import PARENT_NODES, TEXT_NODES
 from .metrics import text_length
-from .resultset import ResultSet
+from .resultset import ResultSet, TabularResultSet
 from statscounter import StatsCounter
 
 DEFAULT_ENC = 'utf-8'
@@ -52,7 +52,7 @@ def articles(count=5):
     return predictor
 
 
-@extractor(list)
+@extractor(TabularResultSet)
 def tabular(count=5):
     """
     Given an html *document*, and optionally the *encoding*,
