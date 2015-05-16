@@ -1,4 +1,4 @@
-from .clean import node_json, table_json, table_list
+from .formatters import node_json, table_json, table_list
 
 
 class ResultSet(list):
