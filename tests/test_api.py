@@ -2,12 +2,13 @@ from lxml.html import HtmlElement
 from statscounter import StatsCounter
 from libextract.api import articles, tabular
 from .fixtures import foo_file
+from libextract.resultset import ResultSet
 
 
 def test_articles(foo_file):
     results = articles(foo_file.read())
 
-    assert isinstance(results, list)
+    assert isinstance(results, ResultSet)
     for node, text_length in results:
         assert isinstance(node, HtmlElement)
         assert isinstance(text_length, int)

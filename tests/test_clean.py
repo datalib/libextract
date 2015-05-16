@@ -1,7 +1,7 @@
 from pytest import fixture
 from copy import deepcopy
 from lxml import html
-from libextract.clean import table_list, table_json, chunk_gen
+from libextract.clean import table_list, table_json, chunks
 
 
 @fixture
@@ -46,8 +46,8 @@ def json():
 
 
 
-def test_chunk_gen():
-    r = list(chunk_gen([1,2,3,4], 2))
+def test_chunks():
+    r = list(chunks([1,2,3,4], 2))
     assert r == [[1, 2], [3, 4]]
 
 

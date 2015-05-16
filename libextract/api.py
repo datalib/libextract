@@ -7,18 +7,34 @@ Warning! These extractors will return the HTML
 element(s) likely containing the desired data.
 Libextract will not clean the data.
 """
-from functools import partial
+from functools import partial, wraps
 
 from .core import parse_html, pipeline
 from .generators import selects, maximize
 from .xpaths import PARENT_NODES, TEXT_NODES
 from .metrics import text_length
+from .resultset import ResultSet
 from statscounter import StatsCounter
 
 DEFAULT_ENC = 'utf-8'
 
 
-def articles(document, encoding=DEFAULT_ENC, count=5):
+def extractor(resultset_class=ResultSet):
+    def decorator(fn):
+        @wraps(fn)
+        def extract(document, encoding=DEFAULT_ENC, **options):
+            enc_parse = partial(parse_html, encoding=encoding)
+            r = pipeline(
+                document,
+                (parse_html, fn(**options))
+                )
+            return resultset_class(r)
+        return extract
+    return decorator
+
+
+@extractor()
+def articles(count=5):
     """
     Given an html *document*, and optionally the *encoding*,
     and the number of predictions (*count*) to return
@@ -30,15 +46,14 @@ def articles(document, encoding=DEFAULT_ENC, count=5):
     explanation.
     """
     @maximize(count, lambda x: x[1])
-    @selects(TEXT_NODES) # uses text-extracting xpath
+    @selects(TEXT_NODES)
     def predictor(node):
         return node.getparent(), text_length(node)
-
-    enc_parse = partial(parse_html, encoding=encoding)
-    return pipeline(document, (parse_html, predictor,))
+    return predictor
 
 
-def tabular(document, encoding=DEFAULT_ENC, count=5):
+@extractor(list)
+def tabular(count=5):
     """
     Given an html *document*, and optionally the *encoding*,
     and the number of predictions (*count*) to return
@@ -46,11 +61,8 @@ def tabular(document, encoding=DEFAULT_ENC, count=5):
     nodes likely containing "tabular" data (ie. table,
     and table-like elements).
     """
-    # "maximize" is a sorting function.
     @maximize(count, lambda x: x[1].max())
-    @selects(PARENT_NODES) # uses table-extracting xpath
+    @selects(PARENT_NODES)
     def predictor(node):
         return node, StatsCounter([child.tag for child in node])
-
-    enc_parse = partial(parse_html, encoding=encoding)
-    return pipeline(document, (enc_parse, predictor,))
+    return predictor
