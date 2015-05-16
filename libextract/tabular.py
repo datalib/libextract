@@ -1,4 +1,4 @@
-from .xpaths import CHILDREN
+from .xpaths import PARENT_NODES
 from .metrics import count_children
 from .procs import select, rank_with, get_largest
 
@@ -35,8 +35,9 @@ def filter_tags(pairs):
 
 
 STRATEGY = (
-    select(CHILDREN),
+    select(PARENT_NODES),
     rank_with(count_children),
     node_counter_argmax,
     get_largest(5, key=select_score),
+    filter_tags,
 )

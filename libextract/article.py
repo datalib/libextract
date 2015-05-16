@@ -1,7 +1,6 @@
-from statscounter import StatsCounter
 from .metrics import text_length
 from .procs import select, rank_with, get_largest, most_common, histogram
-from .xpaths import TEXT
+from .xpaths import TEXT_NODES
 
 
 def parent_length_pairs(results):
@@ -10,7 +9,7 @@ def parent_length_pairs(results):
 
 
 STRATEGY = (
-    select(TEXT),
+    select(TEXT_NODES),
     rank_with(text_length),
     histogram(parent_length_pairs),
     most_common(5)
