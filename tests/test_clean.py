@@ -1,7 +1,7 @@
 from pytest import fixture
 from copy import deepcopy
 from lxml import html
-from libextract.clean import table_list, table_json, chunks, chunk_gen
+from libextract.clean import table_list, table_json, chunk_gen
 
 
 @fixture

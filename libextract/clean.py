@@ -10,16 +10,6 @@ from statscounter import stats
 UNLIMITED = float('NaN')
 
 
-def chunks(iterable, size):
-    """
-    Yield successive chunks of *size* from a given
-    *iterable*, filling the unfilled chunks with
-    None.
-    """
-    for i in range(0, len(iterable), size):
-        yield iterable[i:i+size]
-
-
 def chunk_gen(iterable, size):
     args = [iter(iterable)] * size
     for row in zip_longest(*args, fillvalue=None):
