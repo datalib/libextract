@@ -7,6 +7,7 @@
 
 
 from lxml.html import parse, HTMLParser
+from statscounter import StatsCounter
 
 __all__ = ['parse_html', 'pipeline']
 
@@ -28,3 +29,14 @@ def pipeline(data, funcs):
     for func in funcs:
         data = func(data)
     return data
+
+
+def sum_metrics(pairs):
+    """
+    Sums the metrics given by (key, metric) *pairs* into a
+    StatsCounter instance.
+    """
+    counter = StatsCounter()
+    for key, value in pairs:
+        counter[key] += value
+    return counter

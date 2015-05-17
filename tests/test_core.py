@@ -1,5 +1,5 @@
 from .fixtures import foo_file
-from libextract.core import parse_html, pipeline
+from libextract.core import parse_html, pipeline, sum_metrics
 
 
 def test_parse_html(foo_file):
@@ -20,3 +20,13 @@ def test_pipeline():
     ]
     assert pipeline([], functions) == [1, 2]
     assert pipeline([1], functions) == [1, 1, 2]
+
+
+def test_sum_metrics():
+    r = sum_metrics([
+        ('k', 1),
+        ('k', 2),
+        ('d', 3),
+        ('k', 1),
+    ])
+    assert r == {'k': 4, 'd': 3}

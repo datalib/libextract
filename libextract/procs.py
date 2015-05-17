@@ -1,6 +1,6 @@
 from heapq import nlargest
 from operator import itemgetter
-from statscounter import StatsCounter
+from .core import sum_metrics
 
 
 def select(xpath):
@@ -18,12 +18,9 @@ def rank_with(metric):
 
 
 def histogram(function):
-    def sum_metrics(results):
-        counter = StatsCounter()
-        for key, value in function(results):
-            counter[key] += value
-        return counter
-    return sum_metrics
+    def hist(results):
+        return sum_metrics(function(results))
+    return hist
 
 
 def get_largest(n, key=itemgetter(1)):
