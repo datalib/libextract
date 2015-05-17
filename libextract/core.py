@@ -7,18 +7,17 @@
 
 
 from lxml.html import parse, HTMLParser
-from ._compat import BytesIO
 
 __all__ = ['parse_html', 'pipeline']
 
 
-def parse_html(document, encoding):
+def parse_html(fileobj, encoding):
     """
-    Given an X/HTML string *document*, get an ElementTree instance.
+    Given a file object *fileobj*, get an ElementTree instance.
     The *encoding* is assumed to be utf8.
     """
     parser = HTMLParser(encoding=encoding, remove_blank_text=True)
-    return parse(BytesIO(document), parser)
+    return parse(fileobj, parser)
 
 
 def pipeline(data, funcs):
