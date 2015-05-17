@@ -6,7 +6,6 @@
 """
 
 
-from functools import partial
 from lxml.html import parse, HTMLParser
 from ._compat import BytesIO
 

@@ -1,5 +1,5 @@
 from .metrics import text_length
-from .procs import select, rank_with, get_largest, most_common, histogram
+from .procs import select, rank_with, most_common, histogram
 from .xpaths import TEXT_NODES
 
 
