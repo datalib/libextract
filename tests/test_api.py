@@ -4,9 +4,8 @@ from libextract.api import extract
 
 def test_extract(foo_file):
     r = extract(foo_file)
-    assert len(r) == 2
-
-    node, score = r[0]
-
-    assert node.tag == 'article'
-    assert score == 4 * 9
+    u = [(node.tag, score) for node, score in r]
+    assert u == [
+        ('article', 36),
+        ('body', 14),
+    ]
