@@ -34,10 +34,11 @@ def filter_tags(pairs):
         yield node
 
 
-STRATEGY = (
-    select(PARENT_NODES),
-    rank_with(count_children),
-    node_counter_argmax,
-    get_largest(5, key=select_score),
-    filter_tags,
-)
+def build_strategy(count=5):
+    return (
+        select(PARENT_NODES),
+        rank_with(count_children),
+        node_counter_argmax,
+        get_largest(count, key=select_score),
+        filter_tags,
+    )

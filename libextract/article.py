@@ -8,9 +8,10 @@ def parent_length_pairs(results):
         yield node.getparent(), metric
 
 
-STRATEGY = (
-    select(TEXT_NODES),
-    rank_with(text_length),
-    histogram(parent_length_pairs),
-    most_common(5)
-)
+def build_strategy(count=5):
+    return (
+        select(TEXT_NODES),
+        rank_with(text_length),
+        histogram(parent_length_pairs),
+        most_common(count)
+    )
