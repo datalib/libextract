@@ -9,7 +9,7 @@ def node_counter_argmax(pairs):
     of (node, StatsCounter) *pairs*.
     """
     for node, counter in pairs:
-        yield node, counter.argmax()
+        yield node, counter.most_common()[0]
 
 
 def select_score(pair):
@@ -36,8 +36,8 @@ def filter_tags(pairs):
 
 class TabularExtractor(Extractor):
     xpath = PARENT_NODES
-    metric = count_children
-    rank_pair = select_score
+    metric = staticmethod(count_children)
+    rank_pair = staticmethod(select_score)
 
     def rank(self, pairs):
         pairs = node_counter_argmax(pairs)
