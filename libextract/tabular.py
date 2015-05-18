@@ -44,4 +44,4 @@ class TabularExtractor(Extractor):
         return Extractor.rank(self, pairs)
 
     def finalise(self, pairs):
-        return filter_tags(pairs)
+        return list(filter_tags(pairs))

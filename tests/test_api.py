@@ -19,3 +19,5 @@ def test_extract_tabular(foo_file):
         'html',
         'body',
     ]
+    for node in r[0]:
+        assert node.tag == 'div'
