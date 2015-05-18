@@ -31,7 +31,7 @@ def pipeline(data, funcs):
     return data
 
 
-def sum_metrics(pairs):
+def histogram(pairs):
     """
     Sums the metrics given by (key, metric) *pairs* into a
     StatsCounter instance.

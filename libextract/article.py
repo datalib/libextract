@@ -1,4 +1,4 @@
-from .core import sum_metrics
+from .core import histogram
 from .metrics import text_length
 from .template import Extractor
 from .xpaths import TEXT_NODES
@@ -17,4 +17,4 @@ class ArticleExtractor(Extractor):
         return parent_length_pairs(Extractor.measure(self, nodes))
 
     def rank(self, measured):
-        return sum_metrics(measured).most_common(self.count)
+        return histogram(measured).most_common(self.count)

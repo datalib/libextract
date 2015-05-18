@@ -1,6 +1,5 @@
 from operator import itemgetter
 from heapq import nlargest
-from types import MethodType
 
 
 class Extractor(object):
