@@ -1,6 +1,6 @@
 from .core import histogram
+from .extractor import Extractor
 from .metrics import text_length
-from .template import Extractor
 from .xpaths import TEXT_NODES
 
 

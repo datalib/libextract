@@ -1,6 +1,6 @@
-from .xpaths import PARENT_NODES
+from .extractor import Extractor
 from .metrics import count_children
-from .template import Extractor
+from .xpaths import PARENT_NODES
 
 
 def node_counter_argmax(pairs):
