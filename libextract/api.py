@@ -1,11 +1,11 @@
 from ._compat import BytesIO
 from .core import parse_html, pipeline
-from .tabular import build_strategy as _tables
-from .article import build_strategy as _nodes
+from .tabular import TabularExtractor
+from .article import ArticleExtractor
 
 
-ARTICLE_NODE = _nodes()
-ARTICLE_TABLES = _tables()
+ARTICLE_NODE = ArticleExtractor().compile_pipeline()
+ARTICLE_TABLES = TabularExtractor().compile_pipeline()
 
 
 def extract(document, encoding='utf-8', strategy=ARTICLE_NODE):

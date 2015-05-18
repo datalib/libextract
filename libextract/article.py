@@ -1,5 +1,6 @@
+from .core import sum_metrics
 from .metrics import text_length
-from .procs import select, rank_with, most_common, histogram
+from .template import Extractor
 from .xpaths import TEXT_NODES
 
 
@@ -8,10 +9,12 @@ def parent_length_pairs(results):
         yield node.getparent(), metric
 
 
-def build_strategy(count=5):
-    return (
-        select(TEXT_NODES),
-        rank_with(text_length),
-        histogram(parent_length_pairs),
-        most_common(count)
-    )
+class ArticleExtractor(Extractor):
+    xpath = TEXT_NODES
+    metric = staticmethod(text_length)
+
+    def measure(self, nodes):
+        return parent_length_pairs(Extractor.measure(self, nodes))
+
+    def rank(self, measured):
+        return sum_metrics(measured).most_common(self.count)
