@@ -14,5 +14,6 @@ def foo_file(request):
 
 
 @pytest.fixture
-def etree(foo_file):
-    return parse_html(foo_file)
+def etree():
+    with open(FOOS_FILENAME, 'rb') as fp:
+        return parse_html(fp, encoding='utf8')
