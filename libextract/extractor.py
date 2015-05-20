@@ -21,7 +21,8 @@ class Extractor(object):
         return nlargest(self.count, pairs, key=self.rank_pair)
 
     def finalise(self, ranked):
-        return ranked
+        for node, metric in ranked:
+            yield node
 
     def compile_pipeline(self):
         return [

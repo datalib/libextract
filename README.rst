@@ -46,7 +46,7 @@ Extracting text-nodes from a wikipedia page:
     from libextract.api import extract
 
     r = get('http://en.wikipedia.org/wiki/Information_extraction')
-    textnodes = extract(r.content)
+    textnodes = list(extract(r.content))
 
 The predictions returned by the extract function, assuming that you
 are using the default strategies are
@@ -57,7 +57,7 @@ Therefore, you can access lxml's methods for post-processing.
 
 .. code-block:: python
 
-    >> print(textnodes[0][0].text_content())
+    >> print(textnodes[0].text_content())
     Information extraction (IE) is the task of automatically extracting structured information...
 
 

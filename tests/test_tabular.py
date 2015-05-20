@@ -1,6 +1,6 @@
 import pytest
 from statscounter import StatsCounter
-from libextract.tabular import node_counter_argmax, select_score, filter_tags
+from libextract.tabular import node_counter_argmax, select_score
 from .fixtures import etree
 
 
@@ -20,12 +20,3 @@ def test_node_counter_argmax(etree):
 def test_select_score():
     assert select_score((None, (None, 0))) == 0
     assert select_score([None, [None, 0]]) == 0
-
-
-def test_filter_tags(etree):
-    body = etree.find('//body')
-    rv = filter_tags([(body, ('article', None))])
-
-    assert list(rv) == [body]
-    assert len(body) == 1
-    assert [node.tag for node in body] == ['article']

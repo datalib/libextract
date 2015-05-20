@@ -21,20 +21,12 @@ def select_score(pair):
     return score
 
 
-def filter_tags(pairs):
-    """
-    Given iterable of (node, (tag, frequency)) *pairs*,
-    clean up the node by filtering out child nodes whose
-    tag names != tag.
-    """
-    for node, (tag, _) in pairs:
-        for child in list(node):
-            if child.tag != tag:
-                node.remove(child)
-        yield node
-
-
 class TabularExtractor(Extractor):
+    """
+    An Extractor that extracts the most probable
+    nodes that represent tabular data.
+    """
+
     xpath = PARENT_NODES
     metric = staticmethod(count_children)
     rank_pair = staticmethod(select_score)
@@ -42,6 +34,3 @@ class TabularExtractor(Extractor):
     def rank(self, pairs):
         pairs = node_counter_argmax(pairs)
         return Extractor.rank(self, pairs)
-
-    def finalise(self, pairs):
-        return list(filter_tags(pairs))
