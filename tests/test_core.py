@@ -1,26 +1,32 @@
-from pytest import fixture
-from libextract.core import pipeline, parse_html
-from .fixtures import etree
+from .fixtures import foo_file
+from libextract.core import parse_html, pipeline, histogram
 
 
-@fixture
-def pairs():
-    return (('i', 5),
-            ('h', 7),
-            ('g', 20),
-            ('i', 10))
+def test_parse_html(foo_file):
+    etree = parse_html(foo_file, encoding='ascii')
+    divs = etree.xpath('//body/article/div')
+
+    for node in divs:
+        assert node.tag == 'div'
+        assert node.text == 'foo.'
+
+    assert len(divs) == 9
 
 
 def test_pipeline():
-    pipe = [lambda x: x+2,
-            lambda x: x+1,
-            lambda x: x/2.0]
-    assert pipeline(1, pipe) == 2
-    assert pipeline(2, pipe) == 2.5
+    functions = [
+        lambda x: x + [1],
+        lambda x: x + [2],
+    ]
+    assert pipeline([], functions) == [1, 2]
+    assert pipeline([1], functions) == [1, 1, 2]
 
 
-def test_parse_html(etree):
-    divs = etree.xpath('//body/article/div')
-
-    assert all(k.text == 'foo.' for k in divs)
-    assert len(divs) == 9
+def test_histogram():
+    r = histogram([
+        ('k', 1),
+        ('k', 2),
+        ('d', 3),
+        ('k', 1),
+    ])
+    assert r == {'k': 4, 'd': 3}

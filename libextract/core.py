@@ -1,32 +1,24 @@
 """
     libextract.core
     ~~~~~~~~~~~~~~~
-
     Implements the core utilities and functions in which
     libextract is built around.
 """
 
 
-try:
-    from cStringIO import StringIO as BytesIO
-except ImportError:
-    from io import BytesIO
-
 from lxml.html import parse, HTMLParser
+from statscounter import StatsCounter
 
 __all__ = ['parse_html', 'pipeline']
 
 
-def parse_html(document, encoding='utf-8'):
+def parse_html(fileobj, encoding):
     """
-    Given an X/HTML string *document*, get an ElementTree instance.
-
-    from a given file object
-    *fileobj*. The encoding is assumed to be utf8.
+    Given a file object *fileobj*, get an ElementTree instance.
+    The *encoding* is assumed to be utf8.
     """
     parser = HTMLParser(encoding=encoding, remove_blank_text=True)
-
-    return parse(BytesIO(document), parser)
+    return parse(fileobj, parser)
 
 
 def pipeline(data, funcs):
@@ -37,3 +29,14 @@ def pipeline(data, funcs):
     for func in funcs:
         data = func(data)
     return data
+
+
+def histogram(pairs):
+    """
+    Sums the metrics given by (key, metric) *pairs* into a
+    StatsCounter instance.
+    """
+    counter = StatsCounter()
+    for key, value in pairs:
+        counter[key] += value
+    return counter

@@ -1,22 +1,23 @@
-from lxml.html import HtmlElement
-from statscounter import StatsCounter
-from libextract.api import articles, tabular
 from .fixtures import foo_file
+from libextract.api import extract, ARTICLE_TABLES
 
 
-def test_articles(foo_file):
-    results = articles(foo_file.read())
+def test_extract(foo_file):
+    r = extract(foo_file)
+    u = [node.tag for node in r]
+    assert u == [
+        'article',
+        'body',
+    ]
 
-    assert isinstance(results, list)
-    for node, text_length in results:
-        assert isinstance(node, HtmlElement)
-        assert isinstance(text_length, int)
 
-
-def test_tabular(foo_file):
-    results = tabular(foo_file.read())
-
-    assert isinstance(results, list)
-    for node, text_length in results:
-        assert isinstance(node, HtmlElement)
-        assert isinstance(text_length, StatsCounter)
+def test_extract_tabular(foo_file):
+    r = list(extract(foo_file, strategy=ARTICLE_TABLES))
+    u = [node.tag for node in r]
+    assert u == [
+        'article',
+        'html',
+        'body',
+    ]
+    for node in r[0]:
+        assert node.tag == 'div'

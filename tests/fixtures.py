@@ -1,25 +1,19 @@
-from pytest import fixture
-from lxml import etree as _etree
-from libextract.core import parse_html
+import pytest
 from tests import asset_path
+from libextract.core import parse_html
 
 
-FOO = asset_path('full_of_foos.html')
+FOOS_FILENAME = asset_path('full_of_foos.html')
 
 
-@fixture
-def element():
-    return _etree.fromstring('<tag><nest>Hi</nest><nest>Bye</nest></tag>')
-
-
-@fixture
+@pytest.fixture
 def foo_file(request):
-    fp = open(FOO, 'rb')
+    fp = open(FOOS_FILENAME, 'rb')
     request.addfinalizer(fp.close)
     return fp
 
 
-@fixture
+@pytest.fixture
 def etree():
-    with open(FOO, 'rb') as fp:
-        return parse_html(fp.read())
+    with open(FOOS_FILENAME, 'rb') as fp:
+        return parse_html(fp, encoding='utf8')

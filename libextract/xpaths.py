@@ -7,9 +7,8 @@
 """
 
 PARENT_NODES = '//*/..'
-
 TEXT_NODES = '//*[not(self::script or self::style)]/\
-                     text()[normalize-space()]/..'
+                text()[normalize-space()]/..'
 
 FILTER_TEXT = './/*[not(self::script or self::style or \
         self::figure or self::span or self::time)]/\
