@@ -25,7 +25,7 @@ Overview
     Given an html *document*, and optionally the *encoding*
     and the *strategy* to use, which defaults to the statistical
     article extraction strategy, return a list of a maximum of
-    5 predictions, which is a list of node-metric pairs.
+    5 nodes (by default).
 
 
 Installation
