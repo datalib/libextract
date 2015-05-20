@@ -87,8 +87,4 @@ Disclaimer
 This project is still in its infancy; and advice and suggestions as
 to what this library could and should be would be greatly appreciated
 
-<<<<<<< HEAD
 :) 
-=======
-:)
->>>>>>> oo-approach
