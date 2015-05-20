@@ -48,13 +48,10 @@ Extracting text-nodes from a wikipedia page:
     r = get('http://en.wikipedia.org/wiki/Information_extraction')
     textnodes = extract(r.content)
 
-Libextract uses Python's de facto HT/XML processing library, `lxml
-<http://lxml.de/index.html>`_.
-
 The predictions returned by the extract function, assuming that you
 are using the default strategies are
 `HtmlElement <http://lxml.de/lxmlhtml.html>`_ objects (along
-with the associated *metric* used to rank each prediction). 
+with the associated *metric* used to rank each prediction).
 
 Therefore, you can access lxml's methods for post-processing.
 
