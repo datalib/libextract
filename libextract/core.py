@@ -41,8 +41,7 @@ def select(etree, query=SELECT_PARENTS):
     
     
 def measure(nodes): 
-    return [(node, 
-            StatsCounter([child.tag for child in node])) 
+    return [(node, StatsCounter([child.tag for child in node])) 
             for node in nodes]
             
         
