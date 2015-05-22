@@ -5,12 +5,17 @@
     libextract is built around.
 """
 
+from operator import itemgetter
+from heapq import nlargest
 
 from lxml.html import parse, HTMLParser
 from statscounter import StatsCounter
 
 __all__ = ['parse_html', 'pipeline']
 
+SELECT_PARENTS = '//body//*/..'
+
+TOP_FIVE = 5
 
 def parse_html(fileobj, encoding):
     """
@@ -29,14 +34,23 @@ def pipeline(data, funcs):
     for func in funcs:
         data = func(data)
     return data
+    
+
+def select(etree, query=SELECT_PARENTS):
+    return etree.xpath(query)
+    
+    
+def measure(nodes): 
+    return [(node, 
+            StatsCounter([child.tag for child in node])) 
+            for node in nodes]
+            
+        
+def rank(pairs, key=lambda x: x[1].most_common(1)[0][1], 
+         count=TOP_FIVE):
+    return nlargest(count, pairs, key=key)
 
 
-def histogram(pairs):
-    """
-    Sums the metrics given by (key, metric) *pairs* into a
-    StatsCounter instance.
-    """
-    counter = StatsCounter()
-    for key, value in pairs:
-        counter[key] += value
-    return counter
+def finalise(ranked):
+    for node, metric in ranked:
+        yield node

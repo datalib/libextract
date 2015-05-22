@@ -1,17 +1,10 @@
 from ._compat import BytesIO
-from .core import parse_html, pipeline
-from .tabular import TabularExtractor
-from .article import ArticleExtractor
+from .core import parse_html, pipeline, select, measure, rank, finalise
 
-
-ARTICLE_NODE = ArticleExtractor().compile_pipeline()
-ARTICLE_TABLES = TabularExtractor().compile_pipeline()
-
-
-def extract(document, encoding='utf-8', strategy=ARTICLE_NODE):
+def extract(document, encoding='utf-8'):
     if isinstance(document, bytes):
         document = BytesIO(document)
     return pipeline(
         parse_html(document, encoding=encoding),
-        strategy,
+        (select, measure, rank, finalise)
         )
