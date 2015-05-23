@@ -1,5 +1,5 @@
-Libextract: simple data extraction
-==================================
+Libextract: extract data from websites
+======================================
 
 .. image:: https://travis-ci.org/datalib/libextract.svg?branch=master
     :target: https://travis-ci.org/datalib/libextract
@@ -14,18 +14,19 @@ Libextract: simple data extraction
 
 
 Libextract is a `statistics-enabled <https://github.com/datalib/StatsCounter>`_
-extraction library that works on HTML and XML documents, written in Python
-and originating from `eatiht <http://rodricios.github.io/eatiht/>`_.
+data extraction library that works on HTML and XML documents and written in 
+Python. Originating from `eatiht <http://rodricios.github.io/eatiht/>`_, the
+extraction algorithm works by making one simple assumption: *data appear as 
+collections of repetitive elements*. You can read about the reasoning 
+`here <http://rodricios.github.io/posts/solving_the_data_extraction_problem.html>`_. 
 
 
 Overview
 --------
 
-`libextract.api.extract(document, encoding='utf-8', strategy=ARTICLE_NODE)`
-    Given an html *document*, and optionally the *encoding*
-    and the *strategy* to use, which defaults to the statistical
-    article extraction strategy, return a list of a maximum of
-    5 nodes (by default).
+`libextract.api.extract(document, encoding='utf-8', count=5)` 
+    Given an html *document*, and optionally the *encoding*, return
+    a list of nodes likely containing data (5 by default).
 
 
 Installation
@@ -38,7 +39,8 @@ Installation
 Usage
 -----
 
-Extracting text-nodes from a wikipedia page:
+Due to our simple definition of "data", we open up a single
+interfaceable method. Post-processing is up to you. 
 
 .. code-block:: python
 
@@ -48,12 +50,8 @@ Extracting text-nodes from a wikipedia page:
     r = get('http://en.wikipedia.org/wiki/Information_extraction')
     textnodes = list(extract(r.content))
 
-The predictions returned by the extract function, assuming that you
-are using the default strategies are
-`HtmlElement <http://lxml.de/lxmlhtml.html>`_ objects (along
-with the associated *metric* used to rank each prediction).
 
-Therefore, you can access lxml's methods for post-processing.
+Using lxml's built-in methods for post-processing:
 
 .. code-block:: python
 
@@ -61,17 +59,22 @@ Therefore, you can access lxml's methods for post-processing.
     Information extraction (IE) is the task of automatically extracting structured information...
 
 
-Tabular-data extraction is just as easy.
+The extraction algo is agnostic to article text as it is with
+tabular data:
 
 .. code-block:: python
 
-    from libextract.api import ARTICLE_TABLES
-
     height_data = get("http://en.wikipedia.org/wiki/Human_height")
-    tabs = extract(
-        height_data.content,
-        strategy=ARTICLE_TABLES,
-    )
+    tabs = list(extract(height_data.content))
+    
+
+.. code-block:: python
+
+    >> [elem.text_content() for elem in tabs[0].iter('th')]
+    ['Country/Region',
+     'Average male height',
+     'Average female height',
+     ...]
 
 Dependencies
 ~~~~~~~~~~~~
