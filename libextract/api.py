@@ -1,17 +1,15 @@
+from functools import partial
+
 from ._compat import BytesIO
-from .core import parse_html, pipeline
-from .tabular import TabularExtractor
-from .article import ArticleExtractor
+from .core import parse_html, pipeline, select, measure, rank, finalise
 
-
-ARTICLE_NODE = ArticleExtractor().compile_pipeline()
-ARTICLE_TABLES = TabularExtractor().compile_pipeline()
-
-
-def extract(document, encoding='utf-8', strategy=ARTICLE_NODE):
+def extract(document, encoding='utf-8', count=None):
     if isinstance(document, bytes):
         document = BytesIO(document)
+    
+    crank = partial(rank, count=count) if count else rank
+    
     return pipeline(
         parse_html(document, encoding=encoding),
-        strategy,
+        (select, measure, crank, finalise)
         )

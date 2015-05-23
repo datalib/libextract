@@ -1,5 +1,5 @@
 from .fixtures import foo_file
-from libextract.core import parse_html, pipeline, histogram
+from libextract.core import parse_html, pipeline
 
 
 def test_parse_html(foo_file):
@@ -21,12 +21,3 @@ def test_pipeline():
     assert pipeline([], functions) == [1, 2]
     assert pipeline([1], functions) == [1, 1, 2]
 
-
-def test_histogram():
-    r = histogram([
-        ('k', 1),
-        ('k', 2),
-        ('d', 3),
-        ('k', 1),
-    ])
-    assert r == {'k': 4, 'd': 3}
